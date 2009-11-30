@@ -140,6 +140,10 @@ code {
     margin-bottom: 0.5em;
 }
 
+input#id_query {
+    width: 30em;
+}
+
 /* jQuery clueTip: */
 
 .cluetip-default {
