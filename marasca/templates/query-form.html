@@ -2,7 +2,7 @@
 
 <div class='query-form'>
     <form action='{% url query selected.id %}' method='post'>
-        {{ form.as_p }}
+        {{form.as_p}}
         <input type='submit' value='{% trans "Search" %}' />
     </form>
 </div>
