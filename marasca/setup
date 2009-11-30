@@ -1,0 +1,71 @@
+#!/usr/bin/python
+# encoding=UTF-8
+
+from __future__ import with_statement
+
+if 0:
+# ✁-✁-✁-✁-✁
+
+    # encoding=UTF-8
+
+    def _get_corpora():
+    
+        import os.path
+        from corpus import OldIpiCorpus
+    
+        _corpora_dir = '../corpora/'
+    
+        def _(x): return x
+    
+        # TODO: customize corpora list
+        return [
+    #       OldIpiCorpus(
+    #           path=os.path.join(_corpora_dir, 'frek'),
+    #           id='frequency-dictionary',
+    #           title=_(u'Frequency dictionary of contemporary Polish')
+    #       ),
+        ]
+    
+    CORPORA = _get_corpora()
+    del _get_corpora
+    
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    
+    # TODO: customize according to http://docs.djangoproject.com/en/1.0/topics/settings/
+    
+    # vim:ts=4 sw=4 et
+
+# ✃-✃-✃-✃-✃
+
+# The real code follows:
+
+import os
+import random
+import string
+
+
+def get_hostname():
+     import socket
+     hostname = socket.gethostname()
+     hostname = hostname.split('.')[0]
+     return hostname
+
+directory = os.path.dirname(__file__)
+alphabet = string.ascii_letters + string.punctuation
+with open(os.path.join(directory, 'settings', get_hostname() + '.py'), 'wt') as settings_file:
+    with open(__file__) as input_file:
+        output = False
+        for line in input_file:
+            if '✁-✁-✁-✁-✁' in line:
+                output = True
+            elif '✃-✃-✃-✃-✃' in line:
+                break
+            elif output:
+                settings_file.write(line[4:])
+os.umask(os.umask(0) | 0077)
+with open(os.path.join(directory, 'settings', 'secret_key.py'), 'wt') as settings_file:
+    secret_key = ''.join([random.choice(alphabet) for i in range(50)])
+    settings_file.write('SECRET_KEY = %r' % secret_key)
+
+# vim:ts=4 sw=4 et

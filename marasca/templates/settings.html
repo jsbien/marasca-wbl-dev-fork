@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+{% load i18n %}
+
+{% block body %}
+
+
+<div class='settings-form'>
+<form action='{% url settings %}' method='post'>
+    <div{% if form.random_sample_size.errors %} class='error'{% endif %}>
+        {{ form.random_sample }}
+        <label for='id_random_sample_size'>{% trans "Random sample of size:" %}</label>
+        {{ form.random_sample_size }}
+    </div>
+    <div>
+        {{ form.sort }} <label for='id_sort'>{% trans "Sort results" %}</label>:
+        <div class='clear'></div>
+        <div class='float sort-options'>{{ form.sort_column }}</div>
+        <div class='float sort-options'>{{ form.sort_type }}</div>
+        <div class='float sort-options'>{{ form.sort_direction }}</div>
+        <div class='clear'></div>
+    </div>
+    {% with corpora|dictsortreversed:"has_interps" as corpora %}
+    {% if corpora.0.has_interps %}
+        <div>{% trans "Show:" %}
+            <div class='clear'></div>
+            <div class='float'>{% trans "in match:"%}
+                {{ form.show_in_match }}
+            </div>
+            <div class='float'>{% trans "in context:"%}
+                {{ form.show_in_context }}
+            </div>
+            <div class='clear'></div>
+        </div>
+    {% endif %}
+    {% endwith %}
+    <div>{% trans "Context width:" %}
+        <div class='clear'></div>
+        <div class='float{% if form.left_context_width.errors %} error{% endif %}'><label for='id_left_context_width'>{% trans "left:" %}</label> {{ form.left_context_width }} </div>
+        <div class='float{% if form.right_context_width.errors %} error{% endif %}'><label for='id_right_context_width'>{% trans "right:" %}</label> {{ form.right_context_width }} </div>
+        <div class='float{% if form.wide_context_width.errors %} error{% endif %}'><label for='id_wide_context_width'>{% trans "wide:" %}</label> {{ form.wide_context_width }} </div>
+        <div class='clear'></div>
+    </div>
+    <div{% if form.results_per_page.errors %} class='error'{% endif %}>
+        <label for='id_results_per_page'>{% trans "Results per page:" %}</label>
+        {{ form.results_per_page }}
+    </div>
+    {{ form.next }}
+    <input class='submit' type='submit' value='{% trans 'Modify settings' %}' />
+</form>
+</div>
+
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}

@@ -1,0 +1,168 @@
+body {
+    font-family: 'Tahoma', 'DejaVu Sans', 'Bitstream Vera Sans', sans-serif;
+    background-color: #FFF;
+    color: #000;
+    margin: 0; padding: 0;
+}
+
+a {
+    color: #14A;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+li a.selected {
+    font-style: italic;
+    color: #47D;
+}
+
+div.sidebar {
+    position: absolute;
+    margin: 0; padding: 0.5em;
+    width: 15em;
+    border-right: dotted #47D 1px;
+}
+
+div.sidebar li {
+    color: #68D;
+}
+
+div.body {
+    margin: 0; padding: 0.5em;
+    margin-left: 16.0em;
+}
+
+div.clear {
+    clear: both;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.sidebar ul {
+    padding-left: 1em;
+    margin: 0px;
+}
+
+li {
+    list-style-type: square;
+}
+
+li span {
+    color: #000;
+}
+
+ul.errorlist li {
+    color: #F00;
+}
+
+p {
+    margin: 0em;
+    margin-bottom: 0.5em;
+}
+
+div.corpus-info, div.search-engine-info {
+    margin-bottom: 2em;
+}
+
+div.query-results {
+    margin-top: 1em;
+}
+
+p.prev_page {
+    float: left;
+}
+
+p.next_page {
+    float: right;
+}
+
+div.settings-form div {
+    margin-top: 0em;
+}
+
+div.settings-form div.float {
+    margin: 0.5em;
+    margin-left: 1em;
+    float: left;
+}
+
+div.settings-form div.float ul {
+    padding: 0em;
+    margin: 0em;
+}
+
+div.settings-form div.float li {
+    list-style-type: none;
+}
+
+div.settings-form input.submit {
+    margin-top: 0.5em;
+}
+
+div.error {
+    color: red;
+}
+
+td, th {
+    border: solid 1px transparent;
+    margin: 0px;
+}
+
+tr.even {
+    background-color: #DDD;
+}
+
+tr.selected td, tr.selected th {
+    border: dotted 1px #444;
+}
+
+td.right {
+    text-align: left;
+}
+
+td.left {
+    text-align: right;
+}
+
+h1 {
+    font-size: 1.2em;
+    margin-top: 1.2em;
+}
+
+code {
+    display: block;
+    margin-left: 2em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+/* jQuery clueTip: */
+
+.cluetip-default {
+	color: #FFF;
+	background-color: #000;
+}
+
+.cluetip-default #cluetip-outer {
+	position: relative;
+	margin: 0;
+	border: 1px solid #666;
+	color: #000;
+	background-color: #FFF;
+	font-size: 90%;
+}
+
+.cluetip-default #cluetip-inner table {
+	width: 100%;
+	margin: 0px;
+}
+
+.cluetip-default #cluetip-inner {
+	padding: 0.25em 0.5em;
+}
+
+/* vim:set ts=4 sw=4 et:*/

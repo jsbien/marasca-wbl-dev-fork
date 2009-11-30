@@ -1,0 +1,16 @@
+{% extends "error.html" %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Page not found" %}
+{% endblock %}
+
+{% block summary %}
+{% trans "Page not found" %} <span>(404)</span>
+{% endblock %}
+
+{% block info %}
+{% trans "We're sorry, but the requested page could not be found." %}
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}

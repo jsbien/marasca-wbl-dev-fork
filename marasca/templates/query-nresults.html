@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<p>
+
+{% if qinfo.running %}
+    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result so far.{% plural %}Found {{n}} results so far.{% endblocktrans %}
+{% else %}
+    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result.{% plural %}Found {{n}} results.{% endblocktrans %}
+{% endif %}
+
+</p>
+
+<p>
+    {% if r %}
+        {% blocktrans with qinfo.l as l and qinfo.r as r %}Displaying results {{l}}—{{r}}.{% endblocktrans %}
+    {% endif %}
+</p>
+
+{# vim:set ts=4 sw=4 et: #}

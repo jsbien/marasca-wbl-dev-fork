@@ -1,0 +1,9 @@
+syntax: glob
+*.pyc
+*.mo
+corpora/*.poliqarp.*
+corpora/*.log
+corpora/*.cdf
+corpora/*.cfg
+corpora/*.meta.lisp
+marasca/settings/secret_key.py

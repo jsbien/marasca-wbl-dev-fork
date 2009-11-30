@@ -1,0 +1,15 @@
+{% load i18n %}
+
+{% if qinfo.prev_page %}
+    <p class='prev_page'>
+        <a href='{{qinfo.prev_page.url}}'>{% blocktrans count qinfo.prev_page.n as n %}Previous {{n}}{% plural %}Previous {{n}}{% endblocktrans %}</a>
+    </p>
+{% endif %}
+{% if qinfo.next_page %}
+    <p class='next_page'>
+        <a href='{{qinfo.next_page.url}}'>{% blocktrans count qinfo.next_page.n as n %}Next {{n}}{% plural %}Next {{n}}{% endblocktrans %}</a>
+    </p>
+{% endif %}
+<div class='clear'></div>
+
+{# vim:set ts=4 sw=4 et: #}

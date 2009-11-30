@@ -1,0 +1,15 @@
+{% extends "template.html" %}
+
+{% block body %}
+
+{% if corpus_info %}
+    <div class='corpus-info'>
+    {{ corpus_info }}
+    </div>
+{% endif %}
+
+{% include "query-form.html" %}
+
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}

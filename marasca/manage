@@ -1,0 +1,8 @@
+#!/usr/bin/python
+
+import django.core.management
+
+import settings
+
+if __name__ == "__main__":
+    django.core.management.execute_manager(settings)

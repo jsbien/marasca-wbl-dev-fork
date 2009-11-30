@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<div class='query-form'>
+    <form action='{% url query selected.id %}' method='post'>
+        {{ form.as_p }}
+        <input type='submit' value='{% trans "Search" %}' />
+    </form>
+</div>
+
+{# vim:set ts=4 sw=4 et: #}

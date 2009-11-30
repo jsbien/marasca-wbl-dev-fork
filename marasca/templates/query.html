@@ -1,0 +1,32 @@
+{% extends "template.html" %}
+
+{% load i18n %}
+
+{% block body %}
+
+{% include "query-form.html" %}
+
+{% if qinfo %}
+    <div class='query-results'>
+        {% if qinfo.rinfo.context or qinfo.rinfo.metadata %}
+        {% else %}
+            <h1>{% trans "Results" %}</h1>
+            {% include "query-nresults.html" %}
+            {% include "query-pagination.html" %}
+            {% include "query-table.html" %}
+            {% include "query-pagination.html" %}
+        {% endif %}
+        {% if qinfo.rinfo.context %}
+            <h1>{% trans "Context" %}</h1>
+            {% include "result-context.html" %}
+        {% endif %}
+        {% if qinfo.rinfo.metadata %}
+            <h1>{% trans "Metadata" %}</h1>
+            {% include "result-metadata.html" %}
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}

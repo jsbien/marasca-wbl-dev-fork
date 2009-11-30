@@ -1,0 +1,12 @@
+<dl class='result-metadata'>
+
+{% for key, value in qinfo.rinfo.metadata.items %}
+    {% if value %}
+        <dt>{{key}}</dt>
+        <dd>{{value}}</dd>
+    {% endif %}
+{% endfor %}
+
+</dl>
+
+{# vim:set ts=4 sw=4 et: #}

@@ -1,0 +1,40 @@
+html * {
+    padding: 0; margin: 0;
+}
+body * {
+    padding: 1em 2em;
+}
+
+body * * {
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    background: #EEE;
+}
+
+body > div {
+    border-bottom: 1px solid #DDD;
+}
+
+h1 {
+    font-weight: normal;
+    margin-bottom: 0.4em;
+}
+
+h1 span {
+    font-size: 60%;
+    color: #666;
+    font-weight:normal;
+}
+
+#info {
+    background: #FFF;
+}
+
+#summary {
+    background: #FFC;
+}
+
+/* vim:set ts=4 sw=4 et:*/

@@ -1,0 +1,14 @@
+{% extends "template.html" %}
+
+{% load i18n %}
+
+{% block body %}
+
+<p>
+    {% trans "Searching corpus, please wait…" %}
+    {% blocktrans %}This page will <a href='{{refresh_url}}'>refresh</a> automatically in a second.{% endblocktrans %}
+</p>
+
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}
