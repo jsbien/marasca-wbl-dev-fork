@@ -8,7 +8,7 @@ import struct
 
 import poliqarp
 
-from django.utils.datastructures import SortedDict
+import django.utils.datastructures
 from django.utils.translation import ugettext_lazy
 
 class Map(object):
@@ -101,25 +101,28 @@ class OldIpiCorpus(Corpus):
     def i18n_medium(self, value):
         return self._i18n_medium.get(value, value)
 
-    def enhance_metadata(self, metadata):
+    def enhance_metadata(self, tuples):
+        metadata = django.utils.datastructures.MultiValueDict()
         date = future_date = poliqarp.Date(9999, 1, 1)
-        for key, value in metadata.iteritems():
+        for key, value in tuples:
             if isinstance(value, poliqarp.Date):
                 date = min(date, value)
+            else:
+                metadata.appendlist(key, value)
         if date == future_date:
             date = None
         items = [
-            (ugettext_lazy('author'), metadata.get('autor')),
-            (ugettext_lazy('title'), metadata.get(u'tytuł')),
-            (ugettext_lazy('date'), date),
-            (ugettext_lazy('publisher'), metadata.get('wydawca')),
-            (ugettext_lazy('place of publication'), metadata.get('miejsce wydania')),
-            (ugettext_lazy('style'), self.i18n_style(metadata.get('styl'))),
-            (ugettext_lazy('medium'), self.i18n_medium(metadata.get('medium'))),
+            (ugettext_lazy('author'), metadata.getlist('autor')),
+            (ugettext_lazy('title'), metadata.getlist(u'tytuł')),
+            (ugettext_lazy('date'), [date] if date is not None else []),
+            (ugettext_lazy('publisher'), metadata.getlist('wydawca')),
+            (ugettext_lazy('place of publication'), metadata.getlist('miejsce wydania')),
+            (ugettext_lazy('style'), map(self.i18n_style, metadata.getlist('styl'))),
+            (ugettext_lazy('medium'), map(self.i18n_medium, metadata.getlist('medium'))),
         ]
-        result = SortedDict()
+        result = django.utils.datastructures.SortedDict()
         for key, value in items:
-            if value is not None:
+            if value:
                 result[key] = value
         return result
 

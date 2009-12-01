@@ -1,9 +1,9 @@
 <dl class='result-metadata'>
 
-{% for key, value in qinfo.rinfo.metadata.items %}
-    {% if value %}
+{% for key, values in qinfo.rinfo.metadata.items %}
+    {% if values %}
         <dt>{{key}}</dt>
-        <dd>{{value}}</dd>
+        <dd>{% for value in values %}{% if forloop.first %}{% else %}; {% endif %}{{value}}{% endfor %}</dd>
     {% endif %}
 {% endfor %}
 

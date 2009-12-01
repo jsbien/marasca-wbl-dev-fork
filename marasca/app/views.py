@@ -110,8 +110,7 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
     if extract_context:
         info.context = connection.get_context(n) 
     if extract_metadata:
-        info.metadata = connection.get_metadata(n)
-        info.metadata = corpus.enhance_metadata(info.metadata)
+        info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
 
 def run_query(connection, settings, corpus, query, l, r):
