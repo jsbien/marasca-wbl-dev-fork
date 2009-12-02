@@ -51,10 +51,11 @@ class Corpus(object):
     has_metadata = False
     has_interps = True
 
-    def __init__(self, id, title, path=None):
+    def __init__(self, id, title, path=None, public=True):
         self.id = id
         self.title = title
         self.path = path
+        self.public = public
 
     def enhance_results(self, results):
         return
