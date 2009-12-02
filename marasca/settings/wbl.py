@@ -10,7 +10,7 @@ def _get_corpora():
     def _(x): return x
 
     return [
-        DjVuCorpus(path=os.path.join(_corpora_dir, 'sw'), id='slownik-warszawski', title=_(u'J. Karłowicz, A. Kryński, W. Niedźwiedzki, Dictionary of Polish, Warsaw 1900–1927')),
+        DjVuCorpus(path=os.path.join(_corpora_dir, 'sw'), id='slownik-warszawski', title=_(u'J. Karłowicz, A. Kryński, W. Niedźwiedzki. Dictionary of Polish. Warsaw 1900–1927')),
         DjVuCorpus(path=os.path.join(_corpora_dir, 'spxviw'), id='slownik-polszczyzny-xvi-wieku', title=_(u'Institute of Literary Research of the Polish Academy of Sciences. Dictionary of the 16th century Polish. Wrocław — Warszawa, 1966-???? (work in progress)')),
     ]
 
