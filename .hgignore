@@ -1,6 +1,8 @@
 syntax: glob
 *.pyc
 *.mo
-corpora/*
 locks/*
 marasca/settings/secret_key.py
+
+syntax: regexp
+^corpora/
