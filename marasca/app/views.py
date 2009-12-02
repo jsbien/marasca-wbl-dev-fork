@@ -29,7 +29,7 @@ class Context(django.template.RequestContext):
 
 def process_index(request):
     template = get_template('index.html')
-    context = Context(request)
+    context = Context(request, selected='index')
     return django.http.HttpResponse(template.render(context))
 
 class QueryForm(django.forms.Form):
