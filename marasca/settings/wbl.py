@@ -25,7 +25,7 @@ CORPORA = _get_corpora()
 del _get_corpora
 
 TEMPLATE_DIRS = (
-    '/srv/poliqarp/wui/templates/',
+    '/srv/poliqarp/marasca/templates/',
 )
 SESSION_LOCKS_DIRECTORY = '/srv/poliqarp/locks/'
 
