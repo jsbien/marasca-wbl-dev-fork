@@ -5,7 +5,7 @@ from app import views
 from utils import redirect
 
 urlpatterns = patterns('',
-    url(r'^$', views.process_index),
+    url(r'^$', views.process_index, name='index'),
     url(r'^ping/', views.process_ping),
     url(r'^settings/$', views.process_settings, name='settings'),
     url(r'^css/(?P<path>.*)$', 'django.views.static.serve', dict(document_root='media/css/'), name='css'),
