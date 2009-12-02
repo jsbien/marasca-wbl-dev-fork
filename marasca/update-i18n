@@ -1,0 +1,3 @@
+#!/bin/sh
+./manage makemessages -a
+sed -i -e '/^#: /d' locale/*/LC_MESSAGES/*.po

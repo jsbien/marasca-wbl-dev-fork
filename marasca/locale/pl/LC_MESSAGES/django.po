@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Poliqarp Web UI 0+hg20091105\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-30 12:22-0600\n"
+"POT-Creation-Date: 2009-12-02 12:29-0600\n"
 "PO-Revision-Date: 2009-11-05 21:31+0100\n"
 "Last-Translator: Jakub Wilk <ubanus@users.sf.net>\n"
 "Language-Team: none\n"
@@ -12,195 +12,147 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%"
 "100<10 || n%100>=20) ? 1 : 2));\n"
 
-#: app/views.py:36
 msgid "Query"
 msgstr "Zapytanie"
 
-#: app/views.py:317
 msgid "Please enable cookies and try again"
 msgstr "Proszę włączyć „ciasteczka” i spróbować jeszcze raz"
 
-#: app/views.py:378
 msgid "by left context"
 msgstr "wg lewego kontekstu"
 
-#: app/views.py:379
 msgid "by left match"
 msgstr "wg lewego dopasowania"
 
-#: app/views.py:380
 msgid "by right match"
 msgstr "wg prawego dopasowania"
 
-#: app/views.py:381
 msgid "by right context"
 msgstr "wg prawego kontekstu"
 
-#: app/views.py:387
 msgid "a fronte"
 msgstr "a fronte"
 
-#: app/views.py:388
 msgid "a tergo"
 msgstr "a tergo"
 
-#: app/views.py:394
 msgid "ascending"
 msgstr "rosnąco"
 
-#: app/views.py:395
 msgid "descending"
 msgstr "malejąco"
 
-#: app/views.py:401 app/views.py:409
 msgid "segments, lemmata and tags"
 msgstr "segmenty, formy podstawowe i znaczniki"
 
-#: app/views.py:402 app/views.py:410
 msgid "segments and lemmata"
 msgstr "segmenty i formy podstawowe"
 
-#: app/views.py:403 app/views.py:411
 msgid "segments only"
 msgstr "tylko segmenty"
 
-#: corpus/__init__.py:72
 msgid "artistic genre"
 msgstr "artystyczny"
 
-#: corpus/__init__.py:73
 msgid "prose"
 msgstr "proza"
 
-#: corpus/__init__.py:74
 msgid "poetry"
 msgstr "poezja"
 
-#: corpus/__init__.py:75
 msgid "drama"
 msgstr "dramat"
 
-#: corpus/__init__.py:76
 msgid "news and commentaries"
 msgstr "publicystyczny"
 
-#: corpus/__init__.py:77
 msgid "non-fiction"
 msgstr "literatura faktu"
 
-#: corpus/__init__.py:78
 msgid "scientific and educational genre"
 msgstr "naukowo-dydaktyczny"
 
-#: corpus/__init__.py:79
 msgid "humanistic"
 msgstr "naukowy humanistyczny"
 
-#: corpus/__init__.py:80
 msgid "nature"
 msgstr "naukowy przyrodniczy"
 
-#: corpus/__init__.py:81
 msgid "technical"
 msgstr "naukowy techniczny"
 
-#: corpus/__init__.py:82
 msgid "popular science"
 msgstr "popularno-naukowy"
 
-#: corpus/__init__.py:83
 msgid "textbook"
 msgstr "podręcznik"
 
-#: corpus/__init__.py:84
 msgid "official style"
 msgstr "urzędowo-kancelaryjny"
 
-#: corpus/__init__.py:85
 msgid "protocol"
 msgstr "protokół"
 
-#: corpus/__init__.py:86
 msgid "law"
 msgstr "ustawa"
 
-#: corpus/__init__.py:87
 msgid "books and guides"
 msgstr "informacyjno-poradnikowy"
 
-#: corpus/__init__.py:88
 msgid "colloquial style"
 msgstr "potoczny"
 
-#: corpus/__init__.py:92
 msgid "newspaper or periodical"
 msgstr "prasa"
 
-#: corpus/__init__.py:93
 msgid "book"
 msgstr "książka"
 
-#: corpus/__init__.py:94
 msgid "internet"
 msgstr "internet"
 
-#: corpus/__init__.py:95
 msgid "manuscript"
 msgstr "rękopis"
 
-#: corpus/__init__.py:112
 msgid "author"
 msgstr "autor"
 
-#: corpus/__init__.py:113
 msgid "title"
 msgstr "tytuł"
 
-#: corpus/__init__.py:114
 msgid "date"
 msgstr "data"
 
-#: corpus/__init__.py:115
 msgid "publisher"
 msgstr "wydawca"
 
-#: corpus/__init__.py:116
 msgid "place of publication"
 msgstr "miejsce wydania"
 
-#: corpus/__init__.py:117
 msgid "style"
 msgstr "styl"
 
-#: corpus/__init__.py:118
 msgid "medium"
 msgstr "medium"
 
-#: settings/__init__.py:45
 msgid "Polish"
 msgstr "polski"
 
-#: settings/__init__.py:46
 msgid "English"
 msgstr "angielski"
 
-#: templates/404.html:5 templates/404.html.py:9
 msgid "Page not found"
 msgstr "Strona nie znaleziona"
 
-#: templates/404.html:13
 msgid "We're sorry, but the requested page could not be found."
 msgstr "Niestety, żądana strona nie została znaleziona. "
 
-#: templates/500.html:5
 msgid "Server error (500)"
 msgstr "Błąd serwera (500)"
 
-#: templates/500.html:9
 msgid "Server error"
 msgstr "Błąd serwera"
 
-#: templates/500.html:13
 msgid ""
 "There's been an error. It's been reported to the site administrators via e-"
 "mail and should be fixed shortly. Thanks for your patience."
@@ -208,11 +160,9 @@ msgstr ""
 "Wystąpił niespodziewany błąd. Został on zgłoszony e-mailem administratorowi "
 "strony i powinien zostać wkrótce naprawiony. Dziękujemy za cierpliwość."
 
-#: templates/pending.html:8
 msgid "Searching corpus, please wait…"
 msgstr "Trwa przeszukiwanie korpusu, proszę czekać…"
 
-#: templates/pending.html:9
 #, python-format
 msgid ""
 "This page will <a href='%(refresh_url)s'>refresh</a> automatically in a "
@@ -220,11 +170,9 @@ msgid ""
 msgstr ""
 "Strona <a href='%(refresh_url)s'>odświeży się</a> automatycznie za sekundę"
 
-#: templates/query-form.html:6
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/query-nresults.html:6
 #, python-format
 msgid "Found %(n)s result so far."
 msgid_plural "Found %(n)s results so far."
@@ -232,7 +180,6 @@ msgstr[0] "Dotychczas znaleziono %(n)s wynik"
 msgstr[1] "Dotychczas znaleziono %(n)s wyniki"
 msgstr[2] "Dotychczas znaleziono %(n)s wyników"
 
-#: templates/query-nresults.html:8
 #, python-format
 msgid "Found %(n)s result."
 msgid_plural "Found %(n)s results."
@@ -240,12 +187,10 @@ msgstr[0] "Znaleziono %(n)s wynik"
 msgstr[1] "Znaleziono %(n)s wyniki"
 msgstr[2] "Znaleziono %(n)s wyników"
 
-#: templates/query-nresults.html:15
 #, python-format
 msgid "Displaying results %(l)s—%(r)s."
 msgstr "Wyświetlanie wyników %(l)s-%(r)s"
 
-#: templates/query-pagination.html:5
 #, python-format
 msgid "Previous %(n)s"
 msgid_plural "Previous %(n)s"
@@ -253,7 +198,6 @@ msgstr[0] "Poprzedni %(n)s"
 msgstr[1] "Poprzednie %(n)s"
 msgstr[2] "Poprzednich %(n)s"
 
-#: templates/query-pagination.html:10
 #, python-format
 msgid "Next %(n)s"
 msgid_plural "Next %(n)s"
@@ -261,82 +205,62 @@ msgstr[0] "Następny %(n)s"
 msgstr[1] "Następne %(n)s"
 msgstr[2] "Następnych %(n)s"
 
-#: templates/query.html:13
 msgid "Results"
 msgstr "Wyniki"
 
-#: templates/query.html:20
 msgid "Context"
 msgstr "Kontekst"
 
-#: templates/query.html:24
 msgid "Metadata"
 msgstr "Metadane"
 
-#: templates/settings.html:11
 msgid "Random sample of size:"
 msgstr "Losowa próbka rozmiaru:"
 
-#: templates/settings.html:15
 msgid "Sort results"
 msgstr "Sortuj wyniki"
 
-#: templates/settings.html:24
 msgid "Show:"
 msgstr "Pokazuj:"
 
-#: templates/settings.html:26
 msgid "in match:"
 msgstr "w dopasowaniu:"
 
-#: templates/settings.html:29
 msgid "in context:"
 msgstr "w kontekście:"
 
-#: templates/settings.html:36
 msgid "Context width:"
 msgstr "Szerokość kontekstu:"
 
-#: templates/settings.html:38
 msgid "left:"
 msgstr "lewego:"
 
-#: templates/settings.html:39
 msgid "right:"
 msgstr "prawego:"
 
-#: templates/settings.html:40
 msgid "wide:"
 msgstr "szerokiego:"
 
-#: templates/settings.html:44
 msgid "Results per page:"
 msgstr "Wyników na stronę:"
 
-#: templates/settings.html:48
 msgid "Modify settings"
 msgstr "Zmień ustawienia"
 
-#: templates/template.html:7
 msgid "Poliqarp search engine"
 msgstr "Wyszukiwarka Poliqarp"
 
-#: templates/template.html:21
 msgid "Interface language:"
 msgstr "Język interfejsu"
 
-#: templates/template.html:28
 msgid "Change"
 msgstr "Zmień"
 
-#: templates/template.html:32
 msgid "Corpora:"
 msgstr "Korpusy:"
 
-#: templates/template.html:41
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: templates/template.html:42
 msgid "Help"
 msgstr "Pomoc"
