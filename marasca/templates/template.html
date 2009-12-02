@@ -33,9 +33,11 @@
                 <span>{% trans "Corpora:" %}</span>
                 <ul>
                     {% for corpus in corpora %}
+                    {% if corpus.public %}
                         <li>
                             <a href='{% url corpus corpus.id %}'{% ifequal corpus selected %} class='selected'{% endifequal %}>{% trans corpus.title %}</a>
                         </li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </li>
