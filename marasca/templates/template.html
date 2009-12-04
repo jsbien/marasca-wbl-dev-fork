@@ -28,8 +28,9 @@
                 <input type='submit' value='{% trans "Change" %}' />
                 </form>
             </li>
+            <li><a href='{% url index %}'{% ifequal selected "index" %} class='selected'{% endifequal %}>{% trans "About" %}</a></li>
             <li>
-                <span>{% trans "Corpora:" %}</span>
+                <span>{% trans "Available texts:" %}</span>
                 <ul>
                     {% for corpus in corpora %}
                     {% if corpus.public %}

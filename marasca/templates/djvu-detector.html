@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<div class='djvu-detector'>
+
+<object data='/extra/sensor.djvu' type='image/vnd.djvu' width='1' height='1'>
+<param name='toolbar' value='no'/>
+<param name='menubar' value='no'/>
+<param name='statusbar' value='no'/>
+<param name='menu' value='no'/>
+<param name='thumbnails' value='no'/>
+<param name='scrollbars' value='no'/>
+<param name='frame' value='no'/>
+{% blocktrans %}
+Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>.
+{% endblocktrans %}
+</object>
+
+</div>
+
+{# vim:set ts=4 sw=4 et: #}
