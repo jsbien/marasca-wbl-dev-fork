@@ -16,7 +16,7 @@ def _get_corpora():
         ),
         DjVuCorpus(path=os.path.join(_corpora_dir, 'spxviw'),
             id='slownik-polszczyzny-xvi-wieku',
-            title=_(u'Institute of Literary Research of the Polish Academy of Sciences. Dictionary of the 16th century Polish. Wrocław — Warszawa, 1966-???? (work in progress)'),
+            title=_(u'S. Bąk, M. R. Mayenowa, F. Pepłowski (eds.). Dictionary of the 16th century Polish. Wrocław — Warszawa, 1966-???? (work in progress)'),
             public=False,
         ),
     ]
