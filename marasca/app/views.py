@@ -20,6 +20,12 @@ get_template = django.template.loader.get_template
 ugettext_lazy = django.utils.translation.ugettext_lazy
 global_settings = django.conf.settings
 
+try:
+    poliqarp.errors.InvalidSessionUserId
+except AttributeError:
+    # Fix typo in poliqarpd Python bindings:
+    poliqarp.errors.InvalidSessionUserId = poliqarp.errors.InvalidSesssionUserId
+
 class Context(django.template.RequestContext):
 
     def __init__(self, request, **kwargs):
