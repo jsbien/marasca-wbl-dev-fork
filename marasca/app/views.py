@@ -264,7 +264,7 @@ def connection_for(request, settings):
                     settings.need_query_rerun(True)
                 elif settings.dirty():
                     setup_settings(request, settings, connection)
-            except poliqarp.errors.InvalidSessionId:
+            except (poliqarp.errors.InvalidSessionId, poliqarp.errors.InvalidSessionUserId):
                 # Forget about this connection
                 del request.session['connection']
                 request.session.save()
