@@ -184,7 +184,7 @@ msgid ""
 msgstr ""
 "\n"
 "Udostępniona przez <a href='http://www.klf.uw.edu.pl'>Katedrę Lingwistyki "
-"Formalnej<a> wyszukiwarka pozwala na wygodne przeszukiwanie tekstów w <a "
+"Formalnej</a> wyszukiwarka pozwala na wygodne przeszukiwanie tekstów w <a "
 "href='http://pl.wikipedia.org/wiki/DjVu'>formacie DjVu</a>.\n"
 
 msgid ""
