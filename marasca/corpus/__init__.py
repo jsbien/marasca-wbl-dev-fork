@@ -67,8 +67,6 @@ class OldIpiCorpus(Corpus):
 
     has_metadata = True
 
-    # TODO: support multiple metadata values
-
     _i18n_style = {
         u'artystyczny': ugettext_lazy(u'artistic genre'),
         u'proza': ugettext_lazy(u'prose'),
