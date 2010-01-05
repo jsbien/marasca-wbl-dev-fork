@@ -1,0 +1,30 @@
+{% load i18n %}
+
+{% with "http://ebuw.uw.edu.pl/publication/" as u %}
+{% with "http://ebuw.uw.edu.pl/dlibra/publication?id=254" as url %}
+{% blocktrans %}<p>
+The search engine uses the electronic version of the dictionary in the
+DjVu format available in
+<a href='{{url}}'>the digital library of the University of Warsaw</a>
+since February 2008. The eight volumes of the dictionary 
+have 7667 pages in total, including 7541 pages with entries (the figures
+come from Magdalena Majdak's book “Słownik warszawski. Kocepcja - Realizacja —
+Recepcja”, Warszawa 2008).
+</p>
+{% endblocktrans %}
+{% endwith %}
+{% endwith %}
+
+{% blocktrans %}<p>
+OCR on the scans was done by the library staff, namely Tomasz
+Trynkowski and Grzegorz Kłębek, with Abby FineReader version 8.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p>
+The OCR results has been converted to the Poliqarp corpus format by <a href='http://jwilk.net'>Jakub Wilk</a>.
+The corpus text consists of ca. 7 million segments.
+</p>
+{% endblocktrans %}
+
+{# vim:set ts=4 sw=4 et: #}

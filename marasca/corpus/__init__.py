@@ -125,4 +125,51 @@ class OldIpiCorpus(Corpus):
                 result[key] = value
         return result
 
+class DjVuCorpus(Corpus):
+
+    has_interps = False
+
+    def __init__(self, id, title, path, public=True):
+        Corpus.__init__(self, id, title, path, public)
+        self._coordinates_map = Map('%s.djvu.coordinates' % path, '< H HHHH')
+        self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< HH')
+        with open('%s.djvu.filenames' % path, 'rt') as file:
+            self._filenames = map(str.rstrip, file.readlines())
+        self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
+
+    def get_coordinates(self, id):
+        return self._coordinates_map[id]
+
+    def get_filename(self, id):
+        for n, (l, r, _, _) in enumerate(self._document_range_map):
+            if l <= id <= r:
+                return self._filenames[n]
+
+    def get_pagesize(self, page):
+        return self._pagesize_map[page]
+
+    def get_url(self, id):
+        page, x0, y0, x1, y1 = self.get_coordinates(id)
+        w = x1 - x0
+        h = y1 - y0
+        pw, ph = self.get_pagesize(page)
+        cx = (x0 + x1) / (2.0 * pw)
+        cy = 1 - (y0 + y1) / (2.0 * ph)
+        filename = self.get_filename(id)
+        return '%s?djvuopts&page=%d&highlight=%d,%d,%d,%d&zoom=width&showposition=%.3f,%.3f' % (filename, page + 1, x0, y0, w, h, cx, cy)
+
+    def enhance_results(self, results):
+        from utils.redirect import protect_url
+        for result in results:
+            for (column, segments) in result:
+                for segment in segments:
+                    segment.interps = None
+                    if segment.id is None:
+                        continue
+                    url = self.get_url(segment.id)
+                    segment.href = protect_url(url)
+
+    def enhance_metadata(self, metadata):
+        return ()
+
 # vim:ts=4 sw=4 et
