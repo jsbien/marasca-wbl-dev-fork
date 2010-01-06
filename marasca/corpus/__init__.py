@@ -19,6 +19,10 @@ class Map(object):
         self._format = format
         nargs = sum(1 for char in format if char.isalpha())
         self._rsize = len(struct.pack(format, *(nargs * [0])))
+        self._len = os.fstat(self._fd).st_size // self._rsize
+
+    def __len__(self):
+        return self._len
 
     def __getitem__(self, n):
         rsize = self._rsize
@@ -131,8 +135,8 @@ class DjVuCorpus(Corpus):
 
     def __init__(self, id, title, path, public=True):
         Corpus.__init__(self, id, title, path, public)
-        self._coordinates_map = Map('%s.djvu.coordinates' % path, '< H HHHH')
-        self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< HH')
+        self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
+        self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< I HH')
         with open('%s.djvu.filenames' % path, 'rt') as file:
             self._filenames = map(str.rstrip, file.readlines())
         self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
@@ -140,22 +144,34 @@ class DjVuCorpus(Corpus):
     def get_coordinates(self, id):
         return self._coordinates_map[id]
 
-    def get_filename(self, id):
+    def get_document_info(self, id):
         for n, (l, r, _, _) in enumerate(self._document_range_map):
             if l <= id <= r:
-                return self._filenames[n]
+                return l, self._filenames[n]
 
-    def get_pagesize(self, page):
-        return self._pagesize_map[page]
+    def get_page_info(self, id):
+        l = 0
+        r = len(self._pagesize_map)
+        while l < r:
+            mid = (l + r) // 2
+            if id < self._pagesize_map[mid][0]:
+                r = mid
+            else:
+                l = mid + 1
+        i = l - 1
+        base_id, width, height = self._pagesize_map[i]
+        return i, width, height
 
     def get_url(self, id):
-        page, x0, y0, x1, y1 = self.get_coordinates(id)
+        x0, y0, x1, y1 = self.get_coordinates(id)
         w = x1 - x0
         h = y1 - y0
-        pw, ph = self.get_pagesize(page)
+        baseid, filename = self.get_document_info(id)
+        page0, _, _ = self.get_page_info(baseid)
+        page, pw, ph = self.get_page_info(id)
+        page -= page0
         cx = (x0 + x1) / (2.0 * pw)
         cy = 1 - (y0 + y1) / (2.0 * ph)
-        filename = self.get_filename(id)
         return '%s?djvuopts&page=%d&highlight=%d,%d,%d,%d&zoom=width&showposition=%.3f,%.3f' % (filename, page + 1, x0, y0, w, h, cx, cy)
 
     def enhance_results(self, results):
