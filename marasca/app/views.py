@@ -385,21 +385,24 @@ class SettingsForm(django.forms.Form):
             ('rm', ugettext_lazy('by right match')),
             ('rc', ugettext_lazy('by right context')),
         ],
-        widget=django.forms.RadioSelect
+        widget=django.forms.RadioSelect,
+        required=False,
     )
     sort_type = django.forms.ChoiceField(
         choices = [
             ('afronte', ugettext_lazy('a fronte')),
             ('atergo', ugettext_lazy('a tergo')),
         ],
-        widget=django.forms.RadioSelect
+        widget=django.forms.RadioSelect,
+        required=False,
     )
     sort_direction = django.forms.ChoiceField(
         choices = [
             ('asc', ugettext_lazy('ascending')),
             ('desc', ugettext_lazy('descending')),
         ],
-        widget=django.forms.RadioSelect
+        widget=django.forms.RadioSelect,
+        required=False,
     )
     show_in_context = django.forms.ChoiceField(
         choices = [
@@ -407,7 +410,8 @@ class SettingsForm(django.forms.Form):
             ('sl', ugettext_lazy('segments and lemmata')),
             ('s', ugettext_lazy('segments only')),
         ],
-        widget=django.forms.RadioSelect
+        widget=django.forms.RadioSelect,
+        required=False,
     )
     show_in_match = django.forms.ChoiceField(
         choices = [
@@ -415,7 +419,8 @@ class SettingsForm(django.forms.Form):
             ('sl', ugettext_lazy('segments and lemmata')),
             ('s', ugettext_lazy('segments only')),
         ],
-        widget=django.forms.RadioSelect
+        widget=django.forms.RadioSelect,
+        required=False,
     )
     left_context_width = django.forms.IntegerField(
         min_value = 1,
@@ -561,17 +566,21 @@ def process_settings(request):
     if settings is None:
         settings = Settings()
     next = None
+    form_data = settings.get_dict()
     if request.method == 'POST':
-        form_data = request.POST.copy()
+        for name, field in SettingsForm.base_fields.iteritems():
+            if isinstance(field, django.forms.BooleanField):
+                del form_data[name]
+        form_data.update((name, value) for name, value in request.POST.iteritems())
         next = form_data.get('next')
-    else:
-        form_data = settings.get_dict()
     next = next or get_referrer(request)
     form_data['next'] = next
     form = SettingsForm(form_data)
-    if form.is_valid() and request.method == 'POST':
+    if request.method == 'POST' and form.is_valid():
         for key, value in form.cleaned_data.iteritems():
             if key == 'next':
+                continue
+            if value is None:
                 continue
             setattr(settings, key, value)
         request.session.save()
