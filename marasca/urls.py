@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^(?P<corpus_id>[\w-]+)/pending/$', views.process_pending),
     url(r'^error/404/', django.views.generic.simple.direct_to_template, dict(template='404.html')),
     url(r'^error/500/', django.views.generic.simple.direct_to_template, dict(template='500.html')),
+    url(r'^google([0-9a-f]+[.]html)', 'django.views.static.serve', dict(document_root='media/google/'), name='css'),
 )
 
 # vim:ts=4 sw=4 et
