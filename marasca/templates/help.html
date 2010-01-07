@@ -22,55 +22,6 @@ queries are meaningful.
 {% endblocktrans %}
 </p>
 
-<p>
-{% blocktrans %}
-Segments are basically visual units, an interpunction mark following a
-word usually belong to the same unit as the word in question. In
-consequence instead of a simple query like
-<code>"taras"</code>
-the queries like
-<code>"taras[[:punct:]]?"</code>
-are recommended.
-{% endblocktrans %}
-</p>
-
-<p>
-{% blocktrans %}
-Sometimes a preceding character also belong to the segment, so
-abbreviations like “Ros.” (Russian) or “Fr.” (French) should be
-searched for respectively with the queries of the following type
-<code>"&lt;?Ros[.]"</code>
-(the full stop without brackets means an arbitrary character).
-{% endblocktrans %}
-</p>
-
-<p>
-{% blocktrans %}
-The segment may also contain letters introduced by incorrect OCR
-of unusual characters. For example, in the Warsaw dictionary f often may stand for a dagger, so
-the following query form may be sometimes useful:
-<code>"f?grobla[[:punct:]]?"</code>
-{% endblocktrans %}
-</p>
-
-<p>
-{% blocktrans %}
-Sometimes a segment consists of two concatenated word. You can find
-such words using the query variant matching fragments of the segments,
-e.g.
-<code>"grobla/x"</code>
-{% endblocktrans %}
-</p>
-
-<p>
-{% blocktrans %}
-Quotation marks can be skipped if the query does not contains brackets
-and some other special characters, e.g.
-<code>taras</code>
-<code>grobla/x</code>
-{% endblocktrans %}
-</p>
-
 {% endblock %}
 
 {# vim:set ts=4 sw=4 et: #}
