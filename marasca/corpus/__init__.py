@@ -132,6 +132,7 @@ class OldIpiCorpus(Corpus):
 class DjVuCorpus(Corpus):
 
     has_interps = False
+    has_metadata = True
 
     def __init__(self, id, title, path, public=True):
         Corpus.__init__(self, id, title, path, public)
@@ -140,6 +141,16 @@ class DjVuCorpus(Corpus):
         with open('%s.djvu.filenames' % path, 'rt') as file:
             self._filenames = map(str.rstrip, file.readlines())
         self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
+
+    def enhance_metadata(self, tuples):
+        result = django.utils.datastructures.SortedDict()
+        for k, v in tuples:
+            if k == 'vol':
+                k = ugettext_lazy('volume')
+            else:
+                continue
+            result[k] = [v]
+        return result
 
     def get_coordinates(self, id):
         return self._coordinates_map[id]
@@ -184,8 +195,5 @@ class DjVuCorpus(Corpus):
                         continue
                     url = self.get_url(segment.id)
                     segment.href = protect_url(url)
-
-    def enhance_metadata(self, metadata):
-        return ()
 
 # vim:ts=4 sw=4 et
