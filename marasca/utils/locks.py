@@ -1,19 +1,35 @@
+import errno
 import fcntl
 import os
+import random
+import time
 
 from django.conf import settings
 
 class SessionLock(object):
 
-    def __init__(self, session, wait=0):
+    def __init__(self, session, wait=None):
         self._filename = os.path.join(settings.SESSION_LOCKS_DIRECTORY, '%s.lock' % session.session_key)
-        if wait > 0:
-            # FIXME
-            raise NotImplementedError
+        if wait is None:
+            self._wait = settings.SESSION_LOCK_TIMEOUT
+        else:
+            self._wait = wait
 
     def __enter__(self):
         self._fd = os.open(self._filename, os.O_CREAT | os.O_RDWR | os.O_TRUNC, 0666)
-        fcntl.flock(self._fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        while 1:
+            try:
+                fcntl.flock(self._fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except IOError, ex:
+                if ex.errno != errno.EAGAIN or self._wait <= 0:
+                    raise
+                sleep = random.random()
+                if sleep > self._wait:
+                    sleep = self._wait
+                self._wait -= sleep
+                time.sleep(sleep)
+            else:
+                break
 
     def __exit__(self, ex_type, ex_value, ex_traceback):
         os.unlink(self._filename)
