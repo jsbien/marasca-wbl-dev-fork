@@ -19,6 +19,10 @@ class Map(object):
         self._format = format
         nargs = sum(1 for char in format if char.isalpha())
         self._rsize = len(struct.pack(format, *(nargs * [0])))
+        self._len = os.fstat(self._fd).st_size // self._rsize
+
+    def __len__(self):
+        return self._len
 
     def __getitem__(self, n):
         rsize = self._rsize
@@ -124,5 +128,72 @@ class OldIpiCorpus(Corpus):
             if value:
                 result[key] = value
         return result
+
+class DjVuCorpus(Corpus):
+
+    has_interps = False
+    has_metadata = True
+
+    def __init__(self, id, title, path, public=True):
+        Corpus.__init__(self, id, title, path, public)
+        self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
+        self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< I HH')
+        with open('%s.djvu.filenames' % path, 'rt') as file:
+            self._filenames = map(str.rstrip, file.readlines())
+        self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
+
+    def enhance_metadata(self, tuples):
+        result = django.utils.datastructures.SortedDict()
+        for k, v in tuples:
+            if k == 'vol':
+                k = ugettext_lazy('volume')
+            else:
+                continue
+            result[k] = [v]
+        return result
+
+    def get_coordinates(self, id):
+        return self._coordinates_map[id]
+
+    def get_document_info(self, id):
+        for n, (l, r, _, _) in enumerate(self._document_range_map):
+            if l <= id <= r:
+                return l, self._filenames[n]
+
+    def get_page_info(self, id):
+        l = 0
+        r = len(self._pagesize_map)
+        while l < r:
+            mid = (l + r) // 2
+            if id < self._pagesize_map[mid][0]:
+                r = mid
+            else:
+                l = mid + 1
+        i = l - 1
+        base_id, width, height = self._pagesize_map[i]
+        return i, width, height
+
+    def get_url(self, id):
+        x0, y0, x1, y1 = self.get_coordinates(id)
+        w = x1 - x0
+        h = y1 - y0
+        baseid, filename = self.get_document_info(id)
+        page0, _, _ = self.get_page_info(baseid)
+        page, pw, ph = self.get_page_info(id)
+        page -= page0
+        cx = (x0 + x1) / (2.0 * pw)
+        cy = 1 - (y0 + y1) / (2.0 * ph)
+        return '%s?djvuopts&page=%d&highlight=%d,%d,%d,%d&zoom=width&showposition=%.3f,%.3f' % (filename, page + 1, x0, y0, w, h, cx, cy)
+
+    def enhance_results(self, results):
+        from utils.redirect import protect_url
+        for result in results:
+            for (column, segments) in result:
+                for segment in segments:
+                    segment.interps = None
+                    if segment.id is None:
+                        continue
+                    url = self.get_url(segment.id)
+                    segment.href = protect_url(url)
 
 # vim:ts=4 sw=4 et

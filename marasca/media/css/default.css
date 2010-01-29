@@ -144,6 +144,10 @@ input#id_query {
     width: 30em;
 }
 
+.small-print {
+    font-size: small;
+}
+
 /* jQuery clueTip: */
 
 .cluetip-default {
