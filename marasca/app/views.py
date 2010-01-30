@@ -184,12 +184,12 @@ def run_query(connection, settings, corpus, query, l, r):
 
 class Connection(poliqarp.Connection):
 
-    def __init__(self, extra):
+    def __init__(self, ip, extra):
         poliqarp.Connection.__init__(self)
-        self.__extra = extra
+        self.__session_name = '%s/%s' % (ip, extra)
 
     def get_default_session_name(self):
-        return '%s/%s' % (poliqarp.Connection.get_default_session_name(self), self.__extra)
+        return self.__session_name
 
 def setup_settings(request, settings, connection):
     del settings.results_per_page # Never need to be dirty
@@ -261,7 +261,7 @@ def connection_for(request, settings):
     with utils.locks.SessionLock(request.session):
         connection = request.session.get('connection')
         if connection is None:
-            connection = Connection(extra=request.session.session_key)
+            connection = Connection(ip=request.META.get('REMOTE_ADDR'), extra=request.session.session_key)
             request.session['connection'] = connection
         try:
             try:
