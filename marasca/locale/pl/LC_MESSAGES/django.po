@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Poliqarp Web UI 0+hg20091105\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-11 12:50-0600\n"
+"POT-Creation-Date: 2010-01-30 12:33-0600\n"
 "PO-Revision-Date: 2009-12-08 10:34+0100\n"
 "Last-Translator: Jakub Wilk <ubanus@users.sf.net>\n"
 "Language-Team: none\n"
@@ -342,6 +342,9 @@ msgstr "prawego:"
 
 msgid "wide:"
 msgstr "szerokiego:"
+
+msgid "Graphical concordances"
+msgstr "Konkordancje graficzne"
 
 msgid "Results per page:"
 msgstr "Wyników na stronę:"

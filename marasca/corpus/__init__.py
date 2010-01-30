@@ -174,21 +174,28 @@ class DjVuCorpus(Corpus):
         base_id, width, height = self._pagesize_map[i]
         return i, width, height
 
+    def get_showposition(self, id, coordinates):
+        x0, y0, x1, y1 = coordinates
+        _, pw, ph = self.get_page_info(id)
+        cx = (x0 + x1) / (2.0 * pw)
+        cy = 1 - (y0 + y1) / (2.0 * ph)
+        return cx, cy
+
     def get_url(self, id):
         x0, y0, x1, y1 = self.get_coordinates(id)
         w = x1 - x0
         h = y1 - y0
         baseid, filename = self.get_document_info(id)
         page0, _, _ = self.get_page_info(baseid)
-        page, pw, ph = self.get_page_info(id)
+        page, _, _ = self.get_page_info(id)
         page -= page0
-        cx = (x0 + x1) / (2.0 * pw)
-        cy = 1 - (y0 + y1) / (2.0 * ph)
+        cx, cy = self.get_showposition(id, (x0, y0, x1, y1))
         return '%s?djvuopts&page=%d&highlight=%d,%d,%d,%d&zoom=width&showposition=%.3f,%.3f' % (filename, page + 1, x0, y0, w, h, cx, cy)
 
     def enhance_results(self, results):
         from utils.redirect import protect_url
         for result in results:
+            # Add segment URLs:
             for (column, segments) in result:
                 for segment in segments:
                     segment.interps = None
@@ -196,5 +203,46 @@ class DjVuCorpus(Corpus):
                         continue
                     url = self.get_url(segment.id)
                     segment.href = protect_url(url)
+            # Add graphical concordances:
+            x0 = y0 = +1.0e999
+            x1 = y1 = -1.0e999
+            first_segment_id = None
+            base_id = None
+            highlight = []
+            for (column, segments) in result:
+                if not column.is_match:
+                    continue
+                for segment in segments:
+                    if segment.id is None:
+                        continue
+                    if first_segment_id is None:
+                        first_segment_id = segment.id
+                        base_id, filename = self.get_document_info(first_segment_id)
+                    elif base_id != self.get_document_info(segment.id)[0]:
+                        # TODO: deal with multi-page matches
+                        continue
+                    sx0, sy0, sx1, sy1 = self.get_coordinates(segment.id)
+                    highlight += (sx0, sy0, sx1 - sx0, sy1 - sy0),
+                    x0 = min(x0, sx0)
+                    y0 = min(y0, sy0)
+                    x1 = max(x1, sx1)
+                    y1 = max(y1, sy1)
+            if first_segment_id is None:
+                continue
+            w = x1 - x0
+            h = y1 - y0
+            cx, cy = self.get_showposition(first_segment_id, (x0, y0, x1, y1))
+            page0, _, _ = self.get_page_info(base_id)
+            page, pw, _ = self.get_page_info(first_segment_id)
+            page -= page0
+            embed_url = '%s?djvuopts&page=%d&%s&showposition=%.5f,%.5f' % (
+                filename, page + 1,
+                '&'.join('highlight=%d,%d,%d,%d' % t for t in highlight),
+                cx, cy
+            )
+            dpi = ((pw + 625) // 1250) * 150 # wild guess
+            result.embed_width = 400
+            result.embed_height = max(min(round(h * 300.0 / dpi), 100), 20)
+            result.embed_url = protect_url(embed_url)
 
 # vim:ts=4 sw=4 et

@@ -355,7 +355,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
             corpus.enhance_results(qinfo.results)
     if error is not None:
         form._errors.setdefault('query', form.error_class()).append(error)
-    context = Context(request, selected=corpus, form=form, qinfo=qinfo)
+    context = Context(request, selected=corpus, form=form, qinfo=qinfo, settings=settings)
     response = django.http.HttpResponse(template.render(context))
     response['Refresh'] = str(global_settings.SESSION_REFRESH)
     return response
@@ -442,6 +442,9 @@ class SettingsForm(django.forms.Form):
         max_value = global_settings.MAX_RESULTS_PER_PAGE,
         widget=django.forms.TextInput(attrs=dict(size=3))
     )
+    graphical_concordances = django.forms.BooleanField(
+        required=False
+    )
     next = django.forms.CharField(
         required=False,
         widget=django.forms.HiddenInput
@@ -463,6 +466,7 @@ class Settings(object):
         right_context_width = 5,
         wide_context_width = 50,
         results_per_page = 25,
+        graphical_concordances = False,
     )
 
     _dirty = set()
