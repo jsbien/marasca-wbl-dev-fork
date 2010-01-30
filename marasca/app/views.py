@@ -184,9 +184,9 @@ def run_query(connection, settings, corpus, query, l, r):
 
 class Connection(poliqarp.Connection):
 
-    def __init__(self, ip, extra):
+    def __init__(self, request):
         poliqarp.Connection.__init__(self)
-        self.__session_name = '%s/%s' % (ip, extra)
+        self.__session_name = '%s/%s' % (request.META.get('REMOTE_ADDR'), request.session.session_key)
 
     def get_default_session_name(self):
         return self.__session_name
@@ -261,7 +261,7 @@ def connection_for(request, settings):
     with utils.locks.SessionLock(request.session):
         connection = request.session.get('connection')
         if connection is None:
-            connection = Connection(ip=request.META.get('REMOTE_ADDR'), extra=request.session.session_key)
+            connection = Connection(request)
             request.session['connection'] = connection
         try:
             try:
@@ -277,7 +277,7 @@ def connection_for(request, settings):
                 connection.close()
                 report_invalid_session_id(request, sys.exc_info())
                 # Create a new one
-                connection = Connection(extra=request.session.session_key)
+                connection = Connection(request)
                 request.session['connection'] = connection
                 connection.make_session()
                 setup_settings(request, settings, connection)
@@ -629,7 +629,7 @@ def process_ping(request):
     with utils.locks.SessionLock(request.session):
         connection = request.session.get('connection')
         if connection is None:
-            connection = Connection(extra=request.session.session_key)
+            connection = Connection(request)
         with connection:
             connection.make_session()
             t1 = time.time()
