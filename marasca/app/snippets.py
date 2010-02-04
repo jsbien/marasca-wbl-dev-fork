@@ -23,6 +23,10 @@ cairo_pixel_format = cairo.FORMAT_RGB24
 
 class Context(djvu.decode.Context):
 
+    def __init__(self, *args, **kwargs):
+        djvu.decode.Context.__init__(self, *args, **kwargs)
+        self.cache_size = django.conf.settings.SNIPPET_CACHE_SIZE
+
     def handle_message(self, message):
         if isinstance(message, djvu.decode.ErrorMessage):
             print >>sys.stderr, message
