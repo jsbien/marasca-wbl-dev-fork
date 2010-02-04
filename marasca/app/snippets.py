@@ -88,6 +88,7 @@ class Context(djvu.decode.Context):
         cc.rectangle(hx - sx, hy - sy, hw, hh)
         cc.fill()
         surface.write_to_png(fp)
+        fp.seek(0)
         return fp
 
 context = Context()
