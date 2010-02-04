@@ -4,6 +4,7 @@ import sys
 from cStringIO import StringIO
 
 import django.http
+import django.conf
 
 import cairo
 
@@ -11,9 +12,9 @@ import djvu.decode
 
 from .views import get_corpus_by_id
 
-screen_dpi = 100 # wild guess
-snippet_max_width = 400
-snippet_max_height = 200
+screen_dpi = django.conf.settings.SNIPPET_DEFAULT_SCREEN_DPI
+snippet_max_width = django.conf.settings.SNIPPET_MAX_WIDTH
+snippet_max_height = django.conf.settings.SNIPPET_MAX_HEIGHT
 
 djvu_pixel_format = djvu.decode.PixelFormatRgbMask(0xff, 0xff << 8, 0xff << 16, bpp=32)
 djvu_pixel_format.rows_top_to_bottom = 1

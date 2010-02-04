@@ -59,6 +59,10 @@ QUERY_TIMEOUT = 0.5
 # This value should be *lower* than that one.
 SESSION_REFRESH = 1000
 
+SNIPPET_DEFAULT_SCREEN_DPI = 100 # wild guess
+SNIPPET_MAX_WIDTH = 400
+SNIPPET_MAX_HEIGHT = 200
+
 try:
     from .secret_key import SECRET_KEY
 except ImportError, ex:
