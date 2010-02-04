@@ -16,12 +16,11 @@ class SessionLock(object):
             self._wait = wait
 
     def __enter__(self):
-        self._fd = os.open(self._filename, os.O_CREAT | os.O_RDWR | os.O_TRUNC, 0666)
         while 1:
             try:
-                fcntl.flock(self._fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                self._fd = os.open(self._filename, os.O_CREAT | os.O_RDWR | os.O_EXCL, 0600)
             except IOError, ex:
-                if ex.errno != errno.EAGAIN or self._wait <= 0:
+                if ex.errno != errno.EEXIST or self._wait <= 0:
                     raise
                 sleep = random.random()
                 if sleep > self._wait:
