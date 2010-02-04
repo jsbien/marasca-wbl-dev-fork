@@ -141,6 +141,7 @@ class DjVuCorpus(Corpus):
         with open('%s.djvu.filenames' % path, 'rt') as file:
             self._filenames = map(str.rstrip, file.readlines())
         self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
+        self.djvu_directory = os.path.join('%s.djvu' % path, '')
 
     def enhance_metadata(self, tuples):
         result = django.utils.datastructures.SortedDict()
@@ -158,7 +159,7 @@ class DjVuCorpus(Corpus):
     def get_document_info(self, id):
         for n, (l, r, _, _) in enumerate(self._document_range_map):
             if l <= id <= r:
-                return l, self._filenames[n]
+                return l, n, self._filenames[n]
         raise IndexError
 
     def get_page_info(self, id):
@@ -185,7 +186,7 @@ class DjVuCorpus(Corpus):
         x0, y0, x1, y1 = self.get_coordinates(id)
         w = x1 - x0
         h = y1 - y0
-        baseid, filename = self.get_document_info(id)
+        baseid, _, filename = self.get_document_info(id)
         page0, _, _ = self.get_page_info(baseid)
         page, _, _ = self.get_page_info(id)
         page -= page0
@@ -217,7 +218,7 @@ class DjVuCorpus(Corpus):
                         continue
                     if first_segment_id is None:
                         first_segment_id = segment.id
-                        base_id, filename = self.get_document_info(first_segment_id)
+                        base_id, document_id, filename = self.get_document_info(first_segment_id)
                     elif base_id != self.get_document_info(segment.id)[0]:
                         # TODO: deal with multi-page matches
                         continue
@@ -231,18 +232,13 @@ class DjVuCorpus(Corpus):
                 continue
             w = x1 - x0
             h = y1 - y0
-            cx, cy = self.get_showposition(first_segment_id, (x0, y0, x1, y1))
             page0, _, _ = self.get_page_info(base_id)
             page, pw, _ = self.get_page_info(first_segment_id)
             page -= page0
-            embed_url = '%s?djvuopts&page=%d&%s&showposition=%.5f,%.5f' % (
-                filename, page + 1,
-                '&'.join('highlight=%d,%d,%d,%d' % t for t in highlight),
-                cx, cy
+            result.embed = dict(
+                document_id = document_id + 1,
+                page = page + 1,
+                rect = dict(x=x0, y=y0, w=w, h=h)
             )
-            dpi = ((pw + 625) // 1250) * 150 # wild guess
-            result.embed_width = 400
-            result.embed_height = max(min(round(h * 300.0 / dpi), 100), 20)
-            result.embed_url = protect_url(embed_url)
 
 # vim:ts=4 sw=4 et

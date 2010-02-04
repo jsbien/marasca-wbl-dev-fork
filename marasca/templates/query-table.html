@@ -7,16 +7,7 @@
         <th><a href='{{result.url}}'{% if selected.has_metadata %} rel='m{{result.n}}'{% endif %}>{{result.n|add:"1"}}</a>.</th>
         {% if settings.graphical_concordances %}
         <td>
-            <object data='{{result.embed_url}}' type='image/vnd.djvu' width='{{result.embed_width}}' height='{{result.embed_height}}'>
-            <param name='toolbar' value='no'/>
-            <param name='menubar' value='no'/>
-            <param name='statusbar' value='no'/>
-            <param name='menu' value='no'/>
-            <param name='thumbnails' value='no'/>
-            <param name='scrollbars' value='no'/>
-            <param name='shadow' value='no'/>
-            <param name='zoom' value='100'/>
-            </object>
+            <img src='{% url snippet selected.id result.embed.document_id result.embed.page result.embed.rect.x result.embed.rect.y result.embed.rect.w result.embed.rect.h %}' type='image/png'/>
         </td>
         {% else %}
         {% for column in result %}
