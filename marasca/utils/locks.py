@@ -19,7 +19,7 @@ class SessionLock(object):
         while 1:
             try:
                 self._fd = os.open(self._filename, os.O_CREAT | os.O_RDWR | os.O_EXCL, 0600)
-            except IOError, ex:
+            except OSError, ex:
                 if ex.errno != errno.EEXIST or self._wait <= 0:
                     raise
                 sleep = random.random()
