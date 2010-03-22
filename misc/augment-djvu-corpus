@@ -37,7 +37,7 @@ entity-pos = pos
 class ArgumentParser(argparse.ArgumentParser):
 
     def __init__(self):
-        usage = '%prog [option...] <base-name> <djvu-file...>'
+        usage = '%(prog)s [option...] <base-name> <djvu-file...>'
         argparse.ArgumentParser.__init__(self, usage=usage)
         self.add_argument('base', help='corpus basename')
         self.add_argument('files', nargs='+', help='hOCR files')
