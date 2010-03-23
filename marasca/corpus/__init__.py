@@ -203,7 +203,8 @@ class DjVuCorpus(Corpus):
                     if segment.id is None:
                         continue
                     url = self.get_url(segment.id)
-                    segment.href = protect_url(url)
+                    segment.real_url = url
+                    segment.url = protect_url(url)
             # Add graphical concordances:
             x0 = y0 = +1.0e999
             x1 = y1 = -1.0e999

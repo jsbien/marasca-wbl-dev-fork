@@ -12,10 +12,13 @@
         {% else %}
         {% for column in result %}
             <td class='{% if column.0.is_left %}left{% else %}right{% endif %}'>
-                {% for segment in column.1 %}{% if segment.href %}<a href='{{segment.href}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% if column.0.show_lemmata %}{% for interp in segment.interps %} [{{interp.lemma}}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.href %}</a>{% endif %}{% endfor %}
+                {% for segment in column.1 %}{% if segment.url %}<a href='{{segment.url}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% if column.0.show_lemmata %}{% for interp in segment.interps %} [{{interp.lemma}}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.url %}</a>{% endif %}{% endfor %}
             </td>
         {% endfor %}
         {% endif %}
+        {% with result|dictsortreversed:"0.is_match" as result %}
+        <td class='bookmark-result'><a href='{{result.0.1.0.real_url}}' title='{{result.0.1.0.orth}}'>URL</a></td>
+        {% endwith %}
     </tr>
 {% endfor %}
 

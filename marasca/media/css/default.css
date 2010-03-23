@@ -148,6 +148,10 @@ input#id_query {
     font-size: small;
 }
 
+.bookmark-result {
+    display: none;
+}
+
 /* jQuery clueTip: */
 
 .cluetip-default {
