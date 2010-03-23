@@ -35,7 +35,7 @@ class Context(django.template.RequestContext):
 
 def process_index(request):
     template = get_template('index.html')
-    context = Context(request)
+    context = Context(request, selected='index')
     return django.http.HttpResponse(template.render(context))
 
 class QueryForm(django.forms.Form):
@@ -115,7 +115,7 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
     info = ResultInfo(n)
     if extract_context:
         info.context = connection.get_context(n) 
-    if extract_metadata:
+    if extract_metadata and corpus.has_metadata:
         info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
 
@@ -355,7 +355,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
             corpus.enhance_results(qinfo.results)
     if error is not None:
         form._errors.setdefault('query', form.error_class()).append(error)
-    context = Context(request, selected=corpus, form=form, qinfo=qinfo)
+    context = Context(request, selected=corpus, form=form, qinfo=qinfo, settings=settings)
     response = django.http.HttpResponse(template.render(context))
     response['Refresh'] = str(global_settings.SESSION_REFRESH)
     return response
@@ -442,6 +442,9 @@ class SettingsForm(django.forms.Form):
         max_value = global_settings.MAX_RESULTS_PER_PAGE,
         widget=django.forms.TextInput(attrs=dict(size=3))
     )
+    graphical_concordances = django.forms.BooleanField(
+        required=False
+    )
     next = django.forms.CharField(
         required=False,
         widget=django.forms.HiddenInput
@@ -463,6 +466,7 @@ class Settings(object):
         right_context_width = 5,
         wide_context_width = 50,
         results_per_page = 25,
+        graphical_concordances = False,
     )
 
     _dirty = set()
