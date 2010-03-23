@@ -16,10 +16,9 @@ screen_dpi = django.conf.settings.SNIPPET_DEFAULT_SCREEN_DPI
 snippet_max_width = django.conf.settings.SNIPPET_MAX_WIDTH
 snippet_max_height = django.conf.settings.SNIPPET_MAX_HEIGHT
 
-djvu_pixel_format = djvu.decode.PixelFormatRgbMask(0xff, 0xff << 8, 0xff << 16, bpp=32)
+djvu_pixel_format = djvu.decode.PixelFormatRgbMask(0xff << 16, 0xff << 8, 0xff, bpp=32)
 djvu_pixel_format.rows_top_to_bottom = 1
 djvu_pixel_format.y_top_to_bottom = 0
-cairo_pixel_format = cairo.FORMAT_RGB24
 
 class Context(djvu.decode.Context):
 
@@ -72,7 +71,7 @@ class Context(djvu.decode.Context):
         if rw <= 0 or rh <= 0:
             raise django.http.Http404
 
-        stride = cairo.ImageSurface.format_stride_for_width(cairo_pixel_format, rw)
+        stride = cairo.ImageSurface.format_stride_for_width(cairo.FORMAT_RGB24, rw)
         data = page_job.render(djvu.decode.RENDER_COLOR,
             (0, 0, pw, ph), (rx, ry, rw, rh),
             djvu_pixel_format, stride
@@ -80,7 +79,7 @@ class Context(djvu.decode.Context):
         data = array.array('B', data)
         fp = StringIO()
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, sw, sh)
-        djvu_surface = cairo.ImageSurface.create_for_data(data, cairo_pixel_format, rw, rh, stride)
+        djvu_surface = cairo.ImageSurface.create_for_data(data, cairo.FORMAT_RGB24, rw, rh, stride)
         cc = cairo.Context(surface)
         cc.set_source_surface(djvu_surface, rx - sx, ry - sy)
         cc.paint()
