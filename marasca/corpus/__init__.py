@@ -55,9 +55,10 @@ class Corpus(object):
     has_metadata = False
     has_interps = True
 
-    def __init__(self, id, title, path=None, public=True):
+    def __init__(self, id, title, abbreviation, path=None, public=True):
         self.id = id
         self.title = title
+        self.abbreviation = abbreviation
         self.path = path
         self.public = public
 
@@ -134,8 +135,8 @@ class DjVuCorpus(Corpus):
     has_interps = False
     has_metadata = True
 
-    def __init__(self, id, title, path, public=True):
-        Corpus.__init__(self, id, title, path, public)
+    def __init__(self, id, title, abbreviation, path, public=True):
+        Corpus.__init__(self, id, title, abbreviation, path, public)
         self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
         self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< I HH')
         with open('%s.djvu.filenames' % path, 'rt') as file:

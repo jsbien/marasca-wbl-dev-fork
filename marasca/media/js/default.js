@@ -12,9 +12,10 @@ function bookmark_link(event)
 {
     event.preventDefault();
     timestamp = (new Date()).toLocaleString();
-    title = '[Poliqarp] ' + event.target.title + ' ' + timestamp;
+    info = event.target.href.split('#', 2)
+    title = '[' + info[1] + ']' + event.target.title + ' ' + timestamp;
     title = title.replace('  ', ' ');
-    window.sidebar.addPanel(title , event.target.href, '');
+    window.sidebar.addPanel(title , info[0], '');
 }
 
 $(document).ready(function() {
