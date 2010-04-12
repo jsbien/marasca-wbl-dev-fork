@@ -55,7 +55,7 @@ def process_pending(request, corpus_id):
     refresh_url = django.core.urlresolvers.reverse(process_query, kwargs=dict(corpus_id=corpus_id))
     context = Context(request, selected=corpus, refresh_url=refresh_url)
     response = django.http.HttpResponse(template.render(context))
-    response['Refresh'] = '%d; %s' % (1, refresh_url)
+    response['Refresh'] = '%d; url=%s' % (1, refresh_url)
     return response
 
 class Info(object):
