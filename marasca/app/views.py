@@ -340,7 +340,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
                 # even if query text didn't change
                 settings.need_query_remake(True)
             qinfo = run_query(connection, settings, corpus, query, l, r)
-            if not isinstance(qinfo[0], Exception) and nth is not None:
+            if not isinstance(qinfo, Exception) and nth is not None:
                 qinfo.rinfo = extract_result_info(connection, settings, corpus, nth)
         if isinstance(qinfo, (poliqarp.Busy, poliqarp.QueryRunning)):
             return redirect_to_pending(request)
