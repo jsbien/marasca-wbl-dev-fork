@@ -197,7 +197,7 @@ def setup_settings(request, settings, connection):
     connection.set_locale(locale)
     del settings.language
     connection.set_retrieve_ids(0, 1, 1, 0)
-    # These settings are ignored a retrieve level:
+    # These settings are ignored at retrieve level:
     connection.set_retrieve_lemmata(1, 1, 1, 1)
     connection.set_retrieve_tags(1, 1, 1, 1)
     del settings.show_in_context
