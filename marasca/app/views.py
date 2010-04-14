@@ -52,7 +52,7 @@ def get_corpus_by_id(corpus_id):
 def process_pending(request, corpus_id):
     template = get_template('pending.html')
     corpus = get_corpus_by_id(corpus_id)
-    refresh_url = django.core.urlresolvers.reverse(process_query, kwargs=dict(corpus_id=corpus_id))
+    refresh_url = request.path
     context = Context(request, selected=corpus, refresh_url=refresh_url)
     response = django.http.HttpResponse(template.render(context))
     response['Refresh'] = '%d; url=%s' % (1, refresh_url)
@@ -95,11 +95,8 @@ class QueryInfo(Info):
         else:
             return repr(value)
 
-def redirect_to_pending(corpus_id):
-    pending_url = django.core.urlresolvers.reverse(
-        process_pending,
-        kwargs=dict(corpus_id=corpus_id)
-    )
+def redirect_to_pending(request):
+    pending_url = '%s?pending=yes' % request.path
     return django.http.HttpResponseRedirect(pending_url)
 
 class ResultInfo(Info):
@@ -126,7 +123,7 @@ def run_query(connection, settings, corpus, query, l, r):
     except poliqarp.InvalidQuery, ex:
         return ex
     except poliqarp.Busy, ex:
-        return redirect_to_pending(corpus.id)
+        return ex
     settings.need_query_remake(False)
     qinfo = QueryInfo()
     if settings.random_sample:
@@ -140,14 +137,14 @@ def run_query(connection, settings, corpus, query, l, r):
             timeout=global_settings.QUERY_TIMEOUT,
             force=settings.need_query_rerun()
         )
-    except poliqarp.Busy:
-        return redirect_to_pending(corpus.id)
-    except poliqarp.QueryRunning:
+    except poliqarp.Busy, ex:
+        return ex
+    except poliqarp.QueryRunning, ex:
         settings.need_query_rerun(False)
         qinfo.running = True
         if connection.get_n_stored_results() <= r or settings.sort or settings.random_sample:
             # Need more results or query run to be finished
-            return redirect_to_pending(corpus.id)
+            return ex
     settings.need_query_rerun(False)
     if settings.sort:
         sort_column = dict(
@@ -307,6 +304,8 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
     settings = get_settings(request)
     template = get_template('query.html')
     corpus = get_corpus_by_id(corpus_id)
+    if 'pending' in request.GET:
+        return process_pending(request, corpus.id)
     if settings.need_query_rerun() and nth is not None:
         url = django.core.urlresolvers.reverse(
             process_query,
@@ -341,13 +340,13 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
                 # even if query text didn't change
                 settings.need_query_remake(True)
             qinfo = run_query(connection, settings, corpus, query, l, r)
-            if nth is not None:
+            if not isinstance(qinfo[0], Exception) and nth is not None:
                 qinfo.rinfo = extract_result_info(connection, settings, corpus, nth)
+        if isinstance(qinfo, (poliqarp.Busy, poliqarp.QueryRunning)):
+            return redirect_to_pending(request)
         if isinstance(qinfo, Exception):
             error = qinfo
             qinfo = None
-        elif isinstance(qinfo, django.http.HttpResponseRedirect):
-            return qinfo
         else:
             qinfo.results = [Result(corpus, l + i, result, settings) for (i, result) in enumerate(qinfo.results)]
             if nth is not None:

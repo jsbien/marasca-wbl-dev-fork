@@ -19,7 +19,6 @@ urlpatterns = patterns('',
     url(r'^(?P<corpus_id>[\w-]+)/query/(?P<nth>[0-9]+)/$', views.process_query, dict(query=True), name='query'),
     url(r'^(?P<corpus_id>[\w-]+)/query/$', views.process_query, dict(query=True), name='query'),
     url(r'^(?P<corpus_id>[\w-]+)/query/(?:[0-9]+[+]?/)?m(?P<nth>[0-9]+)/$', views.process_metadata_snippet),
-    url(r'^(?P<corpus_id>[\w-]+)/pending/$', views.process_pending),
     url(r'^error/404/', django.views.generic.simple.direct_to_template, dict(template='404.html')),
     url(r'^error/500/', django.views.generic.simple.direct_to_template, dict(template='500.html')),
 )
