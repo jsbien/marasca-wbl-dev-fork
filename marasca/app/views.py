@@ -129,17 +129,14 @@ def run_query(connection, settings, corpus, query, l, r):
         return redirect_to_pending(corpus.id)
     settings.need_query_remake(False)
     qinfo = QueryInfo()
-    try:
-        if settings.random_sample:
-            connection.resize_buffer(settings.random_sample_size)
-        else:
-            connection.resize_buffer(global_settings.BUFFER_SIZE)
-    except poliqarp.Busy:
-        return redirect_to_pending(corpus.id)
+    if settings.random_sample:
+        max_n_results = settings.random_sample_size
+    else:
+        max_n_results = global_settings.BUFFER_SIZE
     del settings.random_sample_size
     try:
         connection.run_query(
-            global_settings.BUFFER_SIZE,
+            max_n_results,
             timeout=global_settings.QUERY_TIMEOUT,
             force=settings.need_query_rerun()
         )
@@ -148,8 +145,8 @@ def run_query(connection, settings, corpus, query, l, r):
     except poliqarp.QueryRunning:
         settings.need_query_rerun(False)
         qinfo.running = True
-        if connection.get_n_stored_results() <= r or settings.sort:
-            # Need more results
+        if connection.get_n_stored_results() <= r or settings.sort or settings.random_sample:
+            # Need more results or query run to be finished
             return redirect_to_pending(corpus.id)
     settings.need_query_rerun(False)
     if settings.sort:
@@ -194,6 +191,7 @@ class Connection(poliqarp.Connection):
 def setup_settings(request, settings, connection):
     del settings.results_per_page # Never need to be dirty
     locale = utils.i18n.get_locale(request.LANGUAGE_CODE)
+    connection.set_notification_interval(global_settings.NOTIFICATION_INTERVAL)
     connection.set_locale(locale)
     del settings.language
     connection.set_retrieve_ids(0, 1, 1, 0)
@@ -266,6 +264,7 @@ def connection_for(request, settings):
         try:
             try:
                 if connection.make_session():
+                    connection.resize_buffer(global_settings.BUFFER_SIZE)
                     setup_settings(request, settings, connection)
                     settings.need_query_rerun(True)
                 elif settings.dirty():
@@ -280,6 +279,7 @@ def connection_for(request, settings):
                 connection = Connection(request)
                 request.session['connection'] = connection
                 connection.make_session()
+                connection.resize_buffer(global_settings.BUFFER_SIZE)
                 setup_settings(request, settings, connection)
                 settings.need_query_rerun(True)
             yield connection
