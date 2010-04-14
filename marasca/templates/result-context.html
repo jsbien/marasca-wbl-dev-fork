@@ -1,6 +1,6 @@
 <div id='result-context'>
 
-{{qinfo.rinfo.context.0}}{% for column in qinfo.result %}{% if column.0.is_match %}{% for segment in column.1 %}{% if segment.href %}<a href='{{segment.href}}'>{% endif %}<strong>{{segment.orth}}</strong>{% if segment.href %}</a>{% endif %}{% endfor %}{% endif %}{% endfor %}{{qinfo.rinfo.context.3}}
+{{qinfo.rinfo.context.0}}{% for column in qinfo.result %}{% if column.0.is_match %}{% for segment in column.1 %}{% if segment.url %}<a href='{{segment.url}}'>{% endif %}<strong>{{segment.orth}}</strong>{% if segment.url %}</a>{% endif %}{% endfor %}{% endif %}{% endfor %}{{qinfo.rinfo.context.3}}
 
 </div>
 
