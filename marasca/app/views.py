@@ -11,6 +11,7 @@ import django.http
 import django.template
 import django.template.loader
 import django.utils.translation
+import django.views.decorators.cache
 
 import utils.locks
 import utils.i18n
@@ -49,6 +50,7 @@ def get_corpus_by_id(corpus_id):
         raise django.http.Http404
     return corpus
 
+@django.views.decorators.cache.never_cache
 def process_pending(request, corpus_id):
     template = get_template('pending.html')
     corpus = get_corpus_by_id(corpus_id)
@@ -300,6 +302,7 @@ def corpus_info(request, corpus_id):
     response = django.http.HttpResponse(template.render(context))
     return response
 
+@django.views.decorators.cache.never_cache
 def process_query(request, corpus_id, query=False, page_start=0, nth=None):
     settings = get_settings(request)
     template = get_template('query.html')
@@ -359,6 +362,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
     response['Refresh'] = str(global_settings.SESSION_REFRESH)
     return response
 
+@django.views.decorators.cache.never_cache
 def process_metadata_snippet(request, corpus_id, nth):
     settings = get_settings(request)
     template = get_template('result-metadata.html')
