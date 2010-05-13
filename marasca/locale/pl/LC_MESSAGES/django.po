@@ -181,11 +181,18 @@ msgstr[1] "Dotychczas znaleziono %(n)s wyniki"
 msgstr[2] "Dotychczas znaleziono %(n)s wyników"
 
 #, python-format
-msgid "Found %(n)s result."
-msgid_plural "Found %(n)s results."
+msgid "Found %(n)s result"
+msgid_plural "Found %(n)s results"
 msgstr[0] "Znaleziono %(n)s wynik"
 msgstr[1] "Znaleziono %(n)s wyniki"
 msgstr[2] "Znaleziono %(n)s wyników"
+
+#, python-format
+msgid "(of %(n)s)."
+msgid_plural "(of all %(n)s)"
+msgstr[0] "(spośród %(n)s)"
+msgstr[1] "(spośród %(n)s wszystkich)"
+msgstr[2] "(spośród %(n)s wszystkich)"
 
 #, python-format
 msgid "Displaying results %(l)s—%(r)s."

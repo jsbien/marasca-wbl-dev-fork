@@ -175,8 +175,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, python-format
-msgid "Found %(n)s result."
-msgid_plural "Found %(n)s results."
+msgid "Found %(n)s result"
+msgid_plural "Found %(n)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "(of %(n)s)."
+msgid_plural "(of all %(n)s)"
 msgstr[0] ""
 msgstr[1] ""
 

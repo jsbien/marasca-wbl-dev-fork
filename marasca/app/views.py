@@ -176,6 +176,9 @@ def run_query(connection, settings, corpus, query, l, r):
         qinfo.next_page = PageInfo(corpus.id, page_start=r+1, n=page_size)
     qinfo.results = connection.get_results(l, r)
     qinfo.n_stored_results = connection.get_n_stored_results()
+    qinfo.n_spotted_results = connection.get_n_spotted_results()
+    if qinfo.n_spotted_results == qinfo.n_stored_results:
+        qinfo.n_spotted_results = None
     return qinfo
 
 class Connection(poliqarp.Connection):
