@@ -17,7 +17,7 @@
         {% endfor %}
         {% endif %}
         {% with result|dictsortreversed:"0.is_match" as result %}
-        <td class='bookmark-result'><a href='{{result.0.1.0.real_url}}#{{selected.abbreviation}}' title='{{result.0.1.0.orth}}'>{% trans "Zakładka" %}</a></td>
+        <td class='bookmark-result'><a href='{{result.0.1.0.real_url}}#{{selected.abbreviation}}' title='{{result.0.1.0.orth}}'>{% trans "Bookmark" %}</a></td>
         {% endwith %}
     </tr>
 {% endfor %}
