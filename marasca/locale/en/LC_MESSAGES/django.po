@@ -375,7 +375,7 @@ msgid ""
 "The OCR results for the scanned volume and the hidden text layer of volume\n"
 "XXXIII have been converted to the suitable corpus format by Jakub Wilk.\n"
 "The corpus consists of ca. 31 million segments.\n"
-"This is the version 2 of the corpus, available since January 6, 2010.\n"
+"This is the version 3 of the corpus, available since May 12, 2010.\n"
 "</p>\n"
 msgstr ""
 
