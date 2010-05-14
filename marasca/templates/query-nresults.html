@@ -3,16 +3,21 @@
 <p>
 
 {% if qinfo.running %}
-    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result so far.{% plural %}Found {{n}} results so far.{% endblocktrans %}
+    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result so far{% plural %}Found {{n}} results so far{% endblocktrans %}
 {% else %}
-    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result{% plural %}Found {{n}} results{% endblocktrans %}{% if qinfo.n_spotted_results %} {% blocktrans count qinfo.n_spotted_results as n %}(of {{n}}).{% plural %}(of all {{n}}){% endblocktrans %}{% endif %}.
+
+    {% if qinfo.n_spotted_results %}
+        {% blocktrans count qinfo.n_stored_results as n with qinfo.n_spotted_results as m %}{{n}} results (of all {{m}}){% plural %}{{n}} results (of all {{m}}){% endblocktrans %}
+    {% else %}
+        {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result{% plural %}Found {{n}} results{% endblocktrans %}
+    {% endif %}
 {% endif %}
 
 </p>
 
 <p>
-    {% if r %}
-        {% blocktrans with qinfo.l as l and qinfo.r as r %}Displaying results {{l}}—{{r}}.{% endblocktrans %}
+    {% if qinfo.r %}
+        {% blocktrans with qinfo.l as l and qinfo.r as r %}Displaying results {{l}}—{{r}}{% endblocktrans %}
     {% endif %}
 </p>
 

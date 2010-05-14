@@ -169,8 +169,14 @@ msgid "Search"
 msgstr ""
 
 #, python-format
-msgid "Found %(n)s result so far."
-msgid_plural "Found %(n)s results so far."
+msgid "Found %(n)s result so far"
+msgid_plural "Found %(n)s results so far"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(n)s results (of all %(m)s)"
+msgid_plural "%(n)s results (of all %(m)s)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -181,13 +187,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, python-format
-msgid "(of %(n)s)."
-msgid_plural "(of all %(n)s)"
-msgstr[0] ""
-msgstr[1] ""
-
-#, python-format
-msgid "Displaying results %(l)s—%(r)s."
+msgid "Displaying results %(l)s—%(r)s"
 msgstr ""
 
 #, python-format
