@@ -183,9 +183,9 @@ msgstr[2] "Dotychczas znaleziono %(n)s wyników"
 #, python-format
 msgid "%(n)s results (of all %(m)s)"
 msgid_plural "%(n)s results (of all %(m)s)"
-msgstr[0] "%(n)s wynik (spośród %(m) wszystkich)"
-msgstr[1] "%(n)s wyniki (spośród %(m) wszystkich)"
-msgstr[2] "%(n)s wyników (spośród %(m) wszystkich)"
+msgstr[0] "%(n)s wynik (spośród %(m)s wszystkich)"
+msgstr[1] "%(n)s wyniki (spośród %(m)s wszystkich)"
+msgstr[2] "%(n)s wyników (spośród %(m)s wszystkich)"
 
 #, python-format
 msgid "Found %(n)s result"
