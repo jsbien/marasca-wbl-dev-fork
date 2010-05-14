@@ -1,0 +1,93 @@
+#!/usr/bin/python
+
+from __future__ import with_statement
+
+import argparse
+import os
+import re
+import struct
+import sys
+
+from lxml import etree
+from lxml import cssselect
+
+bbox_re = re.compile(
+    r'''
+        bbox \s+
+        (?P<x0> -?\d+) \s+ 
+        (?P<y0> -?\d+) \s+
+        (?P<x1> -?\d+) \s+
+        (?P<y1> -?\d+)
+    ''', re.VERBOSE)
+
+default_poliqarp_config = \
+'''
+[attr]
+
+[pos]
+ign =
+
+[named-entity]
+entity-orth = orth
+entity-base = base
+entity-tag = tag
+entity-pos = pos
+'''
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        usage = '%(prog)s [option...] <base-name> <hocr-file...>'
+        argparse.ArgumentParser.__init__(self, usage=usage)
+        self.add_argument('base', help='corpus basename')
+        self.add_argument('files', nargs='+', help='hOCR files')
+
+def process_files(options):
+
+    def try_create_file(suffix):
+        name = '%s.%s' % (options.base, suffix)
+        if os.path.exists(name) and os.path.getsize(name) > 0:
+            print >>sys.stderr, 'Not overwriting %s' % name
+            name = os.devnull
+        return open(name, 'w')
+
+    f_config = try_create_file('cfg')
+    f_filenames = try_create_file('djvu.filenames')
+    f_coordinates = try_create_file('djvu.coordinates')
+    f_pagesizes = try_create_file('djvu.pagesizes')
+
+    f_config.write(default_poliqarp_config)
+    page_selector = cssselect.CSSSelector('.ocr_page')
+    word_selector = cssselect.CSSSelector('.ocrx_word')
+    n0 = n = 0
+    for filename in options.files:
+        print >>sys.stderr, 'Processing %s' % filename
+        print >>f_filenames, filename
+        hocr = etree.iterparse(filename, ('end',))
+        for event, elem in hocr:
+            classes = (elem.get('class') or '').split()
+            if 'ocrx_word' in classes:
+                title = elem.get('title')
+                m = bbox_re.search(title)
+                bbox = map(int, m.groups())
+                bbox = ''.join((struct.pack('< HHHH', *bbox)))
+                f_coordinates.write(bbox)
+                n += 1
+            if 'ocr_page' in classes:
+                title = elem.get('title')
+                m = bbox_re.search(title)
+                bbox = map(int, m.groups())
+                bbox = ''.join((struct.pack('< I HH', n0, *bbox[-2:])))
+                f_pagesizes.write(bbox)
+                n0 = n
+            elem.clear()
+
+def main():
+    oparser = ArgumentParser()
+    options = oparser.parse_args()
+    process_files(options)
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sw=4 et

@@ -144,6 +144,14 @@ input#id_query {
     width: 30em;
 }
 
+.small-print {
+    font-size: small;
+}
+
+.bookmark-result {
+    display: none;
+}
+
 /* jQuery clueTip: */
 
 .cluetip-default {
