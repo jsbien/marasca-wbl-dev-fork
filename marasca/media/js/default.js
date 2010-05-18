@@ -9,8 +9,15 @@ function update_random_sample_widgets(event)
 }
 
 $(document).ready(function() {
-    $('a[rel]').cluetip({showTitle: false});
-    $('span[title]').cluetip({showTitle: false, width: '200', splitTitle: '|', cursor: 'auto'});
+    $("a[rel]").tooltip({ 
+        bodyHandler: function() { 
+            r = $("<div/>").load(this.rel);
+            r.css('max-width', '20em');
+            return r;
+        }, 
+        showURL: false 
+    });
+    $('span[title]').tooltip();
     $('#id_sort').click(update_sort_widgets);
     $('#id_random_sample').click(update_random_sample_widgets);
     update_sort_widgets(null);

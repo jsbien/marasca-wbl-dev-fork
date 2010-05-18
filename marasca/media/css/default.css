@@ -144,29 +144,18 @@ input#id_query {
     width: 30em;
 }
 
-/* jQuery clueTip: */
-
-.cluetip-default {
-	color: #FFF;
-	background-color: #000;
+#tooltip {
+    position: absolute;
+    z-index: 3000;
+    border: 1px solid #666;
+    background-color: #FFF;
+    padding: 5px;
 }
 
-.cluetip-default #cluetip-outer {
-	position: relative;
-	margin: 0;
-	border: 1px solid #666;
-	color: #000;
-	background-color: #FFF;
-	font-size: 90%;
-}
-
-.cluetip-default #cluetip-inner table {
-	width: 100%;
-	margin: 0px;
-}
-
-.cluetip-default #cluetip-inner {
-	padding: 0.25em 0.5em;
+#tooltip div, #tooltip h3, #tooltip dl {
+    font-size: 100%;
+    font-weight: normal;
+    margin: 0;
 }
 
 /* vim:set ts=4 sw=4 et:*/
