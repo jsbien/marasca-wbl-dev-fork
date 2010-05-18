@@ -144,12 +144,20 @@ input#id_query {
     width: 30em;
 }
 
+.small-print {
+    font-size: small;
+}
+
+.bookmark-result {
+    display: none;
+}
+
 #tooltip {
     position: absolute;
     z-index: 3000;
     border: 1px solid #666;
     background-color: #FFF;
-    padding: 5px;
+    padding: 0;
 }
 
 #tooltip div, #tooltip h3, #tooltip dl {
