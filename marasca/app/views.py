@@ -301,7 +301,12 @@ def corpus_info(request, corpus_id):
         corpus_info = extra_template.render(context)
     except django.template.TemplateDoesNotExist:
         corpus_info = None
-    context.update(dict(corpus_info=corpus_info))
+    try:
+        extra_template = django.template.loader.get_template('corpora/%s_suffix.html' % corpus.id)
+        corpus_info_suffix = extra_template.render(context)
+    except django.template.TemplateDoesNotExist:
+        corpus_info_suffix = None
+    context.update(dict(corpus_info=corpus_info, corpus_info_suffix=corpus_info_suffix))
     response = django.http.HttpResponse(template.render(context))
     return response
 

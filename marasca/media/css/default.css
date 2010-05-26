@@ -68,6 +68,10 @@ div.corpus-info, div.search-engine-info {
     margin-bottom: 2em;
 }
 
+div.corpus-info-suffix {
+    margin-top: 2em;
+}
+
 div.query-results {
     margin-top: 1em;
 }
