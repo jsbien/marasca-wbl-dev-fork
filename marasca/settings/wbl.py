@@ -36,7 +36,7 @@ ADMINS = MANAGERS = (
 
 SEND_BROKEN_LINK_EMAILS = True
 
-QUERY_LOG = '/srv/poliqarp/conf/query.log'
+QUERY_LOG = '/srv/poliqarp/marasca/logs/query-log'
 
 DEBUG = False
 
