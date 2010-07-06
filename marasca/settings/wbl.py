@@ -40,4 +40,6 @@ QUERY_LOG = '/srv/poliqarp/marasca/logs/query-log'
 
 DEBUG = False
 
+TIME_ZONE = 'Europe/Warsaw'
+
 # vim:ts=4 sw=4 et
