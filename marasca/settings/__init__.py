@@ -65,6 +65,8 @@ SNIPPET_MAX_WIDTH = 400
 SNIPPET_MAX_HEIGHT = 200
 SNIPPET_CACHE_SIZE = 128 << 20
 
+QUERY_LOG = None
+
 try:
     from .secret_key import SECRET_KEY
 except ImportError, ex:

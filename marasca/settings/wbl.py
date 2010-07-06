@@ -36,6 +36,8 @@ ADMINS = MANAGERS = (
 
 SEND_BROKEN_LINK_EMAILS = True
 
+QUERY_LOG = '/srv/poliqarp/conf/query.log'
+
 DEBUG = False
 
 # vim:ts=4 sw=4 et

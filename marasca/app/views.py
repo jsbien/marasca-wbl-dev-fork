@@ -1,6 +1,7 @@
 from __future__ import with_statement
 
 import contextlib
+import datetime
 import sys
 import time
 
@@ -118,6 +119,19 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
         info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
 
+def log_query(connection, settings, corpus, query):
+    query_log = global_settings.QUERY_LOG
+    if not query_log:
+        return
+    with utils.locks.FileLock(file(query_log, 'at')) as fp:
+        print >>fp, '\t'.join((
+            datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S%z'),
+            connection.get_default_session_name(),
+            corpus.id,
+            'TG'[settings.graphical_concordances],
+            query,
+        ))
+
 def run_query(connection, settings, corpus, query, l, r):
     connection.open_corpus(corpus.id)
     try:
@@ -126,6 +140,8 @@ def run_query(connection, settings, corpus, query, l, r):
         return ex
     except poliqarp.Busy, ex:
         return ex
+    else:
+        log_query(connection, settings, corpus, query)
     settings.need_query_remake(False)
     qinfo = QueryInfo()
     if settings.random_sample:

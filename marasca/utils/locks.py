@@ -6,6 +6,18 @@ import time
 
 from django.conf import settings
 
+class FileLock(object):
+
+    def __init__(self, fp):
+        self._fp = fp
+
+    def __enter__(self):
+        fcntl.flock(self._fp, fcntl.LOCK_EX)
+        return self._fp
+
+    def __exit__(self, ex_type, ex_value, ex_traceback):
+        fcntl.flock(self._fp, fcntl.LOCK_UN)
+
 class SessionLock(object):
 
     def __init__(self, session, wait=None):
