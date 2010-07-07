@@ -129,7 +129,7 @@ def log_query(connection, settings, corpus, query):
             connection.get_default_session_name(),
             corpus.id,
             'TG'[settings.graphical_concordances],
-            query,
+            query.encode('UTF-8'),
         ))
 
 def run_query(connection, settings, corpus, query, l, r):
