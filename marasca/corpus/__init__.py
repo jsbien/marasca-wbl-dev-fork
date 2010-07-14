@@ -192,7 +192,7 @@ class DjVuCorpus(Corpus):
         page, _, _ = self.get_page_info(id)
         page -= page0
         cx, cy = self.get_showposition(id, (x0, y0, x1, y1))
-        return '%s?djvuopts&page=%d&highlight=%d,%d,%d,%d&zoom=width&showposition=%.3f,%.3f' % (filename, page + 1, x0, y0, w, h, cx, cy)
+        return '%s?djvuopts&page=%d&zoom=width&showposition=%.3f,%.3f&highlight=%d,%d,%d,%d' % (filename, page + 1, cx, cy, x0, y0, w, h)
 
     def enhance_results(self, results):
         from utils.redirect import protect_url
