@@ -56,6 +56,8 @@ def collect_data():
 
     for line in sys.stdin:
         line = line.rstrip()
+        if line.startswith('#'):
+            continue
         if line == '':
             volume_data = None
             state = 0
