@@ -20,6 +20,12 @@ def _get_corpora():
             title=_(u'S. Bąk, M. R. Mayenowa, F. Pepłowski (eds.). Dictionary of the 16th century Polish. Wrocław — Warszawa, 1966-???? (work in progress)'),
             abbreviation='SpXVIw'
         ),
+        DjVuCorpus(path=os.path.join(_corpora_dir, 'linde'),
+            id='slownik-lindego',
+            title=_(u'M. Samuel Bogumił Linde. Dictionary of Polish'),
+            abbreviation='Linde',
+            public=False,
+        ),
     ]
 
 CORPORA = _get_corpora()
