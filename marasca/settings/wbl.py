@@ -24,7 +24,6 @@ def _get_corpora():
             id='slownik-lindego',
             title=_(u'M. Samuel Bogumił Linde. Dictionary of Polish'),
             abbreviation='Linde',
-            public=False,
         ),
     ]
 
