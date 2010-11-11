@@ -159,7 +159,7 @@ class DjVuCorpus(Corpus):
 
     def get_document_info(self, id):
         for n, (l, r, _, _) in enumerate(self._document_range_map):
-            if l <= id <= r:
+            if l <= id < r:
                 return l, n, self._filenames[n]
         raise IndexError
 
