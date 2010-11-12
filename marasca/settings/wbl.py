@@ -25,6 +25,11 @@ def _get_corpora():
             title=_(u'M. Samuel Bogumił Linde. Dictionary of Polish'),
             abbreviation='Linde',
         ),
+        DjVuCorpus(path=os.path.join(_corpora_dir, 'sgkp'),
+            id='slownik-geograficzny',
+            title=_(u'Bronisław Chlebowski (ed.), The Geographical Dictionary of the Polish Kingdom and other Slavic Countries, Warszawa 1880-1902'),
+            abbreviation='SGKP'
+        ),
     ]
 
 CORPORA = _get_corpora()
