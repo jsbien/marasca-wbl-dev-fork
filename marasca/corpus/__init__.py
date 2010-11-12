@@ -149,6 +149,9 @@ class DjVuCorpus(Corpus):
         for k, v in tuples:
             if k == 'vol':
                 k = ugettext_lazy('volume')
+            elif k == 'year':
+                k = ugettext_lazy('year')
+                v = int(v, 10)
             else:
                 continue
             result[k] = [v]
