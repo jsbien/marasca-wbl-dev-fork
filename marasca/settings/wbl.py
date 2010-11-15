@@ -27,7 +27,7 @@ def _get_corpora():
         ),
         DjVuCorpus(path=os.path.join(_corpora_dir, 'sgkp'),
             id='slownik-geograficzny',
-            title=_(u'Bronisław Chlebowski (ed.), The Geographical Dictionary of the Polish Kingdom and other Slavic Countries, Warszawa 1880-1902'),
+            title=_(u'B. Chlebowski, F. Sulimierski, W. Walewski (ed.), The Geographical Dictionary of the Polish Kingdom and other Slavic Countries, Warszawa 1880-1902'),
             abbreviation='SGKP'
         ),
     ]
