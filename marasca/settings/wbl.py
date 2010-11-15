@@ -22,7 +22,7 @@ def _get_corpora():
         ),
         DjVuCorpus(path=os.path.join(_corpora_dir, 'linde'),
             id='slownik-lindego',
-            title=_(u'M. Samuel Bogumił Linde. Dictionary of Polish'),
+            title=_(u'M. Samuel Bogumił Linde. Dictionary of Polish (2nd edition). Lwów 1854-1861.'),
             abbreviation='Linde',
         ),
         DjVuCorpus(path=os.path.join(_corpora_dir, 'sgkp'),
