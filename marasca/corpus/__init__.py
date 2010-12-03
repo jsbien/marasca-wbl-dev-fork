@@ -9,6 +9,7 @@ import struct
 import poliqarp
 
 import django.utils.datastructures
+import django.utils.safestring
 from django.utils.translation import ugettext_lazy
 
 class Map(object):
@@ -135,6 +136,11 @@ class DjVuCorpus(Corpus):
     has_interps = False
     has_metadata = True
 
+    _origins = {
+        u'scan': ugettext_lazy('scan with OCR'),
+        u'pdf': ugettext_lazy('PDF conversion')
+    }
+
     def __init__(self, id, title, abbreviation, path, public=True):
         Corpus.__init__(self, id, title, abbreviation, path, public)
         self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
@@ -152,6 +158,13 @@ class DjVuCorpus(Corpus):
             elif k == 'year':
                 k = ugettext_lazy('year')
                 v = int(v, 10)
+            elif k == 'range':
+                k = ugettext_lazy('range')
+                start, stop = v.split('-', 1)
+                v = django.utils.safestring.mark_safe(ugettext_lazy('from <em>%(start)s</em> to <em>%(stop)s</em>') % dict(start=start, stop=stop))
+            elif k == 'orig':
+                k = ugettext_lazy('origin')
+                v = self._origins[v]
             else:
                 continue
             result[k] = [v]
