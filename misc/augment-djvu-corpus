@@ -69,14 +69,14 @@ def process_files(options):
             if 'ocrx_word' in classes:
                 title = elem.get('title')
                 m = bbox_re.search(title)
-                bbox = map(int, m.groups())
+                bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
                 n += 1
             if 'ocr_page' in classes:
                 title = elem.get('title')
                 m = bbox_re.search(title)
-                bbox = map(int, m.groups())
+                bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
                 bbox = ''.join((struct.pack('< I HH', n0, *bbox[-2:])))
                 f_pagesizes.write(bbox)
                 n0 = n
