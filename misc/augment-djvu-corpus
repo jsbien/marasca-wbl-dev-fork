@@ -57,8 +57,6 @@ def process_files(options):
     f_pagesizes = try_create_file('djvu.pagesizes')
 
     f_config.write(default_poliqarp_config)
-    page_selector = cssselect.CSSSelector('.ocr_page')
-    word_selector = cssselect.CSSSelector('.ocrx_word')
     n0 = n = 0
     for filename in options.files:
         print >>sys.stderr, 'Processing %s' % filename
