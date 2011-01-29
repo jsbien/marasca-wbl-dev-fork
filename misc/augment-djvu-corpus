@@ -39,6 +39,7 @@ class ArgumentParser(argparse.ArgumentParser):
     def __init__(self):
         usage = '%(prog)s [option...] <base-name> <hocr-file...>'
         argparse.ArgumentParser.__init__(self, usage=usage)
+        self.add_argument('--flip', action='store_true', help='flip hOCR vertically (to work around buggy djvu2hocr)')
         self.add_argument('base', help='corpus basename')
         self.add_argument('files', nargs='+', help='hOCR files')
 
@@ -58,27 +59,32 @@ def process_files(options):
 
     f_config.write(default_poliqarp_config)
     n0 = n = 0
+    page_height = None
     for filename in options.files:
         print >>sys.stderr, 'Processing %s' % filename
         print >>f_filenames, filename
-        hocr = etree.iterparse(filename, ('end',))
+        hocr = etree.iterparse(filename, ('start', 'end'))
         for event, elem in hocr:
             classes = (elem.get('class') or '').split()
-            if 'ocrx_word' in classes:
+            if event == 'end' and 'ocrx_word' in classes:
                 title = elem.get('title')
                 m = bbox_re.search(title)
                 bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
+                if not options.flip:
+                    bbox[1], bbox[3] = page_height - bbox[3], page_height - bbox[1]
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
                 n += 1
-            if 'ocr_page' in classes:
+            if event == 'start' and 'ocr_page' in classes:
                 title = elem.get('title')
                 m = bbox_re.search(title)
                 bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
+                page_height = bbox[-1]
                 bbox = ''.join((struct.pack('< I HH', n0, *bbox[-2:])))
                 f_pagesizes.write(bbox)
                 n0 = n
-            elem.clear()
+            if event == 'end':
+                elem.clear()
 
 def main():
     oparser = ArgumentParser()
