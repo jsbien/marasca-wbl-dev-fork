@@ -71,6 +71,8 @@ def process_files(options):
                 m = bbox_re.search(title)
                 bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
                 if not options.flip:
+                    # (0, 0) is a top-left corner in hOCR,
+                    # but bottom-left corner in DjVu.
                     bbox[1], bbox[3] = page_height - bbox[3], page_height - bbox[1]
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
