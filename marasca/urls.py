@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 import django.views.generic.simple
 
-from app import views, snippets
+from app import views, snippets, coordinates
 from utils import redirect
 
 urlpatterns = patterns('',
@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^(?P<corpus_id>[\w-]+)/query/$', views.process_query, dict(query=True), name='query'),
     url(r'^(?P<corpus_id>[\w-]+)/query/(?:[0-9]+[+]?/)?m(?P<nth>[0-9]+)/$', views.process_metadata_snippet),
     url(r'^(?P<corpus_id>[\w-]+)/snippet/(?P<volume>[1-9][0-9]?)/(?P<page>[1-9][0-9]*)/(?P<x>[0-9]+),(?P<y>[0-9]+),(?P<w>[1-9][0-9]*),(?P<h>[1-9][0-9]*)/$', snippets.view, name='snippet'),
+    url(r'^(?P<corpus_id>[\w-]+)/coordinates/(?P<n_from>(?:0|[1-9][0-9]*))-(?P<n_to>(?:0|[1-9][0-9]*))', coordinates.view),
     url(r'^error/404/', django.views.generic.simple.direct_to_template, dict(template='404.html')),
     url(r'^error/500/', django.views.generic.simple.direct_to_template, dict(template='500.html')),
     url(r'^google([0-9a-f]+[.]html)', 'django.views.static.serve', dict(document_root='media/google/'), name='css'),

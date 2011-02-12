@@ -53,6 +53,7 @@ BUFFER_SIZE = 1000
 NOTIFICATION_INTERVAL = 10
 MAX_RANDOM_SAMPLE_SIZE = BUFFER_SIZE
 MAX_RESULTS_PER_PAGE = 1000
+MAX_MATCH_LENGTH = 1000
 QUERY_TIMEOUT = 0.5
 
 # By default poliqarpd restricts life-time of an idle session to 1200 seconds.
