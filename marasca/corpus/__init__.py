@@ -33,7 +33,7 @@ class Map(object):
             return result[0]
         else:
             return result
-    
+
     def close(self):
         try:
             self._map.close()
@@ -47,7 +47,7 @@ class Map(object):
             pass
         else:
             del self._fd
-    
+
     def __del__(self):
         self.close()
 
