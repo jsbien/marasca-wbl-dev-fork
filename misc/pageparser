@@ -97,7 +97,7 @@ class Polygon(object):
     def as_djvu(self, height):
         return djvu.sexpr.Expression([self.x0, height - self.y1, self.x1, height - self.y0])
 
-    def as_hocr(self):
+    def as_hocr(self, **kwargs):
         return "bbox %d %d %d %d" % (self.x0, self.y0, self.x1, self.y1)
 
     def __repr__(self):
@@ -139,16 +139,21 @@ class TextZone(object):
             result += [djvu.sexpr.Expression(self.text)]
         return djvu.sexpr.Expression(result)
 
-    def as_hocr(self):
+    def as_hocr(self, **kwargs):
         types = [self.tp]
         hocr_class = page_type_to_hocr_class(self.tp)
         if hocr_class is NotImplemented:
             raise NotImplementedError
         types += [hocr_class]
+        if kwargs.get('extra_classes') and self.ident is not None:
+            if re.match('^[a-zA-Z0-9_]+$', self.ident):
+                types += ['ocrx_' + self.ident]
+            else:
+                logging.warning('%r cannot be used as an hOCR class' % self.ident)
         result = etree.Element('span',
             {
                 'class': ' '.join(types),
-                'title': self.location.as_hocr(),
+                'title': self.location.as_hocr(**kwargs),
             }
         )
         if self.tp == 'word':
@@ -161,7 +166,7 @@ class TextZone(object):
                 child = etree.Element('span',
                     {
                         'class': 'ocrx_word',
-                        'title': self.location.as_hocr(),
+                        'title': self.location.as_hocr(**kwargs),
                     }
                 )
                 child.text = subtext
@@ -172,7 +177,7 @@ class TextZone(object):
         else:
             child = None
             for child in self.children:
-                child = child.as_hocr()
+                child = child.as_hocr(**kwargs)
                 result.append(child)
             if child is not None:
                 child.tail = ''
@@ -183,8 +188,9 @@ class TextZone(object):
 
 class Page(object):
 
-    def __init__(self, size, reading_order, children):
+    def __init__(self, ident, size, reading_order, children):
         assert isinstance(size, Point)
+        self.ident = ident
         self.size = size
         self.children = []
         for child in children:
@@ -197,17 +203,22 @@ class Page(object):
         result += [child.as_djvu(height=self.size.y) for child in self.children]
         return djvu.sexpr.Expression(result)
 
-    def as_hocr(self):
+    def as_hocr(self, **kwargs):
         types = ['ocr_page']
+        if kwargs.get('extra_classes') and self.ident is not None:
+            if re.match('^[a-zA-Z0-9_]+$', self.ident):
+                types += ['ocrx_' + self.ident]
+            else:
+                logging.warning('%r cannot be used as an hOCR class' % self.ident)
         result = etree.Element('div',
             {
-                'class': 'ocr_page',
+                'class': ' '.join(types),
                 'title': 'bbox 0 0 %d %d' % (self.size.x, self.size.y)
             }
         )
         child = None
         for child in self.children:
-            child = child.as_hocr()
+            child = child.as_hocr(**kwargs)
             child.tail = '\n'
             result.append(child)
         result.text = result.tail = '\n'
@@ -313,6 +324,12 @@ def create_SeparatorRegion(xml_element, location):
     pass
 
 def create_Page(xml_element, *children):
+    ident = xml_element.get('imageFilename') or ''
+    match = re.match('^[a-zA-Z0-9_]+', ident)
+    if match:
+        ident = match.group(0)
+    else:
+        ident = None
     if len(children) > 0 and isinstance(children[0], ReadingOrder):
         reading_order = children[0]
         children = children[1:]
@@ -321,7 +338,7 @@ def create_Page(xml_element, *children):
     width = int(xml_element.get('imageWidth'))
     height = int(xml_element.get('imageHeight'))
     size = Point(width, height)
-    return Page(size, reading_order, children)
+    return Page(ident, size, reading_order, children)
 
 def create_PcGts(xml_element, page):
     return page
@@ -372,6 +389,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-F', '--output-format', choices=('djvused', 'hocr'), default='djvused', help='set output format')
     parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numering from N (djvused output only)')
+    parser.add_argument('--extra-hocr-classes', action='store_true', help='add hOCR classes corresponding to every PAGE document and to every PAGE region')
     parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
     parser.add_argument('--verbose', action='store_true', help='more informational messages')
     parser.add_argument('input_files', metavar='FILE', nargs='+', help='XML file to convert')
@@ -393,7 +411,7 @@ def main():
         for filename in options.input_files:
             logging.info('Processing %s', filename)
             page = parse(filename, options.discard)
-            print_element(page.as_hocr())
+            print_element(page.as_hocr(extra_classes=options.extra_hocr_classes))
         sys.stdout.write(hocr_footer)
 
 if __name__ == '__main__':
