@@ -309,7 +309,11 @@ def create_TextRegion(xml_element, location, *children):
     return TextZone(tp, location, text, children, ident)
 
 def create_TextLine(xml_element, location, *children):
-    if isinstance(children[-1], unicode):
+    if len(children) == 0:
+        logging.warning('  TextLine doesn\'t contain any text')
+        text = u''
+        children = []
+    elif isinstance(children[-1], unicode):
         text = children[-1]
         children = children[:-1]
     else:
@@ -317,7 +321,11 @@ def create_TextLine(xml_element, location, *children):
     return TextZone('line', location, text, children)
 
 def create_Word(xml_element, location, *children):
-    if isinstance(children[-1], unicode):
+    if len(children) == 0:
+        logging.warning('  Word doesn\'t contain any text')
+        text = u''
+        children = []
+    elif isinstance(children[-1], unicode):
         text = children[-1]
         children = children[:-1]
     else:
