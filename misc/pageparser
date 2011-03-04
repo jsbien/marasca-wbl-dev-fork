@@ -275,6 +275,16 @@ def create_TextEquiv(xml_element, arg):
 def create_Glyph(xml_element, location, text):
     return TextZone('glyph', location, text)
 
+def log_TableRegion(xml_element):
+    ident = xml_element.get('id')
+    if ident:
+        logging.debug('- processing TableRegion %s', ident)
+    else:
+        logging.debug('- processing TableRegion without an id')
+
+def create_TableRegion(xml_element, location):
+    logging.warning('  don\'t know what to do with TableRegion, ignoring')
+
 def log_TextRegion(xml_element):
     ident = xml_element.get('id')
     if ident:
