@@ -162,7 +162,6 @@ class TextZone(object):
         elif not self.children:
             tail = ' ' if self.tp == 'word' else ''
             prev_child = child = None
-            tail = ''
             for subtext in unicode_split(self.text):
                 if subtext.isspace():
                     if prev_child is None:
@@ -175,7 +174,6 @@ class TextZone(object):
                     }
                 )
                 child.text = subtext
-                child.tail = ''
                 result.append(child)
                 prev_child = child
             if child is not None:
