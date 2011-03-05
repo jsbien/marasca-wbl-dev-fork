@@ -161,8 +161,13 @@ class TextZone(object):
             result.tail = ' '
         elif not self.children:
             tail = ' ' if self.tp == 'word' else ''
-            child = None
+            prev_child = child = None
+            tail = ''
             for subtext in unicode_split(self.text):
+                if subtext.isspace():
+                    if prev_child is None:
+                        continue
+                    prev_child.tail = ' '
                 child = etree.Element('span',
                     {
                         'class': 'ocrx_word',
@@ -170,8 +175,9 @@ class TextZone(object):
                     }
                 )
                 child.text = subtext
-                child.tail = ' '
+                child.tail = ''
                 result.append(child)
+                prev_child = child
             if child is not None:
                 child.tail = ''
         else:
@@ -394,8 +400,7 @@ def unicode_split(text, locale=icu.Locale('eng')):
     i = 0
     for j in iterator:
         subtext = text[i:j]
-        if not subtext.isspace():
-            yield subtext
+        yield subtext
         i = j
 
 def print_element(element, output=sys.stdout, encoding='UTF-8'):
