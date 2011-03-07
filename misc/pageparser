@@ -310,6 +310,8 @@ class Parser(object):
             logging.warning('  TextRegion %s doesn\'t contain any text', ident or 'without an id')
         elif isinstance(children[-1], unicode):
             text = children[-1]
+            if self.join_lines:
+                text = re.compile(u'\N{non-breaking hyphen}(\r?\n|$)', re.UNICODE).sub('', text)
             children = children[:-1]
         else:
             text = None
@@ -368,8 +370,9 @@ class Parser(object):
     def create_PcGts(self, xml_element, page):
         return page
 
-    def __init__(self, discard):
+    def __init__(self, discard, join_lines):
         self.discard = discard
+        self.join_lines = bool(join_lines)
 
     def parse(self, stream):
         stack = [[]]
@@ -420,13 +423,17 @@ def main():
     parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numering from N (djvused output only)')
     parser.add_argument('--extra-hocr-classes', action='store_true', help='add hOCR classes corresponding to every PAGE document and to every PAGE region')
     parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
+    parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN characters')
     parser.add_argument('--verbose', action='store_true', help='more informational messages')
     parser.add_argument('input_files', metavar='FILE', nargs='+', help='XML file to convert')
     options = parser.parse_args()
     options.discard = frozenset(options.discard or ())
     if options.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
-    parser = Parser(discard=options.discard)
+    parser = Parser(
+        discard=options.discard,
+        join_lines=options.join_lines
+    )
     if options.output_format == 'djvused':
         for nth, filename in enumerate(options.input_files, options.page):
             logging.info('Processing %s', filename)
