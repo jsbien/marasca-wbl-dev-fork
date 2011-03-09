@@ -167,6 +167,7 @@ class TextZone(object):
                     if prev_child is None:
                         continue
                     prev_child.tail = ' '
+                    continue
                 child = etree.Element('span',
                     {
                         'class': 'ocrx_word',
