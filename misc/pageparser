@@ -402,8 +402,8 @@ class Parser(object):
         return page
 
 def unicode_split(text, locale=icu.Locale('eng')):
-    # Treat all PUA characters as letters:
-    icu_text = re.compile(u'[\uE000-\uF8FF]', re.UNICODE).sub('x', text)
+    # Treat REPLACEMENT CHARACTER and all PUA characters as letters:
+    icu_text = re.compile(u'[\N{REPLACEMENT CHARACTER}\uE000-\uF8FF]', re.UNICODE).sub('x', text)
     icu_text = icu.UnicodeString(icu_text)
     iterator = icu.BreakIterator.createWordInstance(locale)
     iterator.setText(icu_text)
