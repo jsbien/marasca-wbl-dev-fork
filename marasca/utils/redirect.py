@@ -12,7 +12,7 @@ def protect_url(url):
     if quoted_url.startswith('http://'):
         tail = quoted_url[7:]
     else:
-        raise ValueError(quoted_url)
+        raise ValueError('''URL to protect doesn't start with 'http://': %r''' % quoted_url)
     return django.core.urlresolvers.reverse(safe_redirect, kwargs=dict(key=key, scheme='http', tail=tail))
 
 def hash_url(url):
