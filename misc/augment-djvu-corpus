@@ -14,7 +14,7 @@ from lxml import cssselect
 bbox_re = re.compile(
     r'''
         bbox \s+
-        (?P<x0> -?\d+) \s+ 
+        (?P<x0> -?\d+) \s+
         (?P<y0> -?\d+) \s+
         (?P<x1> -?\d+) \s+
         (?P<y1> -?\d+)
