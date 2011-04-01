@@ -160,7 +160,6 @@ class TextZone(object):
             result.text = self.text
             result.tail = ' '
         elif not self.children:
-            tail = ' ' if self.tp == 'word' else ''
             prev_child = child = None
             for subtext in unicode_split(self.text):
                 if subtext.isspace():
