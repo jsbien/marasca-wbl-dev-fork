@@ -65,7 +65,7 @@ def collect_data():
         if line.startswith('#'):
             continue
         if line == '':
-            volume_data = None
+            volume_info = None
             state = 0
             continue
         if state == 0:
