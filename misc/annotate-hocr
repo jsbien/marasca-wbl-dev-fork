@@ -12,7 +12,7 @@ import collections
 import os
 import sys
 
-from lxml import etree
+import lxml.etree as etree
 
 xhtml_namespace = 'http://www.w3.org/1999/xhtml'
 xhtml = '{%s}' % xhtml_namespace
