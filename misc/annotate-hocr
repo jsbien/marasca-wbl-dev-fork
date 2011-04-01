@@ -1,7 +1,13 @@
 #!/usr/bin/python
 
+'''
+Annotate an hOCR file with structural information,
+which is read from the standard input.
+'''
+
 from __future__ import with_statement
 
+import argparse
 import collections
 import os
 import sys
@@ -106,18 +112,43 @@ def process(volume_info, hocr_pages):
         raise ValueError('Some pages were not processed: %r' % hocr_pages.keys())
     return result
 
-data = collect_data()
-for volume_no, filename in enumerate(sys.argv[1:]):
-    volume_no += 1
-    volume_info = data[volume_no]
-    print >>sys.stderr, '+ volume %d' % volume_no
-    with open(filename, 'rb') as input_file:
-        hocr = etree.parse(input_file)
-        body = hocr.find(xhtml + 'body')
-        hocr_pages = dict((i + 1, page) for i, page in enumerate(body))
-        body[:] = process(volume_info, hocr_pages)
-    os.rename(filename, filename + '~')
-    with open(filename, 'wb') as output_file:
-        hocr.write(output_file, encoding='UTF-8')
+class ArgumentParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(self, description=__doc__)
+        output_group = self.add_argument_group(title='options controlling output')
+        output_group.add_argument('--dry-run', dest='run', action='append_const', const=0, help="don't change any files")
+        output_group.add_argument('--in-place', dest='run', action='append_const', const=1, help="save results in-place")
+        self.add_argument('files', metavar='<hocr-file>', nargs='+', help='hOCR file(s) to annotate')
+
+    def parse_args(self):
+        options = argparse.ArgumentParser.parse_args(self)
+        try:
+            [options.run] = options.run
+        except ValueError:
+            self.error('You must use exactly one of the following options: --dry-run/--in-place')
+        return options
+
+def main():
+    oparser = ArgumentParser()
+    options = oparser.parse_args()
+    data = collect_data()
+    for volume_no, filename in enumerate(options.files):
+        volume_no += 1
+        volume_info = data[volume_no]
+        print >>sys.stderr, '+ volume %d' % volume_no
+        with open(filename, 'rb') as input_file:
+            hocr = etree.parse(input_file)
+            body = hocr.find(xhtml + 'body')
+            hocr_pages = dict((i + 1, page) for i, page in enumerate(body))
+            body[:] = process(volume_info, hocr_pages)
+        if not options.run:
+            continue
+        os.rename(filename, filename + '~')
+        with open(filename, 'wb') as output_file:
+            hocr.write(output_file, encoding='UTF-8')
+
+if __name__ == '__main__':
+    main()
 
 # vim:ts=4 sw=4 et
