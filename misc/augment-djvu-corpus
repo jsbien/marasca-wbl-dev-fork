@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+'''
+Augment Poliqarp binary corpus with information about segment coordinates.
+'''
+
 from __future__ import with_statement
 
 import argparse
@@ -38,7 +42,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def __init__(self):
         usage = '%(prog)s [option...] <base-name> <hocr-file...>'
-        argparse.ArgumentParser.__init__(self, usage=usage)
+        argparse.ArgumentParser.__init__(self, usage=usage, description=__doc__)
         self.add_argument('--flip', action='store_true', help='flip hOCR vertically (to work around buggy djvu2hocr)')
         self.add_argument('base', help='corpus basename')
         self.add_argument('files', nargs='+', help='hOCR files')
