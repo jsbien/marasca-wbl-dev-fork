@@ -13,7 +13,6 @@ import struct
 import sys
 
 from lxml import etree
-from lxml import cssselect
 
 bbox_re = re.compile(
     r'''
