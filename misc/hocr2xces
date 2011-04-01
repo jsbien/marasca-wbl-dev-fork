@@ -1,0 +1,82 @@
+#!/usr/bin/python
+
+'''
+Convert hOCR document (read from standard intput)
+to IPI PAN variant of XCES (written to standard output).
+'''
+
+import argparse
+import sys
+import xml.sax.saxutils as xmlutils
+
+import lxml.etree as etree
+
+xces_header = '''\
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cesAna SYSTEM "xcesAnaIPI.dtd">
+<cesAna version="IPI-1.2">
+<chunkList>
+'''
+
+xces_footer = '''\
+</chunkList>
+</cesAna>
+'''
+
+xhtml_namespace = 'http://www.w3.org/1999/xhtml'
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(self, description=__doc__)
+        self.add_argument('--empty-base', action='store_true', help='use OBJECT REPLACEMENT CHARACTER (U+FFFC) as base form')
+
+def extract_classes(s):
+    for x in s.split():
+        if x.startswith('ocr_'):
+            yield x[4:]
+        elif x.startswith('ocrx_'):
+            yield x[5:]
+
+def main():
+    oparser = ArgumentParser()
+    options = oparser.parse_args()
+    print xces_header,
+    stack = []
+    text_buffer = []
+    for event, elem in etree.iterparse(sys.stdin, events=('start', 'end')):
+        if text_buffer:
+            for line in text_buffer:
+                print text_buffer
+        if event == 'start':
+            classes = elem.get('class', '')
+            classes = list(extract_classes(classes))
+            is_word = 'word' in classes
+            if is_word:
+                classes.remove('word')
+            stack += [classes]
+            for cls in classes:
+                print '<chunk type=%s>' % xmlutils.quoteattr(cls.encode('UTF-8'))
+            if is_word:
+                text = elem.text or ''
+                print '<tok>'
+                print '<orth>%s</orth>' % xmlutils.escape(text.encode('UTF-8'))
+                if options.empty_base:
+                    base = u'\N{OBJECT REPLACEMENT CHARACTER}'
+                else:
+                    base = text
+                tag = 'ign'
+                print '<lex disamb="1"><base>%s</base><ctag>%s</ctag></lex>' % (xmlutils.escape(base.encode('UTF-8')), tag)
+                print '</tok>'
+                if not elem.tail:
+                    print '<ns/>'
+        else:
+            classes = stack.pop()
+            for cls in classes:
+                print '</chunk>'
+    print xces_footer,
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sw=4 et
