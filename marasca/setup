@@ -20,14 +20,14 @@ if 0:
     # encoding=UTF-8
 
     def _get_corpora():
-    
+
         import os.path
         from corpus import OldIpiCorpus
-    
+
         _corpora_dir = '../corpora/'
-    
+
         def _(x): return x
-    
+
         # TODO: customize corpora list
         return [
     #       OldIpiCorpus(
@@ -36,15 +36,15 @@ if 0:
     #           title=_(u'Frequency dictionary of contemporary Polish')
     #       ),
         ]
-    
+
     CORPORA = _get_corpora()
     del _get_corpora
-    
+
     DEBUG = True
     TEMPLATE_DEBUG = True
-    
+
     # TODO: customize according to http://docs.djangoproject.com/en/1.0/topics/settings/
-    
+
     # vim:ts=4 sw=4 et
 
 # ✃-✃-✃-✃-✃
