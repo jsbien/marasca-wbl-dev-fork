@@ -21,7 +21,7 @@ try:
     import djvu.sexpr
     import djvu.const
 except ImportError, ex:
-    utils.enhance_import_error(ex, 'python-djvulibre', 'python-djvulibre', 'http://jwilk.net/software/python-djvulibre')
+    ex.args = '%s; please install the python-djvulibre package <http://jwilk.net/software/python-djvulibre>' % str(ex),
     raise
 
 __version__ = '0.0.8'
