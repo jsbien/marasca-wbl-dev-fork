@@ -102,7 +102,7 @@ def collect_data():
 
 def _process(subdocument, hocr_pages):
     result = etree.Element(xhtml + 'div', nsmap=nsmap)
-    result.tail='\n'
+    result.tail = '\n'
     if subdocument.name:
         result.set('class', 'ocrx_' + subdocument.name)
     children = list(reversed(subdocument.children))
