@@ -54,21 +54,20 @@ def main():
     oparser = ArgumentParser()
     options = oparser.parse_args()
     print xces_header,
-    stack = []
     text_buffer = []
     for event, elem in etree.iterparse(sys.stdin, events=('start', 'end')):
         if text_buffer:
             for line in text_buffer:
                 print text_buffer
+        classes = elem.get('class', '')
+        classes = list(extract_classes(classes))
+        is_word = 'word' in classes
+        if is_word:
+            classes.remove('word')
         if event == 'start':
-            classes = elem.get('class', '')
-            classes = list(extract_classes(classes))
-            is_word = 'word' in classes
-            if is_word:
-                classes.remove('word')
-            stack += [classes]
             for cls in classes:
                 print '<chunk type=%s>' % xmlutils.quoteattr(cls.encode('UTF-8'))
+        else:
             if is_word:
                 text = elem.text or ''
                 print '<tok>'
@@ -82,8 +81,6 @@ def main():
                 print '</tok>'
                 if not elem.tail:
                     print '<ns/>'
-        else:
-            classes = stack.pop()
             for cls in classes:
                 print '</chunk>'
     print xces_footer,
