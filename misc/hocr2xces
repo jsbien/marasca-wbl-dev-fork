@@ -83,6 +83,7 @@ def main():
                     print '<ns/>'
             for cls in classes:
                 print '</chunk>'
+            elem.clear()
     print xces_footer,
 
 if __name__ == '__main__':
