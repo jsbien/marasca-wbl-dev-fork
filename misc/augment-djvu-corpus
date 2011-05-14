@@ -84,6 +84,8 @@ def process_files(options):
             if event == 'end' and 'ocrx_word' in classes:
                 title = elem.get('title')
                 m = bbox_re.search(title)
+                if m is None:
+                    raise ValueError('segment without a bounding box')
                 bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
                 if not options.flip:
                     # (0, 0) is a top-left corner in hOCR,
