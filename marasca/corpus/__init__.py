@@ -152,7 +152,7 @@ class DjVuCorpus(Corpus):
         u'pdf': ugettext_lazy('PDF conversion')
     }
 
-    def __init__(self, id, title, abbreviation, path, public=True):
+    def __init__(self, id, title, abbreviation, path, public=True, has_interps=False):
         Corpus.__init__(self, id, title, abbreviation, path, public)
         self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
         self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< I HH')
@@ -160,6 +160,7 @@ class DjVuCorpus(Corpus):
             self._filenames = map(str.rstrip, file.readlines())
         self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
         self.djvu_directory = os.path.join('%s.djvu' % path, '')
+        self.has_interps = has_interps
 
     def enhance_metadata(self, tuples):
         result = django.utils.datastructures.SortedDict()
