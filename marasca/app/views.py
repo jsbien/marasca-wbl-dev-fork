@@ -127,7 +127,7 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
         raise django.http.Http404
     info = ResultInfo(n)
     if extract_context:
-        info.context = connection.get_context(n) 
+        info.context = connection.get_context(n)
     if extract_metadata and corpus.has_metadata:
         info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
