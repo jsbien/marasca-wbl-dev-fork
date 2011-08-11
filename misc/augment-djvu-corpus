@@ -55,19 +55,24 @@ class ArgumentParser(argparse.ArgumentParser):
         usage = '%(prog)s [option...] <base-name> <hocr-file...>'
         argparse.ArgumentParser.__init__(self, usage=usage, description=__doc__)
         self.add_argument('--flip', action='store_true', help='flip hOCR vertically (to work around buggy djvu2hocr)')
+        self.add_argument('--append', action='store_true', help='append data to the existing corpus')
         self.add_argument('base', help='corpus basename')
         self.add_argument('files', nargs='+', help='hOCR files')
 
 def process_files(options):
 
-    def try_create_file(suffix):
+    def try_create_file(suffix, append_ok=True):
         name = '%s.%s' % (options.base, suffix)
+        mode = 'w'
         if os.path.exists(name) and os.path.getsize(name) > 0:
-            print >>sys.stderr, 'Not overwriting %s' % name
-            name = os.devnull
-        return open(name, 'w')
+            if options.append and append_ok:
+                mode = 'a'
+            else:
+                print >>sys.stderr, 'Not overwriting %s' % name
+                name = os.devnull
+        return open(name, mode)
 
-    f_config = try_create_file('cfg')
+    f_config = try_create_file('cfg', append_ok=False)
     f_filenames = try_create_file('djvu.filenames')
     f_coordinates = try_create_file('djvu.coordinates')
     f_pagesizes = try_create_file('djvu.pagesizes')
