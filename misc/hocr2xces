@@ -35,8 +35,6 @@ xces_footer = '''\
 </cesAna>
 '''
 
-xhtml_namespace = 'http://www.w3.org/1999/xhtml'
-
 class ArgumentParser(argparse.ArgumentParser):
 
     def __init__(self):
