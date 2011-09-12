@@ -228,7 +228,8 @@ class DjVuCorpus(Corpus):
             # Add segment URLs:
             for (column, segments) in result:
                 for segment in segments:
-                    segment.interps = None
+                    if not self.has_interps:
+                        segment.interps = None
                     if segment.id is None:
                         continue
                     url = self.get_url(segment.id)
