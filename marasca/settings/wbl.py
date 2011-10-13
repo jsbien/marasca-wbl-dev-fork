@@ -51,6 +51,7 @@ TEMPLATE_DIRS = (
 )
 SESSION_LOCKS_DIRECTORY = '/srv/poliqarp/locks/'
 
+SERVER_EMAIL = 'poliqarp@jwilk.net'
 ADMINS = MANAGERS = (
     ('Jakub Wilk', 'jwilk@jwilk.net'),
 )
