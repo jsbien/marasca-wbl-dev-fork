@@ -52,7 +52,7 @@ TEMPLATE_DIRS = (
 SESSION_LOCKS_DIRECTORY = '/srv/poliqarp/locks/'
 
 ADMINS = MANAGERS = (
-    ('Jakub Wilk', 'jwilk@localhost'),
+    ('Jakub Wilk', 'jwilk@jwilk.net'),
 )
 
 SEND_BROKEN_LINK_EMAILS = True
