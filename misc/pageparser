@@ -388,9 +388,10 @@ class Parser(object):
     def create_PcGts(self, xml_element, page):
         return page
 
-    def __init__(self, discard, join_lines):
+    def __init__(self, discard, join_lines, skip_unknown_elements):
         self.discard = discard
         self.join_lines = bool(join_lines)
+        self.skip_unknown_elements = bool(skip_unknown_elements)
 
     def parse(self, stream):
         stack = [[]]
@@ -411,7 +412,13 @@ class Parser(object):
                 if tag in self.discard:
                     stack.pop()
                     continue
-                constructor = getattr(self, 'create_%s' % tag)
+                try:
+                    constructor = getattr(self, 'create_%s' % tag)
+                except AttributeError:
+                    if self.skip_unknown_elements:
+                        logging.warning('- skipping unknown element %s', tag)
+                    else:
+                        raise NotImplementedError('Don\'t know what to do with element %s' % tag)
                 element = constructor(element, *stack.pop())
                 if element is not None:
                     stack[-1] += [element]
@@ -443,6 +450,7 @@ def main():
     parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
     parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN characters')
     parser.add_argument('--verbose', action='store_true', help='more informational messages')
+    parser.add_argument('--skip-unknown-elements', action='store_true', help='skip over elements that are unknown to the parser')
     parser.add_argument('input_files', metavar='FILE', nargs='+', help='XML file to convert')
     options = parser.parse_args()
     options.discard = frozenset(options.discard or ())
@@ -450,7 +458,8 @@ def main():
         logging.getLogger().setLevel(logging.DEBUG)
     parser = Parser(
         discard=options.discard,
-        join_lines=options.join_lines
+        join_lines=options.join_lines,
+        skip_unknown_elements=options.skip_unknown_elements,
     )
     if options.output_format == 'djvused':
         for nth, filename in enumerate(options.input_files, options.page):
