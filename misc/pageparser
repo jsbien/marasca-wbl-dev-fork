@@ -417,6 +417,8 @@ class Parser(object):
                 except AttributeError:
                     if self.skip_unknown_elements:
                         logging.warning('- skipping unknown element %s', tag)
+                        stack.pop()
+                        continue
                     else:
                         raise NotImplementedError('Don\'t know what to do with element %s' % tag)
                 element = constructor(element, *stack.pop())
