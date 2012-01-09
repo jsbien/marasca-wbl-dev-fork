@@ -51,9 +51,9 @@ TEMPLATE_DIRS = (
 )
 SESSION_LOCKS_DIRECTORY = '/srv/poliqarp/locks/'
 
-SERVER_EMAIL = 'poliqarp@jwilk.net'
+SERVER_EMAIL = 'poliqarp@wbl.klf.uw.edu.pl'
 ADMINS = MANAGERS = (
-    ('Jakub Wilk', 'jwilk@jwilk.net'),
+    ('WBL Administrator', 'wbladmin@poczta.klf.uw.edu.pl'),
 )
 
 SEND_BROKEN_LINK_EMAILS = True
