@@ -60,10 +60,14 @@ class Context(djvu.decode.Context):
         sx, sy, sw, sh = x, y, w, h
         sy -= sh // 2
         sh *= 2
+        # Correct dimentions, so that the resulting image width is equal to
+        # SNIPPET_MAX_WIDTH:
         dx = sw - snippet_max_width * dpi // screen_dpi
         sx += dx // 2
         sw -= dx
-        if sh > snippet_max_height:
+        if sh > snippet_max_height * dpi // screen_dpi:
+            # Correct dimentions, so that the resulting image is not higher than
+            # SNIPPET_MAX_HEIGHT:
             dy = sh - snippet_max_height * dpi // screen_dpi
             sy += dy // 2
             sh -= dy
