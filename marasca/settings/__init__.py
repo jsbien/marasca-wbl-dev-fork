@@ -78,6 +78,10 @@ SNIPPET_DEFAULT_SCREEN_DPI = 100 # wild guess
 SNIPPET_MAX_WIDTH = 400
 SNIPPET_MAX_HEIGHT = 200
 SNIPPET_CACHE_SIZE = 128 << 20
+SNIPPET_COLORS = [
+    (0, 0, 1, 0.25), # normal
+    (1, 1, 0, 0.25), # partially cropped
+]
 
 QUERY_LOG = None
 

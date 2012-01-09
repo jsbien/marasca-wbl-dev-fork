@@ -28,6 +28,7 @@ from .views import get_corpus_by_id
 screen_dpi = django.conf.settings.SNIPPET_DEFAULT_SCREEN_DPI
 snippet_max_width = django.conf.settings.SNIPPET_MAX_WIDTH
 snippet_max_height = django.conf.settings.SNIPPET_MAX_HEIGHT
+snippet_colors = django.conf.settings.SNIPPET_COLORS
 
 djvu_pixel_format = djvu.decode.PixelFormatRgbMask(0xff << 16, 0xff << 8, 0xff, bpp=32)
 djvu_pixel_format.rows_top_to_bottom = 1
@@ -58,6 +59,12 @@ class Context(djvu.decode.Context):
         hx, hy, hw, hh = (i * screen_dpi // dpi for i in (x, y, w, h))
 
         sx, sy, sw, sh = x, y, w, h
+        cropped_highlight = (
+            # A different color will be used for a (partially) cropped
+            # highlight.
+            sw > snippet_max_width * dpi // screen_dpi or
+            sh > snippet_max_height * dpi // screen_dpi
+        )
         sy -= sh // 2
         sh *= 2
         # Correct dimentions, so that the resulting image width is equal to
@@ -100,7 +107,7 @@ class Context(djvu.decode.Context):
         cc = cairo.Context(surface)
         cc.set_source_surface(djvu_surface, rx - sx, ry - sy)
         cc.paint()
-        cc.set_source_rgba(0, 0, 1, 0.25)
+        cc.set_source_rgba(*snippet_colors[cropped_highlight])
         cc.rectangle(hx - sx, hy - sy, hw, hh)
         cc.fill()
         surface.write_to_png(fp)
