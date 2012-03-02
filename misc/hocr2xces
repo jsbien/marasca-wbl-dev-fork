@@ -53,6 +53,7 @@ def main():
     options = oparser.parse_args()
     print xces_header,
     text_buffer = []
+    tail = None
     for event, elem in etree.iterparse(sys.stdin, events=('start', 'end')):
         if text_buffer:
             for line in text_buffer:
@@ -65,9 +66,12 @@ def main():
         if event == 'start':
             for cls in classes:
                 print '<chunk type=%s>' % xmlutils.quoteattr(cls.encode('UTF-8'))
+                tail = True # <ns/> is never needed at the begging of a chunk
         else:
             if is_word:
                 text = elem.text or ''
+                if not tail:
+                    print '<ns/>'
                 print '<tok>'
                 print '<orth>%s</orth>' % xmlutils.escape(text.encode('UTF-8'))
                 if options.empty_base:
@@ -77,10 +81,9 @@ def main():
                 tag = 'ign'
                 print '<lex disamb="1"><base>%s</base><ctag>%s</ctag></lex>' % (xmlutils.escape(base.encode('UTF-8')), tag)
                 print '</tok>'
-                if not elem.tail:
-                    print '<ns/>'
             for cls in classes:
                 print '</chunk>'
+            tail = elem.tail
             elem.clear()
     print xces_footer,
 
