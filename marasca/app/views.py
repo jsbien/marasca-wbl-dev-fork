@@ -190,8 +190,12 @@ def run_query(connection, settings, corpus, query, l, r):
     qinfo.results = connection.get_results(l, r)
     qinfo.n_stored_results = connection.get_n_stored_results()
     qinfo.n_spotted_results = connection.get_n_spotted_results()
-    if qinfo.n_spotted_results == qinfo.n_stored_results:
+    if not settings.random_sample:
         qinfo.n_spotted_results = None
+        if qinfo.n_stored_results == max_n_results:
+            # The query might be technically still running, but that's not
+            # very interesting from users' point of view.
+            qinfo.running = False
     return qinfo
 
 class Connection(poliqarp.Connection):
