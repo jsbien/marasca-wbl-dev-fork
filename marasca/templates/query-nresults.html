@@ -3,13 +3,13 @@
 <p>
 
 {% if qinfo.running %}
-    {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result so far{% plural %}Found {{n}} results so far{% endblocktrans %}
+    {% blocktrans count qinfo.n_stored_results as n %}Found <span id='matches-so-far'>{{n}}</span> result so far{% plural %}Found <span id='matches-so-far'>{{n}}</span> results so far{% endblocktrans %}
 {% else %}
 
     {% if qinfo.n_spotted_results %}
-        {% blocktrans count qinfo.n_stored_results as n with qinfo.n_spotted_results as m %}{{n}} results (of all {{m}}){% plural %}{{n}} results (of all {{m}}){% endblocktrans %}
+        {% blocktrans count qinfo.n_stored_results as n with qinfo.n_spotted_results as m %}<span id='matches'>{{n}}</span> results (of all <span id='all-matches'>{{m}}</span>){% plural %}<span id='matches'>{{n}}</span> results (of all <span id='all-matches'>{{m}}</span>){% endblocktrans %}
     {% else %}
-        {% blocktrans count qinfo.n_stored_results as n %}Found {{n}} result{% plural %}Found {{n}} results{% endblocktrans %}
+        {% blocktrans count qinfo.n_stored_results as n %}Found <span id='matches'>{{n}}</span> result{% plural %}Found <span id='matches'>{{n}}</span> results{% endblocktrans %}
     {% endif %}
 {% endif %}
 

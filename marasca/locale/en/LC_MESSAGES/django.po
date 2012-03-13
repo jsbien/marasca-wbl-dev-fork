@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Marasca (Poliqarp web interface)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-15 16:01-0500\n"
+"POT-Creation-Date: 2012-03-13 16:07-0500\n"
 "PO-Revision-Date: 2009-11-05 21:31+0100\n"
 "Last-Translator: Jakub Wilk <jwilk@jwilk.net>\n"
 "Language-Team: none\n"
@@ -256,7 +256,7 @@ msgid ""
 "queries are meaningful.\n"
 msgstr ""
 
-msgid "Searching corpus, please wait…"
+msgid "<span id='wait'>Searching corpus, please wait&#8230;</span>"
 msgstr ""
 
 #, python-format
@@ -269,20 +269,24 @@ msgid "Search"
 msgstr ""
 
 #, python-format
-msgid "Found %(n)s result so far"
-msgid_plural "Found %(n)s results so far"
+msgid "Found <span id='matches-so-far'>%(n)s</span> result so far"
+msgid_plural "Found <span id='matches-so-far'>%(n)s</span> results so far"
 msgstr[0] ""
 msgstr[1] ""
 
 #, python-format
-msgid "%(n)s results (of all %(m)s)"
-msgid_plural "%(n)s results (of all %(m)s)"
+msgid ""
+"<span id='matches'>%(n)s</span> results (of all <span id='all-matches'>"
+"%(m)s</span>)"
+msgid_plural ""
+"<span id='matches'>%(n)s</span> results (of all <span id='all-matches'>"
+"%(m)s</span>)"
 msgstr[0] ""
 msgstr[1] ""
 
 #, python-format
-msgid "Found %(n)s result"
-msgid_plural "Found %(n)s results"
+msgid "Found <span id='matches'>%(n)s</span> result"
+msgid_plural "Found <span id='matches'>%(n)s</span> results"
 msgstr[0] ""
 msgstr[1] ""
 
