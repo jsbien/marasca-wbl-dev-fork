@@ -1,0 +1,486 @@
+#!/usr/bin/python
+# encoding=UTF-8
+
+# Copyright © 2011 Jakub Wilk <jwilk@jwilk.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+
+# TODO: Join drop-capital with a following group.
+
+import argparse
+import logging
+import re
+import sys
+import xml.etree.cElementTree as etree
+
+try:
+    import icu
+except ImportError:
+    try:
+        import PyICU as icu
+    except ImportError, ex:
+        ex.args = '%s; please install the PyICU package <http://pyicu.osafoundation.org/>' % str(ex),
+        raise
+
+try:
+    import djvu.sexpr
+    import djvu.const
+except ImportError, ex:
+    ex.args = '%s; please install the python-djvulibre package <http://jwilk.net/software/python-djvulibre>' % str(ex),
+    raise
+
+__version__ = '0.0.8'
+
+INFINITY = 1e9999
+
+page_type_to_djvu_type = dict(
+    glyph=djvu.const.TEXT_ZONE_CHARACTER,
+    word=djvu.const.TEXT_ZONE_WORD,
+    line=djvu.const.TEXT_ZONE_LINE,
+    paragraph=djvu.const.TEXT_ZONE_PARAGRAPH,
+).get
+
+_page_type_to_hocr_class = dict(
+    glyph=NotImplemented,
+    word='ocrx_word',
+    line='ocrx_line',
+    paragraph='ocr_par',
+)
+
+hocr_capabilities = ' '.join(sorted(cap for cap in _page_type_to_hocr_class.itervalues() if isinstance(cap, str)))
+
+hocr_header = '''\
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="ocr-system" content="pageparser %(__version__)s" />
+  <meta name="ocr-capabilities" content="%(hocr_capabilities)s" />
+  <title>Hidden text layer</title>
+</head>
+<body>
+''' % locals()
+hocr_footer = '''
+</body>
+</html>
+'''
+
+def page_type_to_hocr_class(tp):
+    try:
+        return _page_type_to_hocr_class[tp]
+    except KeyError:
+        return 'ocrx_' + tp.replace('-', '_')
+
+class Point(object):
+
+    def __init__(self, x, y):
+        assert isinstance(x, int)
+        assert isinstance(y, int)
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return 'Point(%r, %r)' % (self.x, self.y)
+
+class Polygon(object):
+
+    def __init__(self, points):
+        self.points = []
+        self.x0 = +INFINITY
+        self.y0 = +INFINITY
+        self.x1 = -INFINITY
+        self.y1 = -INFINITY
+        for point in points:
+            assert isinstance(point, Point)
+            self.x0 = min(self.x0, point.x)
+            self.y0 = min(self.y0, point.y)
+            self.x1 = max(self.x1, point.x)
+            self.y1 = max(self.y1, point.y)
+            self.points += [point]
+
+    def as_djvu(self, height):
+        return djvu.sexpr.Expression([self.x0, height - self.y1, self.x1, height - self.y0])
+
+    def as_hocr(self, **kwargs):
+        return "bbox %d %d %d %d" % (self.x0, self.y0, self.x1, self.y1)
+
+    def __repr__(self):
+        return 'Polygon(%r)' % self.points
+
+class ReadingOrder(object):
+
+    def __init__(self, mapping):
+        self._mapping = mapping
+
+    def cmp(self, region1, region2):
+        id1 = region1.ident
+        id2 = region2.ident
+        return cmp(self._mapping.get(id1), self._mapping.get(id2))
+
+class TextZone(object):
+
+    def __init__(self, tp, location, text, children=(), ident=None):
+        assert isinstance(tp, str)
+        self.tp = tp
+        assert isinstance(location, Polygon)
+        self.location = location
+        self.children = []
+        for child in children:
+            assert isinstance(child, TextZone)
+            self.children += [child]
+        assert (self.children and text is None) or isinstance(text, unicode)
+        self.text = text
+        self.ident = ident
+
+    def as_djvu(self, height):
+        tp = page_type_to_djvu_type(self.tp, djvu.const.TEXT_ZONE_REGION)
+        result = [tp]
+        result += self.location.as_djvu(height)
+        if self.children:
+            result += [child.as_djvu(height) for child in self.children]
+        else:
+            assert self.text is not None
+            result += [djvu.sexpr.Expression(self.text)]
+        return djvu.sexpr.Expression(result)
+
+    def as_hocr(self, **kwargs):
+        types = [self.tp]
+        hocr_class = page_type_to_hocr_class(self.tp)
+        if hocr_class is NotImplemented:
+            raise NotImplementedError
+        types += [hocr_class]
+        if kwargs.get('extra_classes') and self.ident is not None:
+            if re.match('^[a-zA-Z0-9_]+$', self.ident):
+                types += ['ocrx_' + self.ident]
+            else:
+                logging.warning('%r cannot be used as an hOCR class' % self.ident)
+        result = etree.Element('span',
+            {
+                'class': ' '.join(types),
+                'title': self.location.as_hocr(**kwargs),
+            }
+        )
+        if self.tp == 'word':
+            result.text = self.text
+            result.tail = ' '
+        elif not self.children:
+            prev_child = child = None
+            for subtext in unicode_split(self.text):
+                if subtext.isspace():
+                    if prev_child is None:
+                        continue
+                    prev_child.tail = ' '
+                    continue
+                child = etree.Element('span',
+                    {
+                        'class': 'ocrx_word',
+                        'title': self.location.as_hocr(**kwargs),
+                    }
+                )
+                child.text = subtext
+                result.append(child)
+                prev_child = child
+            if child is not None:
+                child.tail = ''
+        else:
+            child = None
+            for child in self.children:
+                child = child.as_hocr(**kwargs)
+                result.append(child)
+            if child is not None:
+                child.tail = ''
+        return result
+
+    def __repr__(self):
+        return 'TextZone(tp=%r, location=%r, text=%r, children=%r)' % (self.tp, self.location, self.text, self.children)
+
+class Page(object):
+
+    def __init__(self, ident, size, reading_order, children):
+        assert isinstance(size, Point)
+        self.ident = ident
+        self.size = size
+        self.children = []
+        for child in children:
+            assert isinstance(child, TextZone)
+            self.children += [child]
+        self.children.sort(cmp=reading_order.cmp)
+
+    def as_djvu(self):
+        result = [djvu.const.TEXT_ZONE_PAGE, 0, 0, self.size.x, self.size.y]
+        result += [child.as_djvu(height=self.size.y) for child in self.children]
+        return djvu.sexpr.Expression(result)
+
+    def as_hocr(self, **kwargs):
+        types = ['ocr_page']
+        if kwargs.get('extra_classes') and self.ident is not None:
+            if re.match('^[a-zA-Z0-9_]+$', self.ident):
+                types += ['ocrx_' + self.ident]
+            else:
+                logging.warning('%r cannot be used as an hOCR class' % self.ident)
+        result = etree.Element('div',
+            {
+                'class': ' '.join(types),
+                'title': 'bbox 0 0 %d %d' % (self.size.x, self.size.y)
+            }
+        )
+        child = None
+        for child in self.children:
+            child = child.as_hocr(**kwargs)
+            child.tail = '\n'
+            result.append(child)
+        result.text = result.tail = '\n'
+        return result
+
+    def __repr__(self):
+        return 'Page(size=%r, children=%r)' % (self.size, self.children)
+
+page_ns = 'http://schema.primaresearch.org/PAGE/gts/pagecontent/2010-03-19'
+page_ns_re = re.compile('^{%s}(.*)$' % re.escape(page_ns)).match
+
+class ParseError(SyntaxError):
+    pass
+
+
+class Parser(object):
+
+    def create_Creator(self, xml_element, *args): pass
+    def create_Created(self, xml_element, *args): pass
+    def create_LastChange(self, xml_element, *args): pass
+    def create_Metadata(self, xml_element, *args): pass
+
+    def create_RegionRefIndexed(self, xml_element, *args):
+        ident = xml_element.get('regionRef')
+        order = int(xml_element.get('index'), 10)
+        return {ident: order}
+
+    def create_OrderedGroup(self, xml_element, *args):
+        result = {}
+        for arg in args:
+            result.update(arg)
+        return result
+
+    def create_UnorderedGroup(self, xml_element, *args):
+        result = {}
+        for arg in args:
+            result.update(arg)
+        return result
+
+    def create_ReadingOrder(self, xml_element, *args):
+        [mapping] = args
+        return ReadingOrder(mapping)
+
+    def create_Point(self, xml_element):
+        x = int(xml_element.get('x'))
+        y = int(xml_element.get('y'))
+        return Point(x, y)
+
+    def create_Coords(self, xml_element, *args):
+        return Polygon(args)
+
+    def create_PlainText(self, xml_element):
+        if (xml_element.text or '') != '':
+            raise ParseError('<PlainText> element without any text')
+        return None
+
+    def create_Unicode(self, xml_element):
+        return unicode(xml_element.text or '')
+
+    def create_TextEquiv(self, xml_element, arg):
+        return arg
+
+    def create_Glyph(self, xml_element, location, text):
+        return TextZone('glyph', location, text)
+
+    def log_TableRegion(self, xml_element):
+        ident = xml_element.get('id')
+        if ident:
+            logging.debug('- processing TableRegion %s', ident)
+        else:
+            logging.debug('- processing TableRegion without an id')
+
+    def create_TableRegion(self, xml_element, location):
+        logging.warning('  don\'t know what to do with TableRegion, ignoring')
+
+    def log_TextRegion(self, xml_element):
+        ident = xml_element.get('id')
+        if ident:
+            logging.debug('- processing TextRegion %s', ident)
+        else:
+            logging.debug('- processing TextRegion without an id')
+
+    def create_TextRegion(self, xml_element, location, *children):
+        ident = xml_element.get('id')
+        tp = xml_element.get('type')
+        if tp is None:
+            logging.warning('  TextRegion %s doesn\'t have any type', ident or 'without an id')
+            tp = 'anonymous'
+        if len(children) == 0:
+            text = u''
+            logging.warning('  TextRegion %s doesn\'t contain any text', ident or 'without an id')
+        elif isinstance(children[-1], unicode):
+            text = children[-1]
+            if self.join_lines:
+                text = re.compile(u'\N{non-breaking hyphen}(\r?\n|$)', re.UNICODE).sub('', text)
+            children = children[:-1]
+        else:
+            text = None
+        return TextZone(tp, location, text, children, ident)
+
+    def create_TextLine(self, xml_element, location, *children):
+        if len(children) == 0:
+            logging.warning('  TextLine doesn\'t contain any text')
+            text = u''
+            children = []
+        elif isinstance(children[-1], unicode):
+            text = children[-1]
+            children = children[:-1]
+        else:
+            text = None
+        return TextZone('line', location, text, children)
+
+    def create_Word(self, xml_element, location, *children):
+        if len(children) == 0:
+            logging.warning('  Word doesn\'t contain any text')
+            text = u''
+            children = []
+        elif isinstance(children[-1], unicode):
+            text = children[-1]
+            children = children[:-1]
+        else:
+            text = None
+        return TextZone('word', location, text, children)
+
+    def create_GraphicRegion(self, xml_element, location):
+        pass
+
+    def create_ImageRegion(self, xml_element, location):
+        pass
+
+    def create_SeparatorRegion(self, xml_element, location):
+        pass
+
+    def create_Page(self, xml_element, *children):
+        ident = xml_element.get('imageFilename') or ''
+        match = re.match('^[a-zA-Z0-9_]+', ident)
+        if match:
+            ident = match.group(0)
+        else:
+            ident = None
+        if len(children) > 0 and isinstance(children[0], ReadingOrder):
+            reading_order = children[0]
+            children = children[1:]
+        else:
+            reading_order = ReadingOrder({})
+        width = int(xml_element.get('imageWidth'))
+        height = int(xml_element.get('imageHeight'))
+        size = Point(width, height)
+        return Page(ident, size, reading_order, children)
+
+    def create_PcGts(self, xml_element, page):
+        return page
+
+    def __init__(self, discard, join_lines, skip_unknown_elements):
+        self.discard = discard
+        self.join_lines = bool(join_lines)
+        self.skip_unknown_elements = bool(skip_unknown_elements)
+
+    def parse(self, stream):
+        stack = [[]]
+        for event, element in etree.iterparse(stream, events=('start','end')):
+            match = page_ns_re(element.tag)
+            if match is None:
+                raise ParseError('Unknown element: %s' % element.tag)
+            tag = match.group(1)
+            if event == 'start':
+                try:
+                    log_function = globals()['log_%s' % tag]
+                except KeyError:
+                    pass
+                else:
+                    log_function(element)
+                stack += [[]]
+            elif event == 'end':
+                if tag in self.discard:
+                    stack.pop()
+                    continue
+                try:
+                    constructor = getattr(self, 'create_%s' % tag)
+                except AttributeError:
+                    if self.skip_unknown_elements:
+                        logging.warning('- skipping unknown element %s', tag)
+                        stack.pop()
+                        continue
+                    else:
+                        raise NotImplementedError('Don\'t know what to do with element %s' % tag)
+                element = constructor(element, *stack.pop())
+                if element is not None:
+                    stack[-1] += [element]
+        [[page]] = stack
+        return page
+
+def unicode_split(text, locale=icu.Locale('eng')):
+    # Treat REPLACEMENT CHARACTER and all PUA characters as letters:
+    icu_text = re.compile(u'[\N{REPLACEMENT CHARACTER}\uE000-\uF8FF]', re.UNICODE).sub('x', text)
+    icu_text = icu.UnicodeString(icu_text)
+    iterator = icu.BreakIterator.createWordInstance(locale)
+    iterator.setText(icu_text)
+    i = 0
+    for j in iterator:
+        subtext = text[i:j]
+        yield subtext
+        i = j
+
+def print_element(element, output=sys.stdout, encoding='UTF-8'):
+    encoding = encoding.lower()
+    etree.ElementTree(element).write(output, encoding)
+
+def main():
+    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-F', '--output-format', choices=('djvused', 'hocr'), default='djvused', help='set output format')
+    parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numering from N (djvused output only)')
+    parser.add_argument('--extra-hocr-classes', action='store_true', help='add hOCR classes corresponding to every PAGE document and to every PAGE region')
+    parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
+    parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN characters')
+    parser.add_argument('--verbose', action='store_true', help='more informational messages')
+    parser.add_argument('--skip-unknown-elements', action='store_true', help='skip over elements that are unknown to the parser')
+    parser.add_argument('input_files', metavar='FILE', nargs='+', help='XML file to convert')
+    options = parser.parse_args()
+    options.discard = frozenset(options.discard or ())
+    if options.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+    parser = Parser(
+        discard=options.discard,
+        join_lines=options.join_lines,
+        skip_unknown_elements=options.skip_unknown_elements,
+    )
+    if options.output_format == 'djvused':
+        for nth, filename in enumerate(options.input_files, options.page):
+            logging.info('Processing %s', filename)
+            page = parser.parse(filename)
+            print 'select %d' % nth
+            print 'set-txt'
+            if page.children:
+                print page.as_djvu()
+            print '.'
+    else:
+        sys.stdout.write(hocr_header)
+        for filename in options.input_files:
+            logging.info('Processing %s', filename)
+            page = parser.parse(filename)
+            print_element(page.as_hocr(extra_classes=options.extra_hocr_classes))
+        sys.stdout.write(hocr_footer)
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sw=4 et

@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% blocktrans %}<p>
+Search can be limited to a specific volume with the meta clause, e.g. <code>meta vol=i/X</code> or <code>meta vol=I/X</code> limits the search to the first volume while <code>meta orig=pdf</code> limits the search to the 4 digitally-born volumes.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>within</code> clause can be used to limit the search to the so called sections:
+<code>front</code> (the frontmatter),
+<code>intro</code> (the prefaces in the first volume),
+<code>list</code> (the list of entries provided at the beginning of every volume),
+<code>body</code> (the entries),
+<code>errata</code> (corrections and additions; this section is contained in <code>body</code>),
+<code>back</code> (backmatter),
+<code>inset</code> (loose insets with the lists of sources and abbreviations).
+</p>
+{% endblocktrans %}
