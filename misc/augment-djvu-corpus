@@ -78,7 +78,7 @@ def process_files(options):
     f_pagesizes = try_create_file('djvu.pagesizes')
 
     f_config.write(default_poliqarp_config)
-    n0 = n = 0
+    n = 0
     page_height = None
     for filename in options.files:
         print >>sys.stderr, 'Processing %s' % filename
@@ -104,9 +104,8 @@ def process_files(options):
                 m = bbox_re.search(title)
                 bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
                 page_height = bbox[-1]
-                bbox = ''.join((struct.pack('< I HH', n0, *bbox[-2:])))
+                bbox = ''.join((struct.pack('< I HH', n, *bbox[-2:])))
                 f_pagesizes.write(bbox)
-                n0 = n
             if event == 'end':
                 elem.clear()
 
