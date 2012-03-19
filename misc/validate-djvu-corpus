@@ -1,0 +1,122 @@
+#!/usr/bin/python
+# encoding=UTF-8
+
+# Copyright © 2012 Jakub Wilk <jwilk@jwilk.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+
+'''
+Validate Poliqarp binary corpus (with information about segment coordinates).
+'''
+
+from __future__ import with_statement
+
+import argparse
+import curses
+import os
+import re
+import sys
+import struct
+
+color_warning = ''
+color_error = ''
+color_reset = ''
+
+def init_colors():
+    if not sys.stdout.isatty():
+        return
+    global color_warning, color_error, color_reset
+    curses.setupterm()
+    _setaf = curses.tigetstr('setaf')
+    color_warning = curses.tparm(_setaf, 3)
+    color_error = curses.tparm(_setaf, 1)
+    color_reset = curses.tigetstr('sgr0')
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        usage = '%(prog)s [option...] <base-name>'
+        argparse.ArgumentParser.__init__(self, usage=usage, description=__doc__)
+        self.add_argument('base', help='corpus basename')
+
+def ok(item, message):
+    print '%s: %s' % (item, message)
+    return 0
+
+def warn(item, message):
+    print '%s: %s%s%s' % (item, color_warning, message, color_reset)
+    return 1
+
+def error(item, message):
+    print '%s: %s%s%s' % (item, color_error, message, color_reset)
+    return 2
+
+def validate(base):
+    rc = 0
+    item = 'corpus size'
+    corpus_image_bytes = os.stat(base + '.poliqarp.corpus.image').st_size
+    corpus_image_segments, zero = divmod(corpus_image_bytes, 12)
+    if zero != 0 or corpus_image_segments == 0:
+        rc |= error(item, 'invalid')
+    else:
+        rc |= ok(item, '%d segments' % corpus_image_segments)
+    n0 = -1
+    with open(base + '.djvu.pagesizes') as file:
+        item = 'pages'
+        file_size = os.fstat(file.fileno()).st_size
+        n_pages, zero = divmod(file_size, 8)
+        if zero != 0 or n_pages == 0:
+            rc |= error(item, 'error')
+        else:
+            rc |= ok(item, n_pages)
+        first_page_empty = False
+        item = 'page size information'
+        while True:
+            chunk = file.read(8)
+            if not chunk:
+                n0 = -1
+                break
+            n, w, h = struct.unpack('< I HH', chunk)
+            if n == n0 == 0:
+                first_page_empty = True
+            if n < n0:
+                break
+            n0 = n
+        if n < n0:
+            rc |= error(item, 'invalid' % (n, n0))
+        elif first_page_empty:
+            rc |= warn(item, 'the first page appears to be empty')
+        else:
+            rc |= ok(item, 'OK')
+    item = 'indices'
+    with open(base + '.cdf') as file:
+        cdf = file.read()
+        m = re.search('^indices *= *([a-z]*)', cdf, re.MULTILINE)
+        indices = m.group(1) if m else ''
+        if indices:
+            if 'o' in indices:
+                rc |= ok(item, indices)
+            else:
+                rc |= warn(item, indices)
+        else:
+            rc |= warn(item, 'missing')
+    return rc
+
+def main():
+    init_colors()
+    oparser = ArgumentParser()
+    options = oparser.parse_args()
+    rc = validate(options.base)
+    sys.exit(rc)
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sw=4 et
