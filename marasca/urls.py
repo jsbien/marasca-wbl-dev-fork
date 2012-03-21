@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^extra/(?P<path>.*)$', 'django.views.static.serve', dict(document_root='media/extra/'), name='extra'),
     # translatable content
     url(r'^$', views.process_index, name='index'),
+    url(r'^settings/$', views.process_settings, name='settings'),
     url(r'^help/$', views.process_help, name='help'),
     url(r'^(?P<corpus_id>[\w-]+)/$', views.corpus_info, name='corpus'),
     url(r'^(?P<corpus_id>[\w-]+)/query/(?P<page_start>[0-9]+)[+]/$', views.process_query, dict(query=True), name='query'),
