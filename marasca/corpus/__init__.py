@@ -1,6 +1,6 @@
 # encoding=UTF-8
 
-# Copyright © 2009, 2010, 2011 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2009, 2010, 2011, 2012 Jakub Wilk <jwilk@jwilk.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@ from __future__ import with_statement
 
 import mmap
 import os
+import re
 import struct
 
 import poliqarp
@@ -172,6 +173,7 @@ class DjVuCorpus(Corpus):
                 v = int(v, 10)
             elif k == 'range':
                 k = ugettext_lazy('range')
+                v = re.sub('from\s+(\S+)\s+to\s+(\S+)', lambda m: '%s-%s' % m.groups(), v) # FIXME: temporary work-around for broken metadata
                 start, stop = v.split('-', 1)
                 v = django.utils.safestring.mark_safe(ugettext_lazy('from <em>%(start)s</em> to <em>%(stop)s</em>') % dict(start=start, stop=stop))
             elif k == 'orig':
