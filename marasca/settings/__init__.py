@@ -27,7 +27,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
 )
 
@@ -44,6 +44,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.sessions',
+    'localeurl',
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
@@ -56,6 +57,16 @@ LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('pl', _('Polish')),
     ('en', _('English')),
+)
+LOCALEURL_USE_ACCEPT_LANGUAGE = True
+LOCALE_INDEPENDENT_PATHS = (
+    r'^/css/',
+    r'^/extra/',
+    r'^/google',
+    r'^/i18n/',
+    r'^/js/',
+    r'^/ping/',
+    r'^/redirect/',
 )
 
 SESSION_LOCKS_DIRECTORY = '../locks/'

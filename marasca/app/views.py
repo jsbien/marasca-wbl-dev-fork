@@ -27,6 +27,8 @@ import django.template.loader
 import django.utils.translation
 import django.views.decorators.cache
 
+import localeurl.utils
+
 import utils.locks
 import utils.i18n
 import utils.redirect
@@ -659,14 +661,13 @@ def set_language(request):
     url = request.REQUEST.get('next', None) or get_referrer(request)
     if not is_local_url(url):
         url = '/'
-    response = django.http.HttpResponseRedirect(url)
     if request.method == 'POST':
         lang_code = request.POST.get('language', None)
         if lang_code and django.utils.translation.check_for_language(lang_code):
             get_settings(request).language = lang_code
-            request.session['django_language'] = lang_code
-            request.session.save()
-    return response
+            _, url = localeurl.utils.strip_path(url)
+            url = localeurl.utils.locale_path(url, lang_code)
+    return django.http.HttpResponseRedirect(url)
 
 def process_help(request):
     template = get_template('help.html')
