@@ -1,6 +1,6 @@
 # encoding=UTF-8
 
-# Copyright © 2009, 2010 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2009, 2010, 2011 Jakub Wilk <jwilk@jwilk.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ import struct
 import poliqarp
 
 import django.utils.datastructures
+import django.utils.safestring
 from django.utils.translation import ugettext_lazy
 
 class Map(object):
@@ -30,6 +31,10 @@ class Map(object):
         self._format = format
         nargs = sum(1 for char in format if char.isalpha())
         self._rsize = len(struct.pack(format, *(nargs * [0])))
+        self._len = os.fstat(self._fd).st_size // self._rsize
+
+    def __len__(self):
+        return self._len
 
     def __getitem__(self, n):
         rsize = self._rsize
@@ -39,7 +44,7 @@ class Map(object):
             return result[0]
         else:
             return result
-    
+
     def close(self):
         try:
             self._map.close()
@@ -53,7 +58,7 @@ class Map(object):
             pass
         else:
             del self._fd
-    
+
     def __del__(self):
         self.close()
 
@@ -62,9 +67,10 @@ class Corpus(object):
     has_metadata = False
     has_interps = True
 
-    def __init__(self, id, title, path=None, public=True):
+    def __init__(self, id, title, abbreviation, path=None, public=True):
         self.id = id
         self.title = title
+        self.abbreviation = abbreviation
         self.path = path
         self.public = public
 
@@ -135,5 +141,135 @@ class OldIpiCorpus(Corpus):
             if value:
                 result[key] = value
         return result
+
+class DjVuCorpus(Corpus):
+
+    has_interps = False
+    has_metadata = True
+
+    _origins = {
+        u'scan': ugettext_lazy('scan with OCR'),
+        u'pdf': ugettext_lazy('PDF conversion')
+    }
+
+    def __init__(self, id, title, abbreviation, path, public=True, has_interps=False):
+        Corpus.__init__(self, id, title, abbreviation, path, public)
+        self._coordinates_map = Map('%s.djvu.coordinates' % path, '< HHHH')
+        self._pagesize_map = Map('%s.djvu.pagesizes' % path, '< I HH')
+        with open('%s.djvu.filenames' % path, 'rt') as file:
+            self._filenames = map(str.rstrip, file.readlines())
+        self._document_range_map = Map('%s.poliqarp.chunk.image' % path, '< IIII')
+        self.djvu_directory = os.path.join('%s.djvu' % path, '')
+        self.has_interps = has_interps
+
+    def enhance_metadata(self, tuples):
+        result = django.utils.datastructures.SortedDict()
+        for k, v in tuples:
+            if k == 'vol':
+                k = ugettext_lazy('volume')
+            elif k == 'year':
+                k = ugettext_lazy('year')
+                v = int(v, 10)
+            elif k == 'range':
+                k = ugettext_lazy('range')
+                start, stop = v.split('-', 1)
+                v = django.utils.safestring.mark_safe(ugettext_lazy('from <em>%(start)s</em> to <em>%(stop)s</em>') % dict(start=start, stop=stop))
+            elif k == 'orig':
+                k = ugettext_lazy('origin')
+                v = self._origins[v]
+            else:
+                continue
+            result[k] = [v]
+        return result
+
+    def get_coordinates(self, id):
+        return self._coordinates_map[id]
+
+    def get_document_info(self, id):
+        for n, (l, r, _, _) in enumerate(self._document_range_map):
+            if l <= id < r:
+                return l, n, self._filenames[n]
+        raise IndexError
+
+    def get_page_info(self, id):
+        l = 0
+        r = len(self._pagesize_map)
+        while l < r:
+            mid = (l + r) // 2
+            if id < self._pagesize_map[mid][0]:
+                r = mid
+            else:
+                l = mid + 1
+        i = l - 1
+        base_id, width, height = self._pagesize_map[i]
+        return i, width, height
+
+    def get_showposition(self, id, coordinates):
+        x0, y0, x1, y1 = coordinates
+        _, pw, ph = self.get_page_info(id)
+        cx = (x0 + x1) / (2.0 * pw)
+        cy = 1 - (y0 + y1) / (2.0 * ph)
+        return cx, cy
+
+    def get_url(self, id):
+        x0, y0, x1, y1 = self.get_coordinates(id)
+        w = x1 - x0
+        h = y1 - y0
+        baseid, _, filename = self.get_document_info(id)
+        page0, _, _ = self.get_page_info(baseid)
+        page, _, _ = self.get_page_info(id)
+        page -= page0
+        cx, cy = self.get_showposition(id, (x0, y0, x1, y1))
+        return '%s?djvuopts&page=%d&zoom=width&showposition=%.3f,%.3f&highlight=%d,%d,%d,%d' % (filename, page + 1, cx, cy, x0, y0, w, h)
+
+    def enhance_results(self, results):
+        from utils.redirect import protect_url
+        for result in results:
+            # Add segment URLs:
+            for (column, segments) in result:
+                for segment in segments:
+                    if not self.has_interps:
+                        segment.interps = None
+                    if segment.id is None:
+                        continue
+                    url = self.get_url(segment.id)
+                    segment.real_url = url
+                    segment.url = protect_url(url)
+            # Add graphical concordances:
+            x0 = y0 = +1.0e999
+            x1 = y1 = -1.0e999
+            first_segment_id = None
+            base_id = None
+            highlight = []
+            for (column, segments) in result:
+                if not column.is_match:
+                    continue
+                for segment in segments:
+                    if segment.id is None:
+                        continue
+                    if first_segment_id is None:
+                        first_segment_id = segment.id
+                        base_id, document_id, filename = self.get_document_info(first_segment_id)
+                    elif base_id != self.get_document_info(segment.id)[0]:
+                        # TODO: deal with multi-page matches
+                        continue
+                    sx0, sy0, sx1, sy1 = self.get_coordinates(segment.id)
+                    highlight += (sx0, sy0, sx1 - sx0, sy1 - sy0),
+                    x0 = min(x0, sx0)
+                    y0 = min(y0, sy0)
+                    x1 = max(x1, sx1)
+                    y1 = max(y1, sy1)
+            if first_segment_id is None:
+                continue
+            w = x1 - x0
+            h = y1 - y0
+            page0, _, _ = self.get_page_info(base_id)
+            page, pw, _ = self.get_page_info(first_segment_id)
+            page -= page0
+            result.embed = dict(
+                document_id = document_id + 1,
+                page = page + 1,
+                rect = dict(x=x0, y=y0, w=w, h=h)
+            )
 
 # vim:ts=4 sw=4 et

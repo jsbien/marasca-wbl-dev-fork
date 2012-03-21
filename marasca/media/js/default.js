@@ -8,6 +8,16 @@ function update_random_sample_widgets(event)
     $('#id_random_sample_size').attr('disabled', !$('#id_random_sample').attr('checked'));
 }
 
+function bookmark_link(event)
+{
+    event.preventDefault();
+    timestamp = (new Date()).toLocaleString();
+    info = event.target.href.split('#', 2)
+    title = '[' + info[1] + ']' + event.target.title + ' ' + timestamp;
+    title = title.replace('  ', ' ');
+    window.sidebar.addPanel(title , info[0], '');
+}
+
 $(document).ready(function() {
     $("a[rel]").tooltip({ 
         bodyHandler: function() { 
@@ -22,6 +32,11 @@ $(document).ready(function() {
     $('#id_random_sample').click(update_random_sample_widgets);
     update_sort_widgets(null);
     update_random_sample_widgets(null);
+    if (window.sidebar) {
+        /* Mozilla-specific hack */
+        $('.bookmark-result').css('display', 'inline')
+        $('.bookmark-result a').click(bookmark_link)
+    }
 })
 
 /* vim:set ts=4 sw=4 et: */
