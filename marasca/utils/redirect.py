@@ -32,7 +32,7 @@ def hash_url(url):
     digest = hashlib.md5(settings.SECRET_KEY + url).digest()
     return base64.urlsafe_b64encode(digest)[:5]
 
-def safe_redirect(self, key, scheme, tail):
+def safe_redirect(request, key, scheme, tail):
     url = '%s://%s' % (scheme, tail)
     if key != hash_url(url):
         raise django.http.Http404
