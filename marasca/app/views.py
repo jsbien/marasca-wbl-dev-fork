@@ -28,6 +28,7 @@ import django.views.decorators.cache
 
 import utils.locks
 import utils.i18n
+import utils.redirect
 import poliqarp
 
 get_template = django.template.loader.get_template
@@ -113,6 +114,13 @@ class QueryInfo(Info):
 def redirect_to_pending(request):
     pending_url = '%s?pending=yes' % request.path
     return django.http.HttpResponseRedirect(pending_url)
+
+def is_local_url(url):
+    return (
+        url and
+        url.startswith('/') and
+        not url.startswith('//')
+    )
 
 class ResultInfo(Info):
 
@@ -607,7 +615,7 @@ def process_settings(request):
                 continue
             setattr(settings, key, value)
         request.session.save()
-        if next:
+        if is_local_url(next):
             return django.http.HttpResponseRedirect(next)
     context = Context(request, form=form, selected='settings')
     return django.http.HttpResponse(template.render(context))
@@ -623,7 +631,9 @@ def set_language(request):
     redirect to the page in the request (the 'next' parameter) without changing
     any state.
     '''
-    url = request.REQUEST.get('next', None) or get_referrer(request) or '/'
+    url = request.REQUEST.get('next', None) or get_referrer(request)
+    if not is_local_url(url):
+        url = '/'
     response = django.http.HttpResponseRedirect(url)
     if request.method == 'POST':
         lang_code = request.POST.get('language', None)
