@@ -15,11 +15,8 @@ TEMPLATE_DEBUG = DEBUG = False
 
 ADMINS = MANAGERS = ()
 
-LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
-
-USE_I18N = True
 
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
@@ -54,6 +51,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 def _(x): return x
 
+USE_I18N = True
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('pl', _('Polish')),
     ('en', _('English')),
