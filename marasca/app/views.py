@@ -14,6 +14,7 @@
 from __future__ import with_statement
 
 import contextlib
+import datetime
 import sys
 import time
 
@@ -49,7 +50,7 @@ class Context(django.template.RequestContext):
 
 def process_index(request):
     template = get_template('index.html')
-    context = Context(request)
+    context = Context(request, selected='index')
     return django.http.HttpResponse(template.render(context))
 
 class QueryForm(django.forms.Form):
@@ -127,9 +128,22 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
     info = ResultInfo(n)
     if extract_context:
         info.context = connection.get_context(n)
-    if extract_metadata:
+    if extract_metadata and corpus.has_metadata:
         info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
+
+def log_query(connection, settings, corpus, query):
+    query_log = global_settings.QUERY_LOG
+    if not query_log:
+        return
+    with utils.locks.FileLock(file(query_log, 'at')) as fp:
+        print >>fp, '\t'.join((
+            datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S%z'),
+            connection.get_default_session_name(),
+            corpus.id,
+            'TG'[settings.graphical_concordances],
+            query.encode('UTF-8'),
+        ))
 
 def run_query(connection, settings, corpus, query, l, r):
     connection.open_corpus(corpus.id)
@@ -139,6 +153,8 @@ def run_query(connection, settings, corpus, query, l, r):
         return ex
     except poliqarp.Busy, ex:
         return ex
+    else:
+        log_query(connection, settings, corpus, query)
     settings.need_query_remake(False)
     qinfo = QueryInfo()
     if settings.random_sample:
@@ -318,7 +334,12 @@ def corpus_info(request, corpus_id):
         corpus_info = extra_template.render(context)
     except django.template.TemplateDoesNotExist:
         corpus_info = None
-    context.update(dict(corpus_info=corpus_info))
+    try:
+        extra_template = django.template.loader.get_template('corpora/%s_suffix.html' % corpus.id)
+        corpus_info_suffix = extra_template.render(context)
+    except django.template.TemplateDoesNotExist:
+        corpus_info_suffix = None
+    context.update(dict(corpus_info=corpus_info, corpus_info_suffix=corpus_info_suffix))
     response = django.http.HttpResponse(template.render(context))
     return response
 
@@ -377,7 +398,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
             corpus.enhance_results(qinfo.results)
     if error is not None:
         form._errors.setdefault('query', form.error_class()).append(error)
-    context = Context(request, selected=corpus, form=form, qinfo=qinfo)
+    context = Context(request, selected=corpus, form=form, qinfo=qinfo, settings=settings)
     response = django.http.HttpResponse(template.render(context))
     response['Refresh'] = str(global_settings.SESSION_REFRESH)
     return response
@@ -465,6 +486,9 @@ class SettingsForm(django.forms.Form):
         max_value = global_settings.MAX_RESULTS_PER_PAGE,
         widget=django.forms.TextInput(attrs=dict(size=3))
     )
+    graphical_concordances = django.forms.BooleanField(
+        required=False
+    )
     next = django.forms.CharField(
         required=False,
         widget=django.forms.HiddenInput
@@ -486,6 +510,7 @@ class Settings(object):
         right_context_width = 5,
         wide_context_width = 50,
         results_per_page = 25,
+        graphical_concordances = False,
     )
 
     _dirty = set()
