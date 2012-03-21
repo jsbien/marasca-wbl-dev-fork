@@ -59,6 +59,7 @@ LANGUAGES = (
     ('en', _('English')),
 )
 LOCALEURL_USE_ACCEPT_LANGUAGE = True
+LOCALE_REDIRECT_PERMANENT = False
 LOCALE_INDEPENDENT_PATHS = (
     r'^/css/',
     r'^/extra/',
