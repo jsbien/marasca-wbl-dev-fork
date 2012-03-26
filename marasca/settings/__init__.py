@@ -44,7 +44,6 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.sessions',
-    'localeurl',
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
@@ -69,6 +68,13 @@ LOCALE_INDEPENDENT_PATHS = (
     r'^/ping/',
     r'^/redirect/',
 )
+
+# localeurl documentation recommends adding localeurl to INSTALLED_APPS, so
+# that urlresolvers.reverse() can be monkey-patches. However, for some Django
+# deployments (e.g. mod-wsgi) the monkey-patching code was loaded too late. We
+# import localeurl.models directly in settings.py instead, which appears to be
+# more robust. See also: http://bugs.debian.org/665908
+import localeurl.models
 
 SESSION_LOCKS_DIRECTORY = '../locks/'
 SESSION_LOCK_TIMEOUT = 5
