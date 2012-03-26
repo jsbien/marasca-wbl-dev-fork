@@ -174,8 +174,11 @@ class DjVuCorpus(Corpus):
             elif k == 'range':
                 k = ugettext_lazy('range')
                 v = re.sub('from\s+(\S+)\s+to\s+(\S+)', lambda m: '%s-%s' % m.groups(), v) # FIXME: temporary work-around for broken metadata
-                start, stop = v.split('-', 1)
-                v = django.utils.safestring.mark_safe(ugettext_lazy('from <em>%(start)s</em> to <em>%(stop)s</em>') % dict(start=start, stop=stop))
+                if '-' in v:
+                    start, stop = v.split('-', 1)
+                    v = django.utils.safestring.mark_safe(ugettext_lazy('from <em>%(start)s</em> to <em>%(stop)s</em>') % dict(start=start, stop=stop))
+                else:
+                    v = django.utils.safestring.mark_safe('<em>%s</em>' % v)
             elif k == 'orig':
                 k = ugettext_lazy('origin')
                 v = self._origins[v]
