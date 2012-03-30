@@ -43,6 +43,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'localeurl',
     'django.contrib.sessions',
 )
 
@@ -74,7 +75,10 @@ LOCALE_INDEPENDENT_PATHS = (
 # deployments (e.g. mod-wsgi) the monkey-patching code was loaded too late. We
 # import localeurl.models directly in settings.py instead, which appears to be
 # more robust. See also: http://bugs.debian.org/665908
-import localeurl.models
+try:
+    import localeurl.models
+except ImportError:
+    pass
 
 SESSION_LOCKS_DIRECTORY = '../locks/'
 SESSION_LOCK_TIMEOUT = 5
