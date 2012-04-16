@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # encoding=UTF-8
 
-# Copyright © 2010, 2011 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2010, 2011, 2012 Jakub Wilk <jwilk@jwilk.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -152,6 +152,8 @@ def main():
         print >>sys.stderr, '+ volume %d' % volume_no
         with open(filename, 'rb') as input_file:
             hocr = etree.parse(input_file)
+            if hocr.getroot().tag != xhtml + 'html':
+                raise SyntaxError('''Input file does't look like XHTML''')
             body = hocr.find(xhtml + 'body')
             hocr_pages = dict((i + 1, page) for i, page in enumerate(body))
             body[:] = process(volume_info, hocr_pages)
