@@ -138,7 +138,7 @@ class ArgumentParser(argparse.ArgumentParser):
         options = argparse.ArgumentParser.parse_args(self)
         try:
             [options.run] = options.run
-        except ValueError:
+        except (TypeError, ValueError):
             self.error('You must use exactly one of the following options: --dry-run/--in-place')
         return options
 
