@@ -329,7 +329,7 @@ class Parser(object):
         elif isinstance(children[-1], unicode):
             text = children[-1]
             if self.join_lines:
-                text = re.compile(u'\N{non-breaking hyphen}(\r?\n|$)', re.UNICODE).sub('', text)
+                text = re.compile(u'[\N{double oblique hyphen}\N{non-breaking hyphen}](\r?\n|$)', re.UNICODE).sub('', text)
             children = children[:-1]
         else:
             text = None
@@ -450,7 +450,7 @@ def main():
     parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numering from N (djvused output only)')
     parser.add_argument('--extra-hocr-classes', action='store_true', help='add hOCR classes corresponding to every PAGE document and to every PAGE region')
     parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
-    parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN characters')
+    parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN or DOUBLE OBLIQUE HYPHEN characters')
     parser.add_argument('--verbose', action='store_true', help='more informational messages')
     parser.add_argument('--skip-unknown-elements', action='store_true', help='skip over elements that are unknown to the parser')
     parser.add_argument('input_files', metavar='FILE', nargs='+', help='XML file to convert')
