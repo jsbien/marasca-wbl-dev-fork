@@ -428,8 +428,14 @@ class Parser(object):
         return page
 
 def unicode_split(text, locale=icu.Locale('eng')):
-    # Treat REPLACEMENT CHARACTER and all PUA characters as letters:
-    icu_text = re.compile(u'[\N{REPLACEMENT CHARACTER}\uE000-\uF8FF]', re.UNICODE).sub('x', text)
+    '''
+    Split the Unicode string `text` using the UAX#29 algorithm, with the
+    exception that the following characters are treated as letters:
+    - REPLACEMENT CHARACTER (U+FFFD),
+    - NO-BREAK SPACE (U+00A0),
+    - all characters from the Private Use Area (U+E000 to U+F8FF).
+    '''
+    icu_text = re.compile(u'[\N{REPLACEMENT CHARACTER}\N{NO-BREAK SPACE}\uE000-\uF8FF]', re.UNICODE).sub('x', text)
     icu_text = icu.UnicodeString(icu_text)
     iterator = icu.BreakIterator.createWordInstance(locale)
     iterator.setText(icu_text)
