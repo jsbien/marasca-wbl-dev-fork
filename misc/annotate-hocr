@@ -25,11 +25,10 @@ import collections
 import os
 import sys
 
-import lxml.etree as etree
+import lxml.html as etree
 
 xhtml_namespace = 'http://www.w3.org/1999/xhtml'
 xhtml = '{%s}' % xhtml_namespace
-nsmap = {None : xhtml_namespace}
 
 inf = 1e9999
 
@@ -101,7 +100,7 @@ def collect_data():
     return data
 
 def _process(subdocument, hocr_pages):
-    result = etree.Element(xhtml + 'div', nsmap=nsmap)
+    result = etree.Element(xhtml + 'div')
     result.tail = '\n'
     if subdocument.name:
         result.set('class', 'ocrx_' + subdocument.name)
@@ -146,12 +145,13 @@ def main():
     oparser = ArgumentParser()
     options = oparser.parse_args()
     data = collect_data()
+    xhtml_parser = etree.XHTMLParser(load_dtd=True)
     for volume_no, filename in enumerate(options.files):
         volume_no += 1
         volume_info = data[volume_no]
         print >>sys.stderr, '+ volume %d' % volume_no
         with open(filename, 'rb') as input_file:
-            hocr = etree.parse(input_file)
+            hocr = etree.parse(input_file, parser=xhtml_parser)
             if hocr.getroot().tag != xhtml + 'html':
                 raise SyntaxError('''Input file does't look like XHTML''')
             body = hocr.find(xhtml + 'body')
