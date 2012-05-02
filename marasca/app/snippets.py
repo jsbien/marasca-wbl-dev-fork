@@ -123,10 +123,14 @@ def view(request, corpus_id, volume, page, x, y, w, h):
         djvu_directory = corpus.djvu_directory
     except AttributeError:
         raise django.http.Http404
-    djvu_filename = os.path.join(djvu_directory, '%02d' % volume, 'index.djvu')
-    # If the file didn't exist, we'd get an unhelpful message from DjVuLibre.
-    # Make sure that the file exist _before_ calling any DjVuLibre API:
-    #os.stat(djvu_filename)
+    for padding in range(1, 10):
+        djvu_filename = os.path.join(djvu_directory, '%0*d' % (padding, volume), 'index.djvu')
+        if os.path.exists(djvu_filename):
+            break
+    else:
+        # If the file didn't exist, we'd get an unhelpful message from DjVuLibre.
+        # Make sure that the file exist _before_ calling any DjVuLibre API.
+        raise django.http.Http404
     image = context.render_snippet(djvu_filename, page, x, y, w, h)
     response = django.http.HttpResponse(image)
     response['Content-Type'] = 'image/png'
