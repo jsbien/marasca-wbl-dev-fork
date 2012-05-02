@@ -18,8 +18,6 @@ ADMINS = MANAGERS = ()
 
 SITE_ID = 1
 
-ADMIN_MEDIA_PREFIX = '/admin-media/'
-
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
