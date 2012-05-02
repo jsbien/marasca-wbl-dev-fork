@@ -18,8 +18,6 @@ ADMINS = MANAGERS = ()
 
 SITE_ID = 1
 
-ADMIN_MEDIA_PREFIX = '/admin-media/'
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
