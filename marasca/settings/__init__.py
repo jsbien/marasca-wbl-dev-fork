@@ -15,9 +15,6 @@ TEMPLATE_DEBUG = DEBUG = False
 
 ADMINS = MANAGERS = ()
 
-
-SITE_ID = 1
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'localeurl.middleware.LocaleURLMiddleware',
