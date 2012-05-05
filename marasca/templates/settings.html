@@ -22,10 +22,10 @@
     {% if corpora.0.has_interps %}
         <div>{% trans "Show:" %}
             <div class='clear'></div>
-            <div class='float'>{% trans "in match:"%}
+            <div class='float{% if form.show_in_match.errors %} error{% endif %}'>{% trans "in match:" %}
                 {{form.show_in_match}}
             </div>
-            <div class='float'>{% trans "in context:"%}
+            <div class='float{% if form.show_in_context.errors %} error{% endif %}'>{% trans "in context:" %}
                 {{form.show_in_context}}
             </div>
             <div class='clear'></div>

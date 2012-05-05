@@ -12,7 +12,7 @@
         {% else %}
         {% for column in result %}
             <td class='{% if column.0.is_left %}left{% else %}right{% endif %}'>
-                {% for segment in column.1 %}{% if segment.url %}<a href='{{segment.url}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% if column.0.show_lemmata %}{% for interp in segment.interps %} [{{interp.lemma}}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.url %}</a>{% endif %}{% endfor %}
+                {% for segment in column.1 %}{% if segment.url %}<a href='{{segment.url}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.show_orth %}{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% endif %}{% if column.0.show_interp %}{% for interp in segment.interps %} [{% if column.0.show_lemmata %}{{interp.lemma}}{% endif %}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.url %}</a>{% endif %}{% endfor %}
             </td>
         {% endfor %}
         {% endif %}

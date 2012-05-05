@@ -24,6 +24,7 @@ import django.forms
 import django.http
 import django.template
 import django.template.loader
+import django.utils.datastructures
 import django.utils.translation
 import django.views.decorators.cache
 
@@ -266,11 +267,14 @@ class Result(object):
         for column in self._raw_result:
             ctype = column[0]
             if ctype.is_match:
+                ctype.show_orth = 's' in settings.show_in_match
                 ctype.show_lemmata = 'l' in settings.show_in_match
                 ctype.show_tags = 't' in settings.show_in_match
             elif ctype.is_context:
+                ctype.show_orth = 's' in settings.show_in_context
                 ctype.show_lemmata = 'l' in settings.show_in_context
                 ctype.show_tags = 't' in settings.show_in_context
+            ctype.show_interp = ctype.show_lemmata or ctype.show_tags
 
     def __getitem__(self, n):
         return self._raw_result[n]
@@ -458,23 +462,23 @@ class SettingsForm(django.forms.Form):
         widget=django.forms.RadioSelect,
         required=False,
     )
-    show_in_context = django.forms.ChoiceField(
+    show_in_context = django.forms.MultipleChoiceField(
         choices = [
-            ('slt', ugettext_lazy('segments, lemmata and tags')),
-            ('sl', ugettext_lazy('segments and lemmata')),
-            ('s', ugettext_lazy('segments only')),
+            ('s', ugettext_lazy('primary forms')),
+            ('l', ugettext_lazy('derived forms')),
+            ('t', ugettext_lazy('tags')),
         ],
-        widget=django.forms.RadioSelect,
-        required=False,
+        widget=django.forms.CheckboxSelectMultiple,
+        required=True,
     )
-    show_in_match = django.forms.ChoiceField(
+    show_in_match = django.forms.MultipleChoiceField(
         choices = [
-            ('slt', ugettext_lazy('segments, lemmata and tags')),
-            ('sl', ugettext_lazy('segments and lemmata')),
-            ('s', ugettext_lazy('segments only')),
+            ('s', ugettext_lazy('primary forms')),
+            ('l', ugettext_lazy('derived forms')),
+            ('t', ugettext_lazy('tags')),
         ],
-        widget=django.forms.RadioSelect,
-        required=False,
+        widget=django.forms.CheckboxSelectMultiple,
+        required=True,
     )
     left_context_width = django.forms.IntegerField(
         min_value = 1,
@@ -577,7 +581,15 @@ class Settings(object):
         return self._need_sort_rerun
 
     def get_dict(self):
-        return dict((key, getattr(self, key)) for key in self.defaults)
+        def to_list(key, value):
+            if key.startswith('show_in_'):
+                return list(value)
+            else:
+                return [value]
+        return django.utils.datastructures.MultiValueDict(
+            (key, to_list(key, getattr(self, key)))
+            for key in self.defaults
+        )
 
     def on_set_random_sample(self, key, value):
         self._need_query_rerun = True
@@ -627,9 +639,10 @@ def process_settings(request):
     form_data = settings.get_dict()
     if request.method == 'POST':
         for name, field in SettingsForm.base_fields.iteritems():
-            if isinstance(field, django.forms.BooleanField):
+            if isinstance(field, (django.forms.BooleanField, django.forms.fields.MultipleChoiceField)):
                 del form_data[name]
-        form_data.update((name, value) for name, value in request.POST.iteritems())
+        for key, values in request.POST.iterlists():
+            form_data.setlist(key, values)
         next = form_data.get('next')
     next = next or get_referrer(request)
     form_data['next'] = next
