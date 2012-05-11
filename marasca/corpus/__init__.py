@@ -182,7 +182,11 @@ class DjVuCorpus(Corpus):
             elif k == 'orig':
                 k = ugettext_lazy('origin')
                 v = self._origins[v]
-            else:
+            elif k == 'dummy':
+                # Poliqarp doesn't cope well with completely missing
+                # metadata. To work around this problem, dummy metadata was
+                # added to some corpora, but of course it shouldn't be shown
+                # to the user.
                 continue
             result[k] = [v]
         return result
