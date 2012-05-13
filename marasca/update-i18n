@@ -1,3 +1,2 @@
 #!/bin/sh
-./manage makemessages -a
-sed -i -e '/^#: /d' locale/*/LC_MESSAGES/*.po
+./manage makemessages -a --no-wrap --no-location
