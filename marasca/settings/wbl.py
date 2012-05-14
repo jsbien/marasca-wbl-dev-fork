@@ -74,6 +74,8 @@ SEND_BROKEN_LINK_EMAILS = True
 
 QUERY_LOG = '/srv/poliqarp/marasca/logs/query-log'
 
+BUFFER_SIZE = 10000
+
 DEBUG = False
 
 TIME_ZONE = 'Europe/Warsaw'
