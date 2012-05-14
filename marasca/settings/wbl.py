@@ -41,6 +41,20 @@ def _get_corpora():
             title=_(u'B. Chlebowski, F. Sulimierski, W. Walewski (ed.), The Geographical Dictionary of the Polish Kingdom and other Slavic Countries, Warszawa 1880-1902'),
             abbreviation='SGKP'
         ),
+        DjVuCorpus(path=os.path.join(_corpora_dir, 'IMPACT_GT_1'),
+            id='impact-gt-1',
+            title=_(u'IMPACT GT corpus (1-d), 1570-1756'),
+            abbreviation='IMPACT_GT_1',
+            has_interps=True,
+            public=False,
+        ),
+        DjVuCorpus(path=os.path.join(_corpora_dir, 'IMPACT_GT_2'),
+            id='impact-gt-2',
+            title=_(u'IMPACT GT corpus (2-d), 1570-1756'),
+            abbreviation='IMPACT_GT_2',
+            has_interps=True,
+            public=False,
+        ),
     ]
 
 CORPORA = _get_corpora()
