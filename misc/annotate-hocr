@@ -1,0 +1,169 @@
+#!/usr/bin/python
+# encoding=UTF-8
+
+# Copyright © 2010, 2011, 2012 Jakub Wilk <jwilk@jwilk.net>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 dated June, 1991.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+
+
+'''
+Annotate an hOCR file with structural information,
+which is read from the standard input.
+'''
+
+from __future__ import with_statement
+
+import argparse
+import collections
+import os
+import sys
+
+import lxml.html as etree
+
+xhtml_namespace = 'http://www.w3.org/1999/xhtml'
+xhtml = '{%s}' % xhtml_namespace
+
+inf = 1e9999
+
+class Subdocument(object):
+
+    @staticmethod
+    def _check_range(l, r):
+        if not l <= r:
+            raise ValueError('Invalid page range [%s, %s]' % (l, r))
+
+    def __init__(self, name, l, r):
+        self.name = name
+        self.l = l
+        self.r = r
+        self._check_range(self.l, self.r)
+        self.children = []
+
+    def includes(self, l, r):
+        self._check_range(l, r)
+        assert self.l <= self.r
+        return self.l <= l <= r <= self.r
+
+    def add_child(self, new_child):
+        if not self.includes(new_child.l, new_child.r):
+            raise ValueError
+        if self.children:
+            last_child = self.children[-1]
+            if not last_child.r < new_child.l:
+                raise ValueError('Cannot append %r after %r' % (last_child, new_child))
+        self.children += [new_child]
+
+    def __repr__(self):
+        return '%s(%r, %s, %s)' % (type(self).__name__, self.name, self.l, self.r)
+
+def new_volume_info():
+    return [Subdocument(None, -inf, +inf)]
+
+def collect_data():
+
+    data = collections.defaultdict(new_volume_info)
+    volume_no = None
+    state = 0
+
+    for line in sys.stdin:
+        line = line.rstrip()
+        if line.startswith('#'):
+            continue
+        if line == '':
+            volume_info = None
+            state = 0
+            continue
+        if state == 0:
+            volume_no = int(line)
+            volume_info = data[volume_no]
+            state = 1
+            continue
+        if state == 1:
+            name, l, r = line.split(',')[:3]
+            l, r = map(int, (l, r))
+            subdocument = Subdocument(name, l, r)
+            while not volume_info[-1].includes(l, r):
+                volume_info.pop()
+            volume_info[-1].add_child(subdocument)
+            volume_info += [subdocument]
+
+    for n in data.keys():
+        data[n] = data[n][0]
+
+    return data
+
+def _process(subdocument, hocr_pages):
+    result = etree.Element(xhtml + 'div')
+    result.tail = '\n'
+    if subdocument.name:
+        result.set('class', 'ocrx_' + subdocument.name)
+    children = list(reversed(subdocument.children))
+    i = subdocument.l
+    while i <= subdocument.r:
+        if children and children[-1].includes(i, i):
+            i = children[-1].r
+            result.append(_process(children.pop(), hocr_pages))
+        else:
+            result.append(hocr_pages.pop(i))
+        i += 1
+    return result
+
+def process(volume_info, hocr_pages):
+    hocr_pages = dict(hocr_pages)
+    volume_info.l = min(hocr_pages.iterkeys())
+    volume_info.r = max(hocr_pages.iterkeys())
+    result = _process(volume_info, hocr_pages)
+    if hocr_pages:
+        raise ValueError('Some pages were not processed: %r' % hocr_pages.keys())
+    return result
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def __init__(self):
+        argparse.ArgumentParser.__init__(self, description=__doc__)
+        output_group = self.add_argument_group(title='options controlling output')
+        output_group.add_argument('--dry-run', dest='run', action='append_const', const=0, help="don't change any files")
+        output_group.add_argument('--in-place', dest='run', action='append_const', const=1, help="save results in-place")
+        self.add_argument('files', metavar='<hocr-file>', nargs='+', help='hOCR file(s) to annotate')
+
+    def parse_args(self):
+        options = argparse.ArgumentParser.parse_args(self)
+        try:
+            [options.run] = options.run
+        except (TypeError, ValueError):
+            self.error('You must use exactly one of the following options: --dry-run/--in-place')
+        return options
+
+def main():
+    oparser = ArgumentParser()
+    options = oparser.parse_args()
+    data = collect_data()
+    xhtml_parser = etree.XHTMLParser(load_dtd=True)
+    for volume_no, filename in enumerate(options.files):
+        volume_no += 1
+        volume_info = data[volume_no]
+        print >>sys.stderr, '+ volume %d' % volume_no
+        with open(filename, 'rb') as input_file:
+            hocr = etree.parse(input_file, parser=xhtml_parser)
+            if hocr.getroot().tag != xhtml + 'html':
+                raise SyntaxError('''Input file does't look like XHTML''')
+            body = hocr.find(xhtml + 'body')
+            hocr_pages = dict((i + 1, page) for i, page in enumerate(body))
+            body[:] = process(volume_info, hocr_pages)
+        if not options.run:
+            continue
+        os.rename(filename, filename + '~')
+        with open(filename, 'wb') as output_file:
+            hocr.write(output_file, encoding='UTF-8')
+
+if __name__ == '__main__':
+    main()
+
+# vim:ts=4 sw=4 et

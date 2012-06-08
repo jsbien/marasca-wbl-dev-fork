@@ -1,6 +1,6 @@
 # encoding=UTF-8
 
-# Copyright © 2009, 2010 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2009, 2010, 2011, 2012 Jakub Wilk <jwilk@jwilk.net>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ ADMINS = MANAGERS = ()
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
 )
 
@@ -33,6 +33,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'localeurl',
     'django.contrib.sessions',
 )
 
@@ -47,6 +48,27 @@ LANGUAGES = (
     ('pl', _('Polish')),
     ('en', _('English')),
 )
+LOCALEURL_USE_ACCEPT_LANGUAGE = True
+LOCALE_REDIRECT_PERMANENT = False
+LOCALE_INDEPENDENT_PATHS = (
+    r'^/css/',
+    r'^/extra/',
+    r'^/google',
+    r'^/i18n/',
+    r'^/js/',
+    r'^/ping/',
+    r'^/redirect/',
+)
+
+# localeurl documentation recommends adding localeurl to INSTALLED_APPS, so
+# that urlresolvers.reverse() can be monkey-patches. However, for some Django
+# deployments (e.g. mod-wsgi) the monkey-patching code was loaded too late. We
+# import localeurl.models directly in settings.py instead, which appears to be
+# more robust. See also: http://bugs.debian.org/665908
+try:
+    import localeurl.models
+except ImportError:
+    pass
 
 SESSION_LOCKS_DIRECTORY = '../locks/'
 SESSION_LOCK_TIMEOUT = 5
@@ -55,12 +77,24 @@ BUFFER_SIZE = 1000
 NOTIFICATION_INTERVAL = 10
 MAX_RANDOM_SAMPLE_SIZE = BUFFER_SIZE
 MAX_RESULTS_PER_PAGE = 1000
+MAX_MATCH_LENGTH = 1000
 QUERY_TIMEOUT = 0.5
 
 # By default poliqarpd restricts life-time of an idle session to 1200 seconds.
 # See max-session-idle setting in poliqarpd(1).
 # This value should be *lower* than that one.
 SESSION_REFRESH = 1000
+
+SNIPPET_DEFAULT_SCREEN_DPI = 100 # wild guess
+SNIPPET_MAX_WIDTH = 400
+SNIPPET_MAX_HEIGHT = 200
+SNIPPET_CACHE_SIZE = 128 << 20
+SNIPPET_COLORS = [
+    (0, 0, 1, 0.25), # normal
+    (1, 1, 0, 0.25), # partially cropped
+]
+
+QUERY_LOG = None
 
 try:
     from .secret_key import SECRET_KEY
