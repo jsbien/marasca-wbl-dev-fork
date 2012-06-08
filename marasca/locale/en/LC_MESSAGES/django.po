@@ -156,6 +156,17 @@ msgid ""
 "mail and should be fixed shortly. Thanks for your patience."
 msgstr ""
 
+msgid "Service unavailable (503)"
+msgstr ""
+
+msgid "Service unavailable"
+msgstr ""
+
+msgid ""
+"The server is currently unable to handle the request due to a temporary "
+"overload."
+msgstr ""
+
 msgid "Searching corpus, please wait…"
 msgstr ""
 

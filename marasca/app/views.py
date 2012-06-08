@@ -330,6 +330,13 @@ def corpus_info(request, corpus_id):
     response = django.http.HttpResponse(template.render(context))
     return response
 
+def temporary_overload(request):
+    template = get_template('503.html')
+    context = Context(request)
+    response = django.http.HttpResponse(template.render(context), status=503)
+    response['Retry-After'] = 60
+    return response
+
 @django.views.decorators.cache.never_cache
 def process_query(request, corpus_id, query=False, page_start=0, nth=None):
     settings = get_settings(request)
@@ -370,7 +377,10 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
                 # With random sample on, rerunning query makes sense
                 # even if query text didn't change
                 settings.need_query_remake(True)
-            qinfo = run_query(connection, settings, corpus, query, l, r)
+            try:
+                qinfo = run_query(connection, settings, corpus, query, l, r)
+            except poliqarp.Busy:
+                return temporary_overload(request)
             if not isinstance(qinfo, Exception) and nth is not None:
                 qinfo.rinfo = extract_result_info(connection, settings, corpus, nth)
         if isinstance(qinfo, (poliqarp.Busy, poliqarp.QueryRunning)):

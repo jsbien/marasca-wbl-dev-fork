@@ -1,0 +1,16 @@
+{% extends "error.html" %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Service unavailable (503)" %}
+{% endblock %}
+
+{% block summary %}
+{% trans "Service unavailable" %} <span>(503)</span>
+{% endblock %}
+
+{% block info %}
+{% trans "The server is currently unable to handle the request due to a temporary overload." %}
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}

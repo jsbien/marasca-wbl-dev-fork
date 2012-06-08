@@ -160,6 +160,18 @@ msgstr ""
 "Wystąpił niespodziewany błąd. Został on zgłoszony e-mailem administratorowi "
 "strony i powinien zostać wkrótce naprawiony. Dziękujemy za cierpliwość."
 
+msgid "Service unavailable (503)"
+msgstr "Usługa niedostępna (503)"
+
+msgid "Service unavailable"
+msgstr "Usługa niedostępna"
+
+msgid ""
+"The server is currently unable to handle the request due to a temporary "
+"overload."
+msgstr ""
+"Serwer nie może obecnie obsłużyć zapytania z powodu chwilowego przeciążenia."
+
 msgid "Searching corpus, please wait…"
 msgstr "Trwa przeszukiwanie korpusu, proszę czekać…"
 
