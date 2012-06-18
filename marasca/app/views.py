@@ -14,6 +14,7 @@
 from __future__ import with_statement
 
 import contextlib
+import datetime
 import sys
 import time
 
@@ -23,8 +24,11 @@ import django.forms
 import django.http
 import django.template
 import django.template.loader
+import django.utils.datastructures
 import django.utils.translation
 import django.views.decorators.cache
+
+import localeurl.utils
 
 import utils.locks
 import utils.i18n
@@ -50,7 +54,7 @@ class Context(django.template.RequestContext):
 
 def process_index(request):
     template = get_template('index.html')
-    context = Context(request)
+    context = Context(request, selected='index')
     return django.http.HttpResponse(template.render(context))
 
 class QueryForm(django.forms.Form):
@@ -135,9 +139,22 @@ def extract_result_info(connection, settings, corpus, n, extract_context=True, e
     info = ResultInfo(n)
     if extract_context:
         info.context = connection.get_context(n)
-    if extract_metadata:
+    if extract_metadata and corpus.has_metadata:
         info.metadata = connection.get_metadata(n, dict_type=corpus.enhance_metadata)
     return info
+
+def log_query(connection, settings, corpus, query):
+    query_log = global_settings.QUERY_LOG
+    if not query_log:
+        return
+    with utils.locks.FileLock(file(query_log, 'at')) as fp:
+        print >>fp, '\t'.join((
+            datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S%z'),
+            connection.get_default_session_name(),
+            corpus.id,
+            'TG'[settings.graphical_concordances],
+            query.encode('UTF-8'),
+        ))
 
 def run_query(connection, settings, corpus, query, l, r):
     connection.open_corpus(corpus.id)
@@ -147,6 +164,8 @@ def run_query(connection, settings, corpus, query, l, r):
         return ex
     except poliqarp.Busy, ex:
         return ex
+    else:
+        log_query(connection, settings, corpus, query)
     settings.need_query_remake(False)
     qinfo = QueryInfo()
     if settings.random_sample:
@@ -248,11 +267,14 @@ class Result(object):
         for column in self._raw_result:
             ctype = column[0]
             if ctype.is_match:
+                ctype.show_orth = 's' in settings.show_in_match
                 ctype.show_lemmata = 'l' in settings.show_in_match
                 ctype.show_tags = 't' in settings.show_in_match
             elif ctype.is_context:
+                ctype.show_orth = 's' in settings.show_in_context
                 ctype.show_lemmata = 'l' in settings.show_in_context
                 ctype.show_tags = 't' in settings.show_in_context
+            ctype.show_interp = ctype.show_lemmata or ctype.show_tags
 
     def __getitem__(self, n):
         return self._raw_result[n]
@@ -326,7 +348,12 @@ def corpus_info(request, corpus_id):
         corpus_info = extra_template.render(context)
     except django.template.TemplateDoesNotExist:
         corpus_info = None
-    context.update(dict(corpus_info=corpus_info))
+    try:
+        extra_template = django.template.loader.get_template('corpora/%s_suffix.html' % corpus.id)
+        corpus_info_suffix = extra_template.render(context)
+    except django.template.TemplateDoesNotExist:
+        corpus_info_suffix = None
+    context.update(dict(corpus_info=corpus_info, corpus_info_suffix=corpus_info_suffix))
     response = django.http.HttpResponse(template.render(context))
     return response
 
@@ -395,7 +422,7 @@ def process_query(request, corpus_id, query=False, page_start=0, nth=None):
             corpus.enhance_results(qinfo.results)
     if error is not None:
         form._errors.setdefault('query', form.error_class()).append(error)
-    context = Context(request, selected=corpus, form=form, qinfo=qinfo)
+    context = Context(request, selected=corpus, form=form, qinfo=qinfo, settings=settings)
     response = django.http.HttpResponse(template.render(context))
     response['Refresh'] = str(global_settings.SESSION_REFRESH)
     return response
@@ -445,23 +472,23 @@ class SettingsForm(django.forms.Form):
         widget=django.forms.RadioSelect,
         required=False,
     )
-    show_in_context = django.forms.ChoiceField(
+    show_in_context = django.forms.MultipleChoiceField(
         choices = [
-            ('slt', ugettext_lazy('segments, lemmata and tags')),
-            ('sl', ugettext_lazy('segments and lemmata')),
-            ('s', ugettext_lazy('segments only')),
+            ('s', ugettext_lazy('primary forms')),
+            ('l', ugettext_lazy('derived forms')),
+            ('t', ugettext_lazy('tags')),
         ],
-        widget=django.forms.RadioSelect,
-        required=False,
+        widget=django.forms.CheckboxSelectMultiple,
+        required=True,
     )
-    show_in_match = django.forms.ChoiceField(
+    show_in_match = django.forms.MultipleChoiceField(
         choices = [
-            ('slt', ugettext_lazy('segments, lemmata and tags')),
-            ('sl', ugettext_lazy('segments and lemmata')),
-            ('s', ugettext_lazy('segments only')),
+            ('s', ugettext_lazy('primary forms')),
+            ('l', ugettext_lazy('derived forms')),
+            ('t', ugettext_lazy('tags')),
         ],
-        widget=django.forms.RadioSelect,
-        required=False,
+        widget=django.forms.CheckboxSelectMultiple,
+        required=True,
     )
     left_context_width = django.forms.IntegerField(
         min_value = 1,
@@ -482,6 +509,9 @@ class SettingsForm(django.forms.Form):
         min_value = 1,
         max_value = global_settings.MAX_RESULTS_PER_PAGE,
         widget=django.forms.TextInput(attrs=dict(size=3))
+    )
+    graphical_concordances = django.forms.BooleanField(
+        required=False
     )
     next = django.forms.CharField(
         required=False,
@@ -504,6 +534,7 @@ class Settings(object):
         right_context_width = 5,
         wide_context_width = 50,
         results_per_page = 25,
+        graphical_concordances = False,
     )
 
     _dirty = set()
@@ -560,7 +591,15 @@ class Settings(object):
         return self._need_sort_rerun
 
     def get_dict(self):
-        return dict((key, getattr(self, key)) for key in self.defaults)
+        def to_list(key, value):
+            if key.startswith('show_in_'):
+                return list(value)
+            else:
+                return [value]
+        return django.utils.datastructures.MultiValueDict(
+            (key, to_list(key, getattr(self, key)))
+            for key in self.defaults
+        )
 
     def on_set_random_sample(self, key, value):
         self._need_query_rerun = True
@@ -610,9 +649,10 @@ def process_settings(request):
     form_data = settings.get_dict()
     if request.method == 'POST':
         for name, field in SettingsForm.base_fields.iteritems():
-            if isinstance(field, django.forms.BooleanField):
+            if isinstance(field, (django.forms.BooleanField, django.forms.fields.MultipleChoiceField)):
                 del form_data[name]
-        form_data.update((name, value) for name, value in request.POST.iteritems())
+        for key, values in request.POST.iterlists():
+            form_data.setlist(key, values)
         next = form_data.get('next')
     next = next or get_referrer(request)
     form_data['next'] = next
@@ -644,14 +684,13 @@ def set_language(request):
     url = request.REQUEST.get('next', None) or get_referrer(request)
     if not is_local_url(url):
         url = '/'
-    response = django.http.HttpResponseRedirect(url)
     if request.method == 'POST':
         lang_code = request.POST.get('language', None)
         if lang_code and django.utils.translation.check_for_language(lang_code):
             get_settings(request).language = lang_code
-            request.session['django_language'] = lang_code
-            request.session.save()
-    return response
+            _, url = localeurl.utils.strip_path(url)
+            url = localeurl.utils.locale_path(url, lang_code)
+    return django.http.HttpResponseRedirect(url)
 
 def process_help(request):
     template = get_template('help.html')
