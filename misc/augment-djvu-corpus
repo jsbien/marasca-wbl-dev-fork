@@ -91,11 +91,14 @@ def process_files(options):
                 m = bbox_re.search(title)
                 if m is None:
                     raise ValueError('segment without a bounding box')
-                bbox = [min(max(0, int(x)), 0xffff) for x in m.groups()]
+                bbox = [int(x) for x in m.groups()]
                 if not options.flip:
                     # (0, 0) is a top-left corner in hOCR,
                     # but bottom-left corner in DjVu.
                     bbox[1], bbox[3] = page_height - bbox[3], page_height - bbox[1]
+                # Make sure that all the coordinates fit a 16-bit unsigned
+                # integer:
+                bbox = [min(max(0, int(x)), 0xffff) for x in bbox]
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
                 n += 1
