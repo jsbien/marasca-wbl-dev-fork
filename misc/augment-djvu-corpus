@@ -98,7 +98,10 @@ def process_files(options):
                     bbox[1], bbox[3] = page_height - bbox[3], page_height - bbox[1]
                 # Make sure that all the coordinates fit a 16-bit unsigned
                 # integer:
-                bbox = [min(max(0, int(x)), 0xffff) for x in bbox]
+                old_bbox = tuple(bbox)
+                bbox = tuple(min(max(0, int(x)), 0xffff) for x in bbox)
+                if bbox != old_bbox:
+                    print >>sys.stderr, 'Truncating %r -> %r' % (old_bbox, bbox)
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
                 n += 1
