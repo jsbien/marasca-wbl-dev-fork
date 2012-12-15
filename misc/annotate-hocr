@@ -153,7 +153,7 @@ def main():
         with open(filename, 'rb') as input_file:
             hocr = etree.parse(input_file, parser=xhtml_parser)
             if hocr.getroot().tag != xhtml + 'html':
-                raise SyntaxError('''Input file does't look like XHTML''')
+                raise SyntaxError('''Input file doesn't look like XHTML''')
             body = hocr.find(xhtml + 'body')
             hocr_pages = dict((i + 1, page) for i, page in enumerate(body))
             body[:] = process(volume_info, hocr_pages)
