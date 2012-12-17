@@ -101,7 +101,7 @@ def process_files(options):
                 old_bbox = tuple(bbox)
                 bbox = tuple(min(max(0, int(x)), 0xffff) for x in bbox)
                 if bbox != old_bbox:
-                    print >>sys.stderr, 'Truncating %r -> %r' % (old_bbox, bbox)
+                    print >>sys.stderr, '%s:%d: truncating %r -> %r' % (filename, elem.sourceline, old_bbox, bbox)
                 bbox = ''.join((struct.pack('< HHHH', *bbox)))
                 f_coordinates.write(bbox)
                 n += 1
