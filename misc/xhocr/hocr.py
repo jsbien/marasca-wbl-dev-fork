@@ -113,34 +113,39 @@ class Merger(object):
                 else:
                     raise MergeError
         if ocr_word:
-            base_title_pattern = parse_title(base_element)[0]
-            max_wconf = -1
-            max_element = None
-            for element in elements:
-                del element.attrib['id'] # merging could cause duplicate identifiers
-                title_pattern, bbox, wconf = parse_title(element)
-                if title_pattern != base_title_pattern:
-                    logger.error("error: unable to merge hOCR because attributes differ")
-                    for e in base_element, element:
-                        logger.error("- {loc}: {elem} attribute 'title' is {value!r}",
-                            loc=xmlutils.location(e),
-                            elem=xmlutils.repr(e),
-                            value=e.get('title'),
-                        )
-                # TODO: check if bounding boxes are matching
-                if wconf > max_wconf:
-                    max_wconf = wconf
-                    max_element = element
-            base_parent = base_element.getparent()
-            if max_element is not base_element:
-                base_parent.replace(base_element, max_element)
-            lang = max_element.get('lang')
-            if lang and self.options.fix_lang:
-                lang = bcp47.from_tesseract(lang)
-                max_element.set('lang', lang)
-            return
+            return self.merge_words(elements)
         for group in zip(*elements):
             self.merge(group)
         return base_element
+
+    def merge_words(self, elements):
+        assert isinstance(elements, list)
+        base_element = elements[0]
+        base_title_pattern = parse_title(base_element)[0]
+        max_wconf = -1
+        max_element = None
+        for element in elements:
+            del element.attrib['id'] # merging could cause duplicate identifiers
+            title_pattern, bbox, wconf = parse_title(element)
+            if title_pattern != base_title_pattern:
+                logger.error("error: unable to merge hOCR because attributes differ")
+                for e in base_element, element:
+                    logger.error("- {loc}: {elem} attribute 'title' is {value!r}",
+                        loc=xmlutils.location(e),
+                        elem=xmlutils.repr(e),
+                        value=e.get('title'),
+                    )
+            # TODO: check if bounding boxes are matching
+            if wconf > max_wconf:
+                max_wconf = wconf
+                max_element = element
+        base_parent = base_element.getparent()
+        if max_element is not base_element:
+            base_parent.replace(base_element, max_element)
+        lang = max_element.get('lang')
+        if lang and self.options.fix_lang:
+            lang = bcp47.from_tesseract(lang)
+            max_element.set('lang', lang)
+        return
 
 # vim:ts=4 sw=4 et
