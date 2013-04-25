@@ -125,7 +125,10 @@ class Merger(object):
         max_wconf = -1
         max_element = None
         for element in elements:
-            del element.attrib['id'] # merging could cause duplicate identifiers
+            try:
+                del element.attrib['id'] # merging could cause duplicate identifiers
+            except LookupError:
+                pass
             title_pattern, bbox, wconf = parse_title(element)
             if title_pattern != base_title_pattern:
                 logger.error("error: unable to merge hOCR because attributes differ")
