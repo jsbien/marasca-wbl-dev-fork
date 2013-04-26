@@ -15,10 +15,12 @@
 hOCR format support
 '''
 
+import copy
 import re
 
 import bcp47
 import logger
+import uax29
 import xmlutils
 
 bbox_re = re.compile(ur'\b bbox \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ (\d+) \b', re.VERBOSE)
@@ -34,6 +36,14 @@ def parse_title(elem):
     title = bbox_re.sub(orc, title)
     title = wconf_re.sub(orc, title)
     return title, bbox, wconf
+
+def subst_bbox(elem, bbox):
+    title = elem.get('title')
+    if not title:
+        return
+    bbox = 'bbox {0} {1} {2} {3}'.format(*bbox)
+    title = bbox_re.sub(bbox, title, count=1)
+    elem.set('title', title)
 
 class MergeError(Exception):
     pass
@@ -146,9 +156,51 @@ class Merger(object):
         if max_element is not base_element:
             base_parent.replace(base_element, max_element)
         lang = max_element.get('lang')
-        if lang and self.options.fix_lang:
+        if lang:
             lang = bcp47.from_tesseract(lang)
-            max_element.set('lang', lang)
-        return
+            if self.options.uax29:
+                locale = uax29.Locale(lang)
+            if self.options.fix_lang:
+                max_element.set('lang', lang)
+        elif self.options.uax29:
+            locale = uax29.default_locale
+        if not self.options.uax29:
+            return
+        text_element = max_element
+        while len(text_element) == 1:
+            [text_element] = text_element
+        text = text_element.text
+        if text is None:
+            logger.warning('warning: empty word')
+            logger.warning("- {loc}: {elem}",
+                loc=xmlutils.location(max_element),
+                elem=xmlutils.repr(max_element),
+            )
+            return
+        split_text = list(uax29.split(text, locale=locale))
+        if len(split_text) > 1:
+            i = 0
+            n = len(text)
+            for subtext in split_text:
+                j = i + len(subtext)
+                x0, y0, x1, y1 = bbox
+                w = x1 - x0
+                subbbox = (
+                    x0 + w * i // n,
+                    y0,
+                    x0 + w * j // n,
+                    y1,
+                )
+                subelement = copy.deepcopy(max_element)
+                subtext_element = subelement
+                while len(subtext_element) == 1:
+                    [subtext_element] = subtext_element
+                subtext_element.text = subtext
+                subst_bbox(subelement, subbbox)
+                subelement.tail = None
+                max_element.addprevious(subelement)
+                i = j
+            subelement.tail = max_element.tail
+            base_parent.remove(max_element)
 
 # vim:ts=4 sw=4 et

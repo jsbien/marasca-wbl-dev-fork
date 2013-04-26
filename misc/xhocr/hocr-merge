@@ -30,6 +30,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.strip())
     ap.add_argument('files', metavar='HOCR-FILE', nargs='+', help='hOCR files to merge')
     ap.add_argument('--fix-lang', action='store_true', help='fix "lang" attributes to follow BCP 47')
+    ap.add_argument('--uax29', action='store_true', help='split words using the UAX#29 algorithm')
     options = ap.parse_args()
     trees = []
     for path in options.files:
