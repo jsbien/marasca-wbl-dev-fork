@@ -128,8 +128,19 @@ class Merger(object):
             self.merge(group)
         return base_element
 
+    @classmethod
+    def get_text_element(cls, element):
+        # TODO: add sanity checks
+        while len(element) == 1:
+            [element] = element
+        return element
+
+    @classmethod
+    def get_text(cls, element):
+        return cls.get_text_element(element).text or ''
+
     def merge_words(self, elements):
-        assert isinstance(elements, list)
+        elements = list(elements)
         base_element = elements[0]
         base_title_pattern = parse_title(base_element)[0]
         max_wconf = -1
@@ -166,9 +177,7 @@ class Merger(object):
             locale = uax29.default_locale
         if not self.options.uax29:
             return
-        text_element = max_element
-        while len(text_element) == 1:
-            [text_element] = text_element
+        text_element = self.get_text_element(max_element)
         text = text_element.text
         if text is None:
             logger.warning('warning: empty word')
@@ -181,9 +190,7 @@ class Merger(object):
         if len(split_text) > 1:
             for subtext, subbbox in split_text:
                 subelement = copy.deepcopy(max_element)
-                subtext_element = subelement
-                while len(subtext_element) == 1:
-                    [subtext_element] = subtext_element
+                subtext_element = self.get_text_element(subelement)
                 subtext_element.text = subtext
                 subst_bbox(subelement, subbbox)
                 subelement.tail = None

@@ -17,6 +17,7 @@ XML utilities
 
 import copy
 import re
+import xml.sax.saxutils
 
 import lxml.etree as etree
 
@@ -49,5 +50,17 @@ def elem_inside_to_string(elem):
     s = re.sub('^<[^>]*>', '', s, count=1)
     s = re.sub('</[^>]*>$', '', s, count=1)
     return s
+
+def escape(s):
+    if isinstance(s, unicode):
+        s = s.encode('UTF-8')
+    return xml.sax.saxutils.escape(s)
+
+def quoteattr(s):
+    if isinstance(s, unicode):
+        s = s.encode('UTF-8')
+    return xml.sax.saxutils.quoteattr(s)
+
+__all__ = ['repr', 'location', 'elem_inside_to_string', 'escape', 'quoteattr']
 
 # vim:ts=4 sw=4 et
