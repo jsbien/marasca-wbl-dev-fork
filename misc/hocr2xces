@@ -66,7 +66,7 @@ def main():
         if event == 'start':
             for cls in classes:
                 print '<chunk type=%s>' % xmlutils.quoteattr(cls.encode('UTF-8'))
-                tail = True # <ns/> is never needed at the begging of a chunk
+                tail = True # <ns/> is never needed at the beggining of a chunk
         else:
             if is_word:
                 text = elem.text or ''
