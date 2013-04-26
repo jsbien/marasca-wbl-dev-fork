@@ -24,4 +24,22 @@ def split(text, locale=default_locale):
         yield text[i:j]
         i = j
 
+def split_bbox(text, bbox, locale=default_locale):
+    x0, y0, x1, y1 = bbox
+    w = x1 - x0
+    break_iterator = icu.BreakIterator.createWordInstance(locale)
+    break_iterator.setText(text)
+    n = len(text)
+    i = 0
+    for j in break_iterator:
+        subtext = text[i:j]
+        subbbox = (
+            x0 + w * i // n,
+            y0,
+            x0 + w * j // n,
+            y1,
+        )
+        yield subtext, subbbox
+        i = j
+
 # vim:ts=4 sw=4 et

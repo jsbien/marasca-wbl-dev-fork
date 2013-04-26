@@ -177,20 +177,9 @@ class Merger(object):
                 elem=xmlutils.repr(max_element),
             )
             return
-        split_text = list(uax29.split(text, locale=locale))
+        split_text = list(uax29.split_bbox(text, bbox, locale=locale))
         if len(split_text) > 1:
-            i = 0
-            n = len(text)
-            for subtext in split_text:
-                j = i + len(subtext)
-                x0, y0, x1, y1 = bbox
-                w = x1 - x0
-                subbbox = (
-                    x0 + w * i // n,
-                    y0,
-                    x0 + w * j // n,
-                    y1,
-                )
+            for subtext, subbbox in split_text:
                 subelement = copy.deepcopy(max_element)
                 subtext_element = subelement
                 while len(subtext_element) == 1:
@@ -199,7 +188,6 @@ class Merger(object):
                 subst_bbox(subelement, subbbox)
                 subelement.tail = None
                 max_element.addprevious(subelement)
-                i = j
             subelement.tail = max_element.tail
             base_parent.remove(max_element)
 
