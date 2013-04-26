@@ -13,7 +13,7 @@
 # General Public License for more details.
 
 '''
-Convert hOCR document (read from standard intput)
+Convert hOCR document (read from standard input)
 to IPI PAN variant of XCES (written to standard output).
 '''
 
@@ -66,7 +66,7 @@ def main():
         if event == 'start':
             for cls in classes:
                 print '<chunk type=%s>' % xmlutils.quoteattr(cls.encode('UTF-8'))
-                tail = True # <ns/> is never needed at the beggining of a chunk
+                tail = True # <ns/> is never needed at the beginning of a chunk
         else:
             if is_word:
                 text = elem.text or ''
