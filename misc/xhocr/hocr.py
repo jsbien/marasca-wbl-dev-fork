@@ -130,9 +130,24 @@ class Merger(object):
 
     @classmethod
     def get_text_element(cls, element):
-        # TODO: add sanity checks
         while len(element) == 1:
             [element] = element
+            if element.tail is not None:
+                logger.error('error: element has unexpected trailing text')
+                logger.error("- {loc}: {elem}",
+                    loc=xmlutils.location(element),
+                    elem=xmlutils.repr(element),
+                )
+                raise MergeError
+        if len(element) != 0:
+            logger.error('error: element has unexpected content')
+            logger.error("- {loc}: {elem} has {n} {child}",
+                loc=xmlutils.location(element),
+                elem=xmlutils.repr(element),
+                n=len(e),
+                child=('child' if len(e) == 1 else 'children'),
+            )
+            raise MergeError
         return element
 
     @classmethod
