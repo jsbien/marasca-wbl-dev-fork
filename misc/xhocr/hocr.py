@@ -144,8 +144,8 @@ class Merger(object):
             logger.error("- {loc}: {elem} has {n} {child}",
                 loc=xmlutils.location(element),
                 elem=xmlutils.repr(element),
-                n=len(e),
-                child=('child' if len(e) == 1 else 'children'),
+                n=len(element),
+                child=('child' if len(element) == 1 else 'children'),
             )
             raise MergeError
         return element
