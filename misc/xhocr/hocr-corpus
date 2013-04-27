@@ -79,10 +79,6 @@ class XcesMerger(hocr.Merger):
         max_element = None
         welements = {}
         for element in elements:
-            try:
-                del element.attrib['id'] # merging could cause duplicate identifiers
-            except LookupError:
-                pass
             title_pattern, bbox, wconf = hocr.parse_title(element)
             if title_pattern != base_title_pattern:
                 logger.error("error: unable to merge hOCR because attributes differ")
