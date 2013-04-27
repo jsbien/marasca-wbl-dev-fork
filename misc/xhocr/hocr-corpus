@@ -30,6 +30,7 @@ from lxml import etree
 import bcp47
 import hocr
 import logger
+import uax29
 import xmlutils
 
 xces_top = '''\
@@ -78,6 +79,7 @@ class XcesMerger(hocr.Merger):
         max_wconf = -1
         max_element = None
         welements = {}
+        split_lengths = set()
         for element in elements:
             title_pattern, bbox, wconf = hocr.parse_title(element)
             if title_pattern != base_title_pattern:
@@ -102,37 +104,81 @@ class XcesMerger(hocr.Merger):
             if lang:
                 lang = bcp47.from_tesseract(lang)
                 tag += ':' + lang
+                if self.options.uax29:
+                    locale = uax29.Locale(lang)
+            elif self.options.uax29:
+                locale = uax29.default_locale
+            if self.options.uax29:
+                split_text = tuple(
+                    text
+                    for text, bbox
+                    in uax29.split_bbox(text, bbox, locale=locale)
+                )
+            else:
+                split_text = (text,)
+            split_lengths.add(len(split_text))
             # TODO: Add font attribute.
             # TODO: Add confidence attribute.
             try:
                 prev_wconf = welements[(text, tag)]
             except LookupError:
-                welements[(text, tag)] = wconf
+                welements[(split_text, tag)] = wconf
             else:
-                welements[(text, tag)] = max(wconf, prev_wconf)
+                welements[(split_text, tag)] = max(wconf, prev_wconf)
             # TODO: Check if bounding boxes are matching.
             if wconf > max_wconf:
                 max_wconf = wconf
                 max_element = element
+                max_tuple = (max_split_text, max_tag) = (split_text, tag)
         if not self.context.tail:
             print('<ns/>')
-        print('<tok>')
-        text = self.get_text(max_element)
-        if not text:
-            text = u'\N{OBJECT REPLACEMENT CHARACTER}'
-        print('<orth>{orth}</orth>'.format(orth=xmlutils.escape(text)))
-        for (text, tag), wconf in welements.iteritems():
-            print('<lex disamb="{disamb}"><base>{base}</base><ctag>{tag}</ctag></lex>'.format(
-                disamb=int(wconf == max_wconf),
-                base=xmlutils.escape(text),
-                tag=xmlutils.escape(tag),
-            ))
-        print('</tok>')
+        if len(split_lengths) > 1:
+            if len(max_tuple[0]) == 1:
+                # Unsplit:
+                welements = dict(
+                    (((''.join(split_text),), tag), wconf)
+                    for (split_text, tag), wconf
+                    in welements.items()
+                )
+                split_length = 1
+            else:
+                logger.warning('warning: inconsistent segmentation')
+                for e in elements:
+                    text = self.get_text(e)
+                    split_text = list(
+                        text
+                        for text, bbox
+                        in uax29.split_bbox(text, bbox, locale=locale)
+                    )
+                    logger.error("- {loc}: {elem} {status} text {text!r} -> {split!r}",
+                        loc=xmlutils.location(e),
+                        elem=xmlutils.repr(e),
+                        status=('accepted' if e is max_element else 'rejected'),
+                        text=text,
+                        split=split_text,
+                    )
+                welements = {max_tuple: welements[max_tuple]}
+                split_length = len(max_split_text)
+        else:
+            [split_length] = split_lengths
+        for i in xrange(split_length):
+            if 0 < i < split_length - 1:
+                print('<ns/>')
+            print('<tok>')
+            print('<orth>{orth}</orth>'.format(orth=xmlutils.escape(max_split_text[i])))
+            for (split_text, tag), wconf in welements.iteritems():
+                print('<lex disamb="{disamb}"><base>{base}</base><ctag>{tag}</ctag></lex>'.format(
+                    disamb=int(wconf == max_wconf),
+                    base=xmlutils.escape(split_text[i]),
+                    tag=xmlutils.escape(tag),
+                ))
+            print('</tok>')
         self.context.tail = bool(base_element.tail)
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.strip())
     ap.add_argument('files', metavar='HOCR-FILE', nargs='+', help='hOCR files to merge')
+    ap.add_argument('--uax29', action='store_true', help='split words using the UAX#29 algorithm')
     options = ap.parse_args()
     trees = []
     for path in options.files:
