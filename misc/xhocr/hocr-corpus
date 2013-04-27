@@ -186,7 +186,7 @@ def main():
     merger = XcesMerger(options)
     print(xces_top, end='')
     try:
-        root = merger.merge([t.getroot() for t in trees])
+        merger.merge([t.getroot() for t in trees])
     except hocr.MergeError:
         sys.exit(1)
     print(xces_bottom, end='')
