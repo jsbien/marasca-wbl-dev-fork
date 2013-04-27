@@ -103,6 +103,7 @@ class XcesMerger(hocr.Merger):
                 lang = bcp47.from_tesseract(lang)
                 tag += ':' + lang
             # TODO: Add font attribute.
+            # TODO: Add confidence attribute.
             try:
                 prev_wconf = welements[(text, tag)]
             except LookupError:
