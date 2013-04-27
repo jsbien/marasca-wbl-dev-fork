@@ -137,7 +137,7 @@ class Merger(object):
 
     @classmethod
     def get_text(cls, element):
-        return cls.get_text_element(element).text or ''
+        return (cls.get_text_element(element).text or '').strip()
 
     def merge_words(self, elements):
         elements = list(elements)
@@ -175,16 +175,17 @@ class Merger(object):
                 max_element.set('lang', lang)
         elif self.options.uax29:
             locale = uax29.default_locale
-        if not self.options.uax29:
-            return
         text_element = self.get_text_element(max_element)
-        text = text_element.text
-        if text is None:
+        text = (text_element.text or '').strip()
+        if not text:
+            # TODO: Implement a better strategy for dealing with empty words.
             logger.warning('warning: empty word')
             logger.warning("- {loc}: {elem}",
                 loc=xmlutils.location(max_element),
                 elem=xmlutils.repr(max_element),
             )
+            return
+        if not self.options.uax29:
             return
         split_text = list(uax29.split_bbox(text, bbox, locale=locale))
         if len(split_text) > 1:

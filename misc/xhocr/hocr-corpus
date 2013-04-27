@@ -91,6 +91,14 @@ class XcesMerger(hocr.Merger):
                         value=e.get('title'),
                     )
             text = self.get_text(element)
+            if not text:
+                # TODO: Implement a better strategy for dealing with empty words.
+                logger.warning('warning: empty word; replacing with OBJECT REPLACEMENT CHARACTER')
+                logger.warning("- {loc}: {elem}",
+                    loc=xmlutils.location(max_element),
+                    elem=xmlutils.repr(max_element),
+                )
+                text = '\N{OBJECT REPLACEMENT CHARACTER}'
             tag = 'ign'
             lang = element.get('lang')
             if lang:
