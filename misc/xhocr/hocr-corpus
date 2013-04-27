@@ -70,6 +70,7 @@ class XcesMerger(hocr.Merger):
             print('</chunk>')
 
     def merge_words(self, elements):
+        # TODO: Add support for UAX#29.
         elements = list(elements)
         base_element = elements[0]
         base_title_pattern = hocr.parse_title(base_element)[0]
@@ -104,13 +105,14 @@ class XcesMerger(hocr.Merger):
             if lang:
                 lang = bcp47.from_tesseract(lang)
                 tag += ':' + lang
+            # TODO: Add font attribute.
             try:
                 prev_wconf = welements[(text, tag)]
             except LookupError:
                 welements[(text, tag)] = wconf
             else:
                 welements[(text, tag)] = max(wconf, prev_wconf)
-            # TODO: check if bounding boxes are matching
+            # TODO: Check if bounding boxes are matching.
             if wconf > max_wconf:
                 max_wconf = wconf
                 max_element = element

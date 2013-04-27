@@ -174,7 +174,7 @@ class Merger(object):
                         elem=xmlutils.repr(e),
                         value=e.get('title'),
                     )
-            # TODO: check if bounding boxes are matching
+            # TODO: Check if bounding boxes are matching.
             if wconf > max_wconf:
                 max_wconf = wconf
                 max_element = element
