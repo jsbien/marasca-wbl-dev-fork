@@ -29,6 +29,7 @@ from lxml import etree
 
 import bcp47
 import hocr
+import logger
 import xmlutils
 
 xces_top = '''\
@@ -96,10 +97,10 @@ class XcesMerger(hocr.Merger):
                 # TODO: Implement a better strategy for dealing with empty words.
                 logger.warning('warning: empty word; replacing with OBJECT REPLACEMENT CHARACTER')
                 logger.warning("- {loc}: {elem}",
-                    loc=xmlutils.location(max_element),
-                    elem=xmlutils.repr(max_element),
+                    loc=xmlutils.location(element),
+                    elem=xmlutils.repr(element),
                 )
-                text = '\N{OBJECT REPLACEMENT CHARACTER}'
+                text = u'\N{OBJECT REPLACEMENT CHARACTER}'
             tag = 'ign'
             lang = element.get('lang')
             if lang:
@@ -120,6 +121,8 @@ class XcesMerger(hocr.Merger):
             print('<ns/>')
         print('<tok>')
         text = self.get_text(max_element)
+        if not text:
+            text = u'\N{OBJECT REPLACEMENT CHARACTER}'
         print('<orth>{orth}</orth>'.format(orth=xmlutils.escape(text)))
         for (text, tag), wconf in welements.iteritems():
             print('<lex disamb="{disamb}"><base>{base}</base><ctag>{tag}</ctag></lex>'.format(
