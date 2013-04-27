@@ -107,7 +107,7 @@ class Merger(object):
             if not ocr_word and len(element) != len(base_element):
                 if ocr_line:
                     logfn = logger.warning
-                    logfn("warning: unable to merge hOCR because number of child elements didn't match:")
+                    logfn("warning: number of child elements didn't match:")
                 else:
                     logfn = logger.error
                     logfn("error: unable to merge hOCR because number of child elements didn't match:")
