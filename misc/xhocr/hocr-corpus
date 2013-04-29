@@ -161,18 +161,23 @@ class XcesMerger(hocr.Merger):
                 split_length = len(max_split_text)
         else:
             [split_length] = split_lengths
+        has_disamb = False
         for i in xrange(split_length):
             if 0 < i < split_length - 1:
                 print('<ns/>')
             print('<tok>')
             print('<orth>{orth}</orth>'.format(orth=xmlutils.escape(max_split_text[i])))
             for (split_text, tag), wconf in welements.iteritems():
+                disamb = wconf == max_wconf
+                if disamb:
+                    has_disamb = True
                 print('<lex disamb="{disamb}"><base>{base}</base><ctag>{tag}</ctag></lex>'.format(
-                    disamb=int(wconf == max_wconf),
+                    disamb=int(disamb),
                     base=xmlutils.escape(split_text[i]),
                     tag=xmlutils.escape(tag),
                 ))
             print('</tok>')
+            assert has_disamb, welements
         self.context.tail = bool(base_element.tail)
 
 def main():
