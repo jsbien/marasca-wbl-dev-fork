@@ -102,14 +102,15 @@ class XcesMerger(hocr.Merger):
             tag = 'ign'
             lang = element.get('lang')
             if lang:
-                lang = bcp47.from_tesseract(lang)
-                locale = uax29.Locale(lang)
+                langtag = bcp47.LanguageTag.from_tesseract(lang)
             else:
-                lang = 'und'
-                locale = uax29.default_locale
-            tag += ':{lang}'.format(lang=lang)
+                langtag = bcp47.LanguageTag('und')
+            tag += ':{lang}'.format(lang=langtag.language)
+            if langtag.script:
+                tag += ':{script}'.format(script=langtag.script.lower())
             tag += ':{wconf}'.format(wconf = wconf//10 if wconf < 90 else '9')
             if self.options.uax29:
+                locale = langtag.get_locale()
                 split_text = tuple(
                     text
                     for text, bbox
