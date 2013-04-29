@@ -120,7 +120,7 @@ class XcesMerger(hocr.Merger):
             # TODO: Add font attribute.
             # TODO: Add confidence attribute.
             try:
-                prev_wconf = welements[(text, tag)]
+                prev_wconf = welements[(split_text, tag)]
             except LookupError:
                 welements[(split_text, tag)] = wconf
             else:
