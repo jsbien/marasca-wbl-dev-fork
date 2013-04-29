@@ -103,11 +103,12 @@ class XcesMerger(hocr.Merger):
             lang = element.get('lang')
             if lang:
                 lang = bcp47.from_tesseract(lang)
-                tag += ':' + lang
-                if self.options.uax29:
-                    locale = uax29.Locale(lang)
-            elif self.options.uax29:
+                locale = uax29.Locale(lang)
+            else:
+                lang = 'und'
                 locale = uax29.default_locale
+            tag += ':{lang}'.format(lang=lang)
+            tag += ':{wconf}'.format(wconf = wconf//10 if wconf < 90 else '9')
             if self.options.uax29:
                 split_text = tuple(
                     text
@@ -118,7 +119,6 @@ class XcesMerger(hocr.Merger):
                 split_text = (text,)
             split_lengths.add(len(split_text))
             # TODO: Add font attribute.
-            # TODO: Add confidence attribute.
             try:
                 prev_wconf = welements[(split_text, tag)]
             except LookupError:
