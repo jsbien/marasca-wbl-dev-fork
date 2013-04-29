@@ -185,7 +185,7 @@ class Merger(object):
         if lang:
             lang = bcp47.LanguageTag.from_tesseract(lang)
             if self.options.uax29:
-                locale = uax29.Locale(lang)
+                locale = lang.get_locale()
             if self.options.fix_lang:
                 max_element.set('lang', str(lang))
         elif self.options.uax29:
