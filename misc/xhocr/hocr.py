@@ -26,6 +26,11 @@ import xmlutils
 bbox_re = re.compile(ur'\b bbox \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ (\d+) \b', re.VERBOSE)
 wconf_re = re.compile(ur'\b x_wconf \s+ (\d+) \b', re.VERBOSE)
 
+formatting_tags = dict(
+    ('{{{xhtml}}}{tag}'.format(xhtml=xmlutils.namespaces['xhtml'], tag=tag), tag)
+    for tag in ('strong', 'em')
+)
+
 def parse_title(elem):
     title = elem.get('title', '')
     orc = u'\N{OBJECT REPLACEMENT CHARACTER}'
@@ -129,9 +134,17 @@ class Merger(object):
         return base_element
 
     @classmethod
-    def get_text_element(cls, element):
+    def get_text_info(cls, element):
+        '''
+        return (text_element, text, formatting) tuple
+        '''
+        formatting = set()
         while len(element) == 1:
             [element] = element
+            try:
+                formatting.add(formatting_tags[element.tag])
+            except LookupError:
+                pass
             if element.tail is not None:
                 logger.error('error: element has unexpected trailing text')
                 logger.error("- {loc}: {elem}",
@@ -148,11 +161,7 @@ class Merger(object):
                 child=('child' if len(element) == 1 else 'children'),
             )
             raise MergeError
-        return element
-
-    @classmethod
-    def get_text(cls, element):
-        return (cls.get_text_element(element).text or '').strip()
+        return element, (element.text or '').strip(), frozenset(formatting)
 
     def merge_words(self, elements):
         elements = list(elements)
@@ -190,8 +199,7 @@ class Merger(object):
                 max_element.set('lang', str(lang))
         elif self.options.uax29:
             locale = uax29.default_locale
-        text_element = self.get_text_element(max_element)
-        text = (text_element.text or '').strip()
+        text_element, text, _ = self.get_text_info(max_element)
         if not text:
             # TODO: Implement a better strategy for dealing with empty words.
             logger.warning('warning: empty word')
@@ -206,7 +214,7 @@ class Merger(object):
         if len(split_text) > 1:
             for subtext, subbbox in split_text:
                 subelement = copy.deepcopy(max_element)
-                subtext_element = self.get_text_element(subelement)
+                subtext_element, _, _ = self.get_text_info(subelement)
                 subtext_element.text = subtext
                 subst_bbox(subelement, subbbox)
                 subelement.tail = None

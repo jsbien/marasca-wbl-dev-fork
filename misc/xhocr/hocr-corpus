@@ -90,7 +90,7 @@ class XcesMerger(hocr.Merger):
                         elem=xmlutils.repr(e),
                         value=e.get('title'),
                     )
-            text = self.get_text(element)
+            text_element, text, formatting = self.get_text_info(element)
             if not text:
                 # TODO: Implement a better strategy for dealing with empty words.
                 logger.warning('warning: empty word; replacing with OBJECT REPLACEMENT CHARACTER')
@@ -108,6 +108,8 @@ class XcesMerger(hocr.Merger):
             tag += ':{lang}'.format(lang=langtag.language)
             if langtag.script:
                 tag += ':{script}'.format(script=langtag.script.lower())
+            tag += ':{series}'.format(series=['medium', 'bold']['strong' in formatting])
+            tag += ':{shape}'.format(shape=['upright', 'italic']['em' in formatting])
             tag += ':{wconf}'.format(wconf = wconf//10 if wconf < 90 else '9')
             if self.options.uax29:
                 locale = langtag.get_locale()
@@ -145,7 +147,7 @@ class XcesMerger(hocr.Merger):
             else:
                 logger.warning('warning: inconsistent segmentation')
                 for e in elements:
-                    text = self.get_text(e)
+                    _, text, _ = self.get_text_info(e)
                     split_text = list(
                         text
                         for text, bbox
