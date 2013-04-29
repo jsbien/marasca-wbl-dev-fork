@@ -166,7 +166,7 @@ class XcesMerger(hocr.Merger):
             [split_length] = split_lengths
         has_disamb = False
         for i in xrange(split_length):
-            if 0 < i < split_length - 1:
+            if i > 0:
                 print('<ns/>')
             print('<tok>')
             print('<orth>{orth}</orth>'.format(orth=xmlutils.escape(max_split_text[i])))
