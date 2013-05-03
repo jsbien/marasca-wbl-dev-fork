@@ -22,7 +22,8 @@ import xml.sax.saxutils
 import lxml.etree as etree
 
 namespaces = dict(
-    xhtml='http://www.w3.org/1999/xhtml'
+    xhtml='http://www.w3.org/1999/xhtml',
+    xml='http://www.w3.org/XML/1998/namespace',
 )
 
 def repr(elem):

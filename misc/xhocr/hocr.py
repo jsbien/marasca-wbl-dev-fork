@@ -31,6 +31,8 @@ formatting_tags = dict(
     for tag in ('strong', 'em')
 )
 
+xml_lang = '{{{xml}}}lang'.format(xml=xmlutils.namespaces['xml'])
+
 def parse_title(elem):
     title = elem.get('title', '')
     orc = u'\N{OBJECT REPLACEMENT CHARACTER}'
@@ -98,7 +100,7 @@ class Merger(object):
                 if element.get(attr) != base_element.get(attr):
                     if ocr_page and attr == 'title':
                         continue
-                    if ocr_word and attr in ('id', 'dir', 'lang', 'title'):
+                    if ocr_word and attr in ('id', 'dir', 'lang', xml_lang, 'title'):
                         continue
                     logger.error("error: unable to merge hOCR because attributes differ")
                     for e in base_element, element:
