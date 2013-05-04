@@ -27,8 +27,6 @@ from __future__ import print_function
 import argparse
 import sys
 
-from lxml import etree
-
 import bcp47
 import hocr
 import logger
@@ -192,7 +190,10 @@ def main():
     options = ap.parse_args()
     trees = []
     for path in options.files:
-        trees += [etree.parse(path)]
+        try:
+            trees += [hocr.parse(path)]
+        except hocr.XMLSyntaxError:
+            sys.exit(1)
     merger = XcesMerger(options)
     print(xces_top, end='')
     try:

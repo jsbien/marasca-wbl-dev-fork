@@ -23,6 +23,8 @@ import logger
 import uax29
 import xmlutils
 
+import lxml.etree
+
 bbox_re = re.compile(ur'\b bbox \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ (\d+) \b', re.VERBOSE)
 wconf_re = re.compile(ur'\b x_wconf \s+ (\d+) \b', re.VERBOSE)
 
@@ -51,6 +53,16 @@ def subst_bbox(elem, bbox):
     bbox = 'bbox {0} {1} {2} {3}'.format(*bbox)
     title = bbox_re.sub(bbox, title, count=1)
     elem.set('title', title)
+
+XMLSyntaxError = lxml.etree.XMLSyntaxError
+
+def parse(path):
+    try:
+        return lxml.etree.parse(path)
+    except XMLSyntaxError, exc:
+        logger.error('error: XML is not well formed:')
+        logger.error('- {path}: {msg}', path=path, n=exc.lineno, msg=str(exc))
+        raise
 
 class MergeError(Exception):
     pass
