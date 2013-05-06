@@ -46,8 +46,8 @@ def location(elem):
     n = elem.sourceline
     return '{path}:{n}'.format(path=path, n=n)
 
-def elem_inside_to_string(elem):
-    s = etree.tostring(elem, with_tail=False)
+def elem_inside_to_string(elem, encoding='ASCII'):
+    s = etree.tostring(elem, with_tail=False, encoding=encoding)
     s = re.sub('^<[^>]*>', '', s, count=1)
     s = re.sub('</[^>]*>$', '', s, count=1)
     return s

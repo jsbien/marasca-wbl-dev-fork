@@ -72,7 +72,7 @@ def main():
                 sys.exit(1)
             remove_ids(tree)
         body = tree.find('xhtml:body', namespaces=xmlutils.namespaces)
-        sys.stdout.write(xmlutils.elem_inside_to_string(body))
+        sys.stdout.write(xmlutils.elem_inside_to_string(body, encoding='UTF-8'))
     sys.stdout.write(hocr_bottom)
 
 if __name__ == '__main__':
