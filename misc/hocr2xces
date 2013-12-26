@@ -85,6 +85,9 @@ def main():
                 print '</chunk>'
             tail = elem.tail
             elem.clear()
+        if event == 'end' and elem.getparent() is None:
+            # work-around for http://bugs.debian.org/732197
+            break
     print xces_footer,
 
 if __name__ == '__main__':
