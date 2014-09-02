@@ -37,6 +37,10 @@ INSTALLED_APPS = (
 )
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+# PickleSerializer is a bad idea for the cookie backend,
+# but it's okay for the file backend.
+# https://docs.djangoproject.com/en/1.5/topics/http/sessions/#using-cookie-based-sessions
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 def _(x): return x
