@@ -16,7 +16,6 @@ import hashlib
 import urllib
 
 import django.http
-from django.views.generic.simple import redirect_to as simple_redirect
 from django.conf import settings
 
 def protect_url(url):
