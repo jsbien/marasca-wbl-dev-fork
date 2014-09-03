@@ -64,16 +64,6 @@ LOCALE_INDEPENDENT_PATHS = (
     r'^/redirect/',
 )
 
-# localeurl documentation recommends adding localeurl to INSTALLED_APPS, so
-# that urlresolvers.reverse() can be monkey-patches. However, for some Django
-# deployments (e.g. mod-wsgi) the monkey-patching code was loaded too late. We
-# import localeurl.models directly in settings.py instead, which appears to be
-# more robust. See also: http://bugs.debian.org/665908
-try:
-    import localeurl.models
-except ImportError:
-    pass
-
 SESSION_LOCKS_DIRECTORY = '../locks/'
 SESSION_LOCK_TIMEOUT = 5
 
@@ -117,5 +107,15 @@ _module = getattr(__import__('', locals(), globals(), [_hostname], 1), _hostname
 _data = dict((k, v) for k, v in vars(_module).items() if not k.startswith('_'))
 vars().update(_data)
 del _data, _module, _hostname, _get_hostname
+
+# localeurl documentation recommends adding localeurl to INSTALLED_APPS, so
+# that urlresolvers.reverse() can be monkey-patches. However, for some Django
+# deployments (e.g. mod-wsgi) the monkey-patching code was loaded too late. We
+# import localeurl.models directly in settings.py instead, which appears to be
+# more robust. See also: http://bugs.debian.org/665908
+try:
+    import localeurl.models
+except ImportError:
+    pass
 
 # vim:ts=4 sw=4 et
