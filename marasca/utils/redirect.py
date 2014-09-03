@@ -20,7 +20,11 @@ from django.conf import settings
 
 def protect_url(url):
     key = hash_url(url)
-    quoted_url = urllib.quote(url, safe='/:')
+    if django.VERSION < (1, 6):
+        # https://docs.djangoproject.com/en/1.6/releases/1.6/#quoting-in-reverse
+        quoted_url = urllib.quote(url, safe='/:')
+    else:
+        quoted_url = url
     if quoted_url.startswith('http://'):
         tail = quoted_url[7:]
     else:
