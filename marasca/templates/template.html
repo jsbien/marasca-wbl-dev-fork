@@ -1,4 +1,4 @@
-{% load i18n %}<?xml version='1.0' encoding='UTF-8'?>
+{% load url from future %}{% load i18n %}<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='{{LANGUAGE_CODE}}'>
 
@@ -6,13 +6,13 @@
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>{% trans "Poliqarp search engine" %}</title>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
-    <script type='text/javascript' src='{% url js "jquery.bgiframe.js" %}'></script>
-    <script type='text/javascript' src='{% url js "jquery.delegate.js" %}'></script>
-    <script type='text/javascript' src='{% url js "jquery.dimensions.js" %}'></script>
-    <script type='text/javascript' src='{% url js "jquery.tooltip.js" %}'></script>
-    <script type='text/javascript' src='{% url js "default.js" %}'></script>
-    <link rel='stylesheet' href='{% url css "default.css" %}' type='text/css' />
-    <link rel='stylesheet' href='{% url css "print.css" %}' type='text/css' media='print' />
+    <script type='text/javascript' src='{% url "js" "jquery.bgiframe.js" %}'></script>
+    <script type='text/javascript' src='{% url "js" "jquery.delegate.js" %}'></script>
+    <script type='text/javascript' src='{% url "js" "jquery.dimensions.js" %}'></script>
+    <script type='text/javascript' src='{% url "js" "jquery.tooltip.js" %}'></script>
+    <script type='text/javascript' src='{% url "js" "default.js" %}'></script>
+    <link rel='stylesheet' href='{% url "css" "default.css" %}' type='text/css' />
+    <link rel='stylesheet' href='{% url "css" "print.css" %}' type='text/css' media='print' />
     {% block extra_meta %}
     {% endblock %}
 </head>
@@ -21,7 +21,7 @@
     <div class='sidebar'>
         <ul>
             <li><span>{% trans "Interface language:" %}</span>
-                <form action='{% url app.views.set_language %}' method='post'>
+                <form action='{% url "app.views.set_language" %}' method='post'>
                 <select name='language'>
                 {% for lang in LANGUAGES %}
                 <option value='{{lang.0}}'{% ifequal lang.0 LANGUAGE_CODE %} selected='selected'{% endifequal %}>{{lang.1}}</option>
@@ -36,14 +36,14 @@
                     {% for corpus in corpora %}
                     {% if corpus.public %}
                         <li>
-                            <a href='{% url corpus corpus.id %}'{% ifequal corpus selected %} class='selected'{% endifequal %}>{% trans corpus.title %}</a>
+                            <a href='{% url "corpus" corpus.id %}'{% ifequal corpus selected %} class='selected'{% endifequal %}>{% trans corpus.title %}</a>
                         </li>
                     {% endif %}
                     {% endfor %}
                 </ul>
             </li>
-            <li><a href='{% url settings %}'{% ifequal selected "settings" %} class='selected'{% endifequal %}>{% trans "Settings" %}</a></li>
-            <li><a href='{% url help %}'{% ifequal selected "help" %} class='selected'{% endifequal %}>{% trans "Help" %}</a></li>
+            <li><a href='{% url "settings" %}'{% ifequal selected "settings" %} class='selected'{% endifequal %}>{% trans "Settings" %}</a></li>
+            <li><a href='{% url "help" %}'{% ifequal selected "help" %} class='selected'{% endifequal %}>{% trans "Help" %}</a></li>
         </ul>
     </div>
     <div class='body'>
