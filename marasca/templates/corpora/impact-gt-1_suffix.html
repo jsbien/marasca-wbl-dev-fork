@@ -1,0 +1,128 @@
+{% load i18n %}
+
+{% blocktrans %}<p>
+The <code>base</code> fields of the tokens contain so
+called facsimile transcription, while the <code>orth</code> fields
+contain simplified so called textel transcription.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p>
+The metadata include the links to the digital library and the <code>title</code> field,
+which can be just displayed or used to limit the query with the <code>meta</code> clause.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>title</code> field takes the following values:
+{% endblocktrans %}
+<small>
+<table cellspacing='1' border='5'>
+<tbody>
+		<tr>
+			<td>Nowe Ateny albo Akademia wszelkiey scyencyi pełna, na różne tytuły iak na classes podzielona, mądrym dla memoryału, idiotom dla nauki, politykom dla praktyki, melancholikom dla rozrywki erygowana ... / przez Xiędza Benedykta Chmielowskiego ... . Część 1.</td>
+		</tr>
+		<tr>
+			<td>Nowe Ateny, albo Akademia wszelkiey scyencyi pełna, na różne tytuły iak na classes podzielona, mądrym dla memoryału, idiotom dla nauki, politykom dla praktyki, melancholikom dla rozrywki erygowana ... / przez Xiędza Benedykta Chmielowskiego ... . Część 2.</td>
+		</tr>
+		<tr>
+			<td>Nowe Ateny, albo Akademia wszelkiey scyencyi pełna, na różne tytuły iak na classes podzielona, mądrym dla memoryału, idiotom dla nauki, politykom dla praktyki, melancholikom dla rozrywki erygowana ... . Część 3 albo Supplement.</td>
+		</tr>
+		<tr>
+			<td>Nowe Ateny, albo Akademia wszelkiey scyencyi pełna, na różne tytuły iak na classes podzielona, mądrym dla memoryału, idiotom dla nauki, politykom dla praktyki, melancholikom dla rozrywki erygowana ... . Część 4, a drugi Supplement.</td>
+		</tr>
+		<tr>
+			<td>O cieplicach we Skle Ksiąg Troie. Przez Erazma Syxta Philozophiey y Medicyny Doktora Napisanych…</td>
+		</tr>
+		<tr>
+			<td>Oekonomika ziemianska generalna Punktámi Pártikulárnemi, Interrogatoryámi Gospodárskiemi, Praktyką Mieśięczną, Modelluszámi abo Tabułámi Arithmetycznemi obiaśniona. Pánom Dźiedzicznym, Arendarzom, Oekonomom, Attendętom, Urzędnikom, [...].</td>
+		</tr>
+		<tr>
+			<td>Zbiór rytmów duchownych Panegirycznych Moralnych i Swiatowych [...] Elżbiety z Kowalskich Druzbackiey [...] Zebrany y do druku podany przez J. Z. R. K. O. W. etc. [Załuskiego Józefa Andrzeja]</td>
+		</tr>
+		<tr>
+			<td>Discurs o cenie pieniedzy teraznieyszey y o niektorych skutkach iey…</td>
+		</tr>
+		<tr>
+			<td>Relacja koronacji cudownego obrazu Najświętszej Marii Panny na Górze Różańcowej [w Podkamieniu]</td>
+		</tr>
+		<tr>
+			<td>Żałosne opisanie upadku króla hiszpańskiego na morzu i na lądzie</td>
+		</tr>
+		<tr>
+			<td>Nowiny z Rakuz o monstrancji luterskiej</td>
+		</tr>
+		<tr>
+			<td>Powodzenia niebezpiecznego ale szczęśliwego wojska j. k. m. w Multanach opisanie</td>
+		</tr>
+		<tr>
+			<td>List o oblężeniu zamku Dyjamenckiego w Inflantach do Krzysztofa Moniwida Dorohostajskiego, dnia 22 października 1605 pisany</td>
+		</tr>
+		<tr>
+			<td>Nowiny z Inflant o porażce, która się stała nad Karolem, księciem Sudermańskim przez Jana Karola Chodkiewicza dnia 27 września 1605</td>
+		</tr>
+		<tr>
+			<td>Diariusz wiadomości od wyjazdu króla z Wilna do Smoleńska</td>
+		</tr>
+		<tr>
+			<td>Ceremonie i porządek w koronowaniu Marii de Medici, królowej francuskiej i nawarskiej 13 maja 1610</td>
+		</tr>
+		<tr>
+			<td>Szturm pocieszny smoleński, który był odprawiony szczęśliwie 13 czerwca 1611</td>
+		</tr>
+		<tr>
+			<td>Pasja żołnierzy obojga narodów w stolicy moskiewskiej krótko opisana</td>
+		</tr>
+		<tr>
+			<td>Nowiny z Torunia o zabronieniu przez heretyków nabożeństwa i procesji katolickich</td>
+		</tr>
+		<tr>
+			<td>Nowe nowiny z Czech, Tatar i Węgier, przy tym rewokacja księcia czeskiego i jak radę cesarską z zamku oknem wyrzucali i innego króla sobie obrali</td>
+		</tr>
+		<tr>
+			<td>Chorągiew Sarmacka w Wołoszech, to jest pospolite ruszenie i szczęśliwy powrót Polaków z Wołoch w roku 1621</td>
+		</tr>
+		<tr>
+			<td>Poseł z Wołoch z obozu polskiego. 1621</td>
+		</tr>
+		<tr>
+			<td>Relacja prawdziwa o wejściu wojska polskiego do Wołoch i o potrzebie jego z pogaństwem we wrześniu i październiku 1620</td>
+		</tr>
+		<tr>
+			<td>Adwersaria, albo terminata sprawy wojennej, która się toczyła w wołoskiej ziemi z tureckim cesarzem</td>
+		</tr>
+		<tr>
+			<td>Wieść z Moskwy prawdziwa krótkim rymem wyprowadzona</td>
+		</tr>
+		<tr>
+			<td>Nowiny z Moskwy albo wota z traktatów i konsulty panów radnych ziemi moskiewskiej, które carowi swemu podawali</td>
+		</tr>
+		<tr>
+			<td>Wyprawa i wyjazd sułtana Amurata, cesarza tureckiego, na wojnę do Korony Polskiej</td>
+		</tr>
+		<tr>
+			<td>Prawdziwa relacja i opisanie straszliwego trzęsienia ziemi 27 marca roku 1638 w Kalabrii</td>
+		</tr>
+		<tr>
+			<td>Relacja chwalebnej ekspedycji Jana Kazimierza, króla polskiego i szwedzkiego</td>
+		</tr>
+		<tr>
+			<td>Relacja spraw gdańskich na sejmie walnym warszawskim roku 1570</td>
+		</tr>
+		<tr>
+			<td>Sławna wiktoria nad Turkami od wojsk koronnych i Wielkiego Księstwa Litewskiego pod Chocimiem otrzymana</td>
+		</tr>
+		<tr>
+			<td>SŁAWNA VICTORIA, NAD TVRKAMI. OD WOYSK KORONNYCH: Y WIELKIEGO XIĘSTWA LITEWSKIEGO: Pod CHOCIMEM OtrZYMANA. W dźień SWIĘTEGO MARCINA w Roku 1673.</td>
+		</tr>
+	</tbody>
+</table>
+</small>
+</p>
+<p></p>
+
+{% blocktrans %}<p>
+The users are invited to join the mailing lists: <a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>the announcement list</a>
+and <a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>the discussion list</a>.
+</p>
+{% endblocktrans %}

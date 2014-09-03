@@ -68,6 +68,10 @@ div.corpus-info, div.search-engine-info {
     margin-bottom: 2em;
 }
 
+div.corpus-info-suffix {
+    margin-top: 2em;
+}
+
 div.query-results {
     margin-top: 1em;
 }
@@ -133,15 +137,16 @@ h1 {
     margin-top: 1.2em;
 }
 
-code {
-    display: block;
-    margin-left: 2em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
 input#id_query {
     width: 30em;
+}
+
+.small-print {
+    font-size: small;
+}
+
+.bookmark-result {
+    display: none;
 }
 
 #tooltip {
@@ -149,7 +154,7 @@ input#id_query {
     z-index: 3000;
     border: 1px solid #666;
     background-color: #FFF;
-    padding: 5px;
+    padding: 0;
 }
 
 #tooltip div, #tooltip h3, #tooltip dl {

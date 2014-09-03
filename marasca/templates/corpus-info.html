@@ -10,6 +10,12 @@
 
 {% include "query-form.html" %}
 
+{% if corpus_info_suffix %}
+    <div class='corpus-info-suffix'>
+    {{corpus_info_suffix}}
+    </div>
+{% endif %}
+
 {% endblock %}
 
 {# vim:set ts=4 sw=4 et: #}

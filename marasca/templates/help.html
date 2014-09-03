@@ -1,0 +1,27 @@
+{% extends "template.html" %}
+{% load i18n %}
+
+{% block body %}
+
+<div>
+
+<p>
+{% blocktrans %}
+The query syntax is fully compatible with the following descriptions
+{% endblocktrans %}
+</p>
+<ul>
+    {% for url in help_urls %}
+    <li><a href='{{url}}'>{{url}}</a>,</li>
+    {% endfor %}
+</ul>
+<p>
+{% blocktrans %}
+but due to the specific characters of this corpus only the segment
+queries are meaningful.
+{% endblocktrans %}
+</p>
+
+{% endblock %}
+
+{# vim:set ts=4 sw=4 et: #}
