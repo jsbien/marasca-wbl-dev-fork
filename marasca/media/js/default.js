@@ -10,6 +10,13 @@ function update_random_sample_widgets(event)
 
 function bookmark_link(event)
 {
+    if (!window.sidebar.addPanel) {
+        // window.sidebar.AddPanel was removed in Firefox 23:
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=691647
+        // Let's try HTML5's rel="sidebar" instead.
+        event.target.rel = 'sidebar';
+        return;
+    }
     event.preventDefault();
     timestamp = (new Date()).toLocaleString();
     info = event.target.href.split('#', 2)
