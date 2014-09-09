@@ -11,6 +11,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # General Public License for more details.
 
+import os
+
 TEMPLATE_DEBUG = DEBUG = False
 
 ADMINS = MANAGERS = ()
@@ -50,6 +52,13 @@ LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('pl', _('Polish')),
     ('en', _('English')),
+)
+LOCALE_PATHS = (
+    os.path.join(
+        os.path.dirname(__file__),
+        os.pardir,
+        'locale',
+    ),
 )
 
 SESSION_LOCKS_DIRECTORY = '../locks/'
