@@ -1,3 +1,4 @@
+{% load url from future %}
 {% load i18n %}
 
 <table>
@@ -5,11 +6,20 @@
 {% for result in qinfo.results %}
     <tr class='{% cycle "even" "odd" %}{% if qinfo.rinfo %}{% ifequal result.n qinfo.rinfo.n %} selected{% endifequal %}{% endif %}'>
         <th><a href='{{result.url}}'{% if selected.has_metadata %} rel='m{{result.n}}'{% endif %}>{{result.n|add:"1"}}</a>.</th>
+        {% if settings.graphical_concordances %}
+        <td>
+            <img src='{% url "snippet" selected.id result.embed.document_id result.embed.page result.embed.rect.x result.embed.rect.y result.embed.rect.w result.embed.rect.h %}' type='image/png'/>
+        </td>
+        {% else %}
         {% for column in result %}
             <td class='{% if column.0.is_left %}left{% else %}right{% endif %}'>
-                {% for segment in column.1 %}{% if segment.href %}<a href='{{segment.href}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% if column.0.show_lemmata %}{% for interp in segment.interps %} [{{interp.lemma}}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.href %}</a>{% endif %}{% endfor %}
+                {% for segment in column.1 %}{% if segment.url %}<a href='{{segment.url}}'>{% endif %}<span{% if segment.interps %} title='{{segment.orth}}{% for interp in segment.interps %} [{{interp.lemma}}:{{interp.tag}}]{% endfor %}'{% endif %}>{% if column.0.show_orth %}{% if column.0.is_match %}<strong>{% endif %}{{segment.orth}}{% if column.0.is_match %}</strong>{% endif %}{% endif %}{% if column.0.show_interp %}{% for interp in segment.interps %} [{% if column.0.show_lemmata %}{{interp.lemma}}{% endif %}{% if column.0.show_tags %}:{{interp.tag}}{% endif %}]{% endfor %}{% endif %}</span>{% if segment.url %}</a>{% endif %}{% endfor %}
             </td>
         {% endfor %}
+        {% endif %}
+        {% with result|dictsortreversed:"0.is_match" as result %}
+        <td class='bookmark-result'><a href='{{result.0.1.0.real_url}}#{{selected.abbreviation}}' title='{{result.0.1.0.orth}}'>{% trans "Bookmark" %}</a></td>
+        {% endwith %}
     </tr>
 {% endfor %}
 

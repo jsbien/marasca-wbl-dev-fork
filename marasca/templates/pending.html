@@ -5,7 +5,7 @@
 {% block body %}
 
 <p>
-    {% trans "Searching corpus, please wait…" %}
+    {% blocktrans %}<span id='wait'>Searching corpus, please wait&#8230;</span>{% endblocktrans %}
     {% blocktrans %}This page will <a href='{{refresh_url}}'>refresh</a> automatically in a second.{% endblocktrans %}
 </p>
 

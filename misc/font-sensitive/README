@@ -1,0 +1,16 @@
+Intro:
+This program converts hOCR files into a corpus that can be opened in poliqarp (http://poliqarp.sourceforge.net/).
+It treats information about fonts as grammatical categories, enabling a user to query the corpus by this information.
+
+Usage:
+./font_sensitive.py corpus_name list_of_filenames_to_convert
+e.g.: ./font_sensitive.py my_corpus filename1.xml filename2.xml filename3.xml
+
+Requirements:
+bpng (poliqarp.sourceforge.net/man/bpng.html) must be installed
+
+Licencing:
+Program it distributed under the MIT license (see LICENSE). Some portions of the code were copied from dxces (https://github.com/nathell/dxces), which was also distributed under MIT license - see dxces_LICENSE
+
+Contact with the author:
+marcin.zajac at students.mimuw.edu.pl
