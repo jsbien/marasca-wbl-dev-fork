@@ -1,20 +1,25 @@
 {% load i18n %}
 
-{% blocktrans %}<p>
-It is recommended to switch on graphical concordances option in
-<a href='/settings/'>Settings</a>.
-{% endblocktrans %}
+{% blocktrans %}<p> Search can be limited to a specific volume with
+the <code>within</code> clause, e.g. <code>within
+vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>
+or <code>within vol6part2</code>.  {% endblocktrans %}
 
 {% blocktrans %}<p>
-Search can be limited to a specific volume with the <code>within</code> clause,
-e.g. <code>within vol6</code> or <code>within vol6part2</code>. The clause can
+The <code>within</code> clause can
 be also used to limit the search to the following sections:
-<code>body</code> (entries and their corrections),
-<code>errata</code> (just the corrections),
-<code>intro</code> (introductory texts),
-<code>info</code> (other informations),
-<code>varia</code> (dedications, subscriber lists),
-<code>front</code> (frontmatter),
-<code>back</code> (backmatter).
+<ul>
+<li><code>body</code> (entries and their corrections),</li>
+<li><code>errata</code> (just the corrections),</li>
+<li><code>intro</code> (introductory texts),</li>
+<li><code>info</code> (other informations),</li>
+<li><code>varia</code> (dedications, subscriber lists),</li>
+<li><code>front</code> (frontmatter),</li>
+<li><code>back</code> (backmatter).</li>
+</ul>
+</p>
+{% endblocktrans %}
+{% blocktrans %}<p class='small-print'>
+The page was updated by Janusz S. Bień in September 2014.
 </p>
 {% endblocktrans %}
