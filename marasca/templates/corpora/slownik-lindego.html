@@ -1,22 +1,82 @@
 {% load i18n %}
 
-{% blocktrans %}<p>
-<a href='http://poliqarp.wbl.klf.uw.edu.pl/extra/linde/index.djvu'>A
-preliminary electronic version</a> of the second edition of Linde's dictionary
+<div class='djvu-detector'>
+
+<object data='/extra/linde.djvu/01/index.djvu' type='image/vnd.djvu' width='100%' height='300'>
+<param name='page' value='1'/>
+<param name='showposition' value='0.5,0.2'/>
+{# In Caminova plugin doesn't work:#}
+<param name='sidebar' value='outline'/>
+<param name='zoom' value='width'/>
+<param name='toolbar' value='no'/>
+<param name='menubar' value='no'/>
+<param name='statusbar' value='no'/>
+<param name='menu' value='yes'/>
+{# In Caminova plugin has opposite effect:#}
+<param name='thumbnails' value='no'/>
+<param name='scrollbars' value='yes'/>
+<param name='frame' value='yes'/>
+{% blocktrans %}
+Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>
+or use the <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a> client program.
+You may also switch on the option “Experimental graphical concordances”.
+{% endblocktrans %}
+</object>
+
+</div>
+
+<p> </p>
+<p> </p>
+<p> </p>
+
+
+{% blocktrans %}<p> This is a preliminary retrodigitization
+of <a href='http://korpusy.klf.uw.edu.pl/extra/linde/index.djvu'> the
+second edition of Linde's dictionary</a> in a form of a two-layer
+(texts and scans) <a href='http://en.wikipedia.org/wiki/DjVu'>DjVu</a>
+corpus with
+an <a href='https://bitbucket.org/jsbien/ilindecsv'>index</a> and the
+two-level regular
+expressions <a href='http://jwilk.net/software/poliqarp'>Poliqarp
+search engine</a>.
+</p>
+{% endblocktrans %} 
+
+{% blocktrans %}<p> The version 1 of the corpus is
+available since August 6, 2010. It contains about 7 milions tokens
+representing about 5000 pages of the dictionary.
 </p>
 {% endblocktrans %}
 
-{% blocktrans %}<p>
+{% blocktrans %}<p> The recommended form of acknowledging in the
+scientific publications the use of this retrodigitization and the
+search engine is to reference the
+paper <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in
+hidden text of large DjVu documents</a> or 
+<a href="http://bc.klf.uw.edu.pl/322/">Skanowane teksty
+jako korpusy</a>. The recommended form of acknowledging the use of
+index is referencing the
+presentation <a href="http://bc.klf.uw.edu.pl/379/">Elektroniczny
+indeks do słownika Lindego</a>.
+</p>
+{% endblocktrans %}
+
+{% blocktrans %}<p> The recommended way to use the search engine and
+the index is
+the <a href="https://bitbucket.org/jsbien/ndt/wiki/wyniki#!djview-for-poliqarp-zdalny-klient-graficzny-serwera-poliqarp-for-djvu-remote-graphical-client-for-poliqarp-for-djvu">djview4poliqarp</a>
+remote client available on all basic platforms. For use with a WWW
+browser it is recommended to switch on <i>Experimental graphical
+concordances</i> in the <i>Settings</i> panel.
+</p>
+{% endblocktrans %}
+
+<p class='small-print'>
+{% blocktrans %}
 Scans were made with Fujitsu fi-6130 scanner and Kofax VRS software by Joanna
-A. Bilińska. OCR was prepared with FineReader 10 (selected language Polish,
+A. Bilińska. OCR was prepared by Janusz S. Bień with FineReader 10 (selected language Polish,
 default values of other recognition parameters) and saved as PDF/A files with
 MRC lossy compression. The scans has been converted to DjVu format by Jakub
 Wilk, he also converted the OCR results to the suitable corpus format.
 </p>
 {% endblocktrans %}
 
-{% blocktrans %}<p>
-The corpus consists of ca. 7 million segments. This version of the
-corpus is available since August 6, 2010.
-</p>
-{% endblocktrans %}
