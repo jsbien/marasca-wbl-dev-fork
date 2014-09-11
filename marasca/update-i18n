@@ -1,2 +1,2 @@
 #!/bin/sh
-./manage makemessages -a --no-wrap --no-location
+./manage makemessages -a --no-wrap --keep-pot
