@@ -1,210 +1,277 @@
+# Janusz S. Bień <jsbien@uw.edu.pl>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: Marasca (Poliqarp web interface)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-08 21:59+0200\n"
-"PO-Revision-Date: 2009-11-05 21:31+0100\n"
-"Last-Translator: Jakub Wilk <jwilk@jwilk.net>\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2014-09-11 03:33-0500\n"
+"PO-Revision-Date: 2014-09-05 14:28+0200\n"
+"Last-Translator: Janusz S. Bień <jsbien@uw.edu.pl>\n"
+"Language-Team: KLF UW\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2));\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
+#: app/views.py:61
 msgid "Query"
 msgstr "Zapytanie"
 
+#: app/views.py:386
 msgid "Please enable cookies and try again"
 msgstr "Proszę włączyć „ciasteczka” i spróbować jeszcze raz"
 
+#: app/views.py:451
 msgid "by left context"
 msgstr "wg lewego kontekstu"
 
+#: app/views.py:452
 msgid "by left match"
 msgstr "wg lewego dopasowania"
 
+#: app/views.py:453
 msgid "by right match"
 msgstr "wg prawego dopasowania"
 
+#: app/views.py:454
 msgid "by right context"
 msgstr "wg prawego kontekstu"
 
+#: app/views.py:461
 msgid "a fronte"
 msgstr "a fronte"
 
+#: app/views.py:462
 msgid "a tergo"
 msgstr "a tergo"
 
+#: app/views.py:469
 msgid "ascending"
 msgstr "rosnąco"
 
+#: app/views.py:470
 msgid "descending"
 msgstr "malejąco"
 
+#: app/views.py:477 app/views.py:486
 msgid "primary forms"
 msgstr "formy pierwotne"
 
+#: app/views.py:478 app/views.py:487
 msgid "derived forms"
 msgstr "formy pochodne"
 
+#: app/views.py:479 app/views.py:488
 msgid "tags"
 msgstr "znaczniki"
 
+#: corpus/__init__.py:89
 msgid "artistic genre"
 msgstr "artystyczny"
 
+#: corpus/__init__.py:90
 msgid "prose"
 msgstr "proza"
 
+#: corpus/__init__.py:91
 msgid "poetry"
 msgstr "poezja"
 
+#: corpus/__init__.py:92
 msgid "drama"
 msgstr "dramat"
 
+#: corpus/__init__.py:93
 msgid "news and commentaries"
 msgstr "publicystyczny"
 
+#: corpus/__init__.py:94
 msgid "non-fiction"
 msgstr "literatura faktu"
 
+#: corpus/__init__.py:95
 msgid "scientific and educational genre"
 msgstr "naukowo-dydaktyczny"
 
+#: corpus/__init__.py:96
 msgid "humanistic"
 msgstr "naukowy humanistyczny"
 
+#: corpus/__init__.py:97
 msgid "nature"
 msgstr "naukowy przyrodniczy"
 
+#: corpus/__init__.py:98
 msgid "technical"
 msgstr "naukowy techniczny"
 
+#: corpus/__init__.py:99
 msgid "popular science"
 msgstr "popularno-naukowy"
 
+#: corpus/__init__.py:100
 msgid "textbook"
 msgstr "podręcznik"
 
+#: corpus/__init__.py:101
 msgid "official style"
 msgstr "urzędowo-kancelaryjny"
 
+#: corpus/__init__.py:102
 msgid "protocol"
 msgstr "protokół"
 
+#: corpus/__init__.py:103
 msgid "law"
 msgstr "ustawa"
 
+#: corpus/__init__.py:104
 msgid "books and guides"
 msgstr "informacyjno-poradnikowy"
 
+#: corpus/__init__.py:105
 msgid "colloquial style"
 msgstr "potoczny"
 
+#: corpus/__init__.py:109
 msgid "newspaper or periodical"
 msgstr "prasa"
 
+#: corpus/__init__.py:110
 msgid "book"
 msgstr "książka"
 
+#: corpus/__init__.py:111
 msgid "internet"
 msgstr "internet"
 
+#: corpus/__init__.py:112
 msgid "manuscript"
 msgstr "rękopis"
 
+#: corpus/__init__.py:132
 msgid "author"
 msgstr "autor"
 
+#: corpus/__init__.py:133
 msgid "title"
 msgstr "tytuł"
 
+#: corpus/__init__.py:134
 msgid "date"
 msgstr "data"
 
+#: corpus/__init__.py:135
 msgid "publisher"
 msgstr "wydawca"
 
+#: corpus/__init__.py:136
 msgid "place of publication"
 msgstr "miejsce wydania"
 
+#: corpus/__init__.py:137
 msgid "style"
 msgstr "styl"
 
+#: corpus/__init__.py:138
 msgid "medium"
 msgstr "medium"
 
+#: corpus/__init__.py:152
 msgid "scan with OCR"
 msgstr "skan z OCR"
 
+#: corpus/__init__.py:153
 msgid "PDF conversion"
 msgstr "konwersja PDF"
 
+#: corpus/__init__.py:170
 msgid "volume"
 msgstr "wolumin"
 
+#: corpus/__init__.py:172
 msgid "year"
 msgstr "rok"
 
+#: corpus/__init__.py:175
 msgid "range"
 msgstr "zakres"
 
+#: corpus/__init__.py:179
 #, python-format
 msgid "from <em>%(start)s</em> to <em>%(stop)s</em>"
 msgstr "od <em>%(start)s</em> do <em>%(stop)s</em>"
 
+#: corpus/__init__.py:183
 msgid "origin"
 msgstr "źródło"
 
+#: settings/__init__.py:54
 msgid "Polish"
 msgstr "polski"
 
+#: settings/__init__.py:55
 msgid "English"
 msgstr "angielski"
 
+#: settings/cauda.py:14
 msgid "J. Karłowicz, A. Kryński, W. Niedźwiedzki. Dictionary of Polish. Warsaw 1900–1927"
 msgstr "J. Karłowicz, A. Kryński, W. Niedźwiedzki. Słownik języka polskiego. Warszawa 1900–1927"
 
+#: settings/cauda.py:19
 msgid "S. Bąk, M. R. Mayenowa, F. Pepłowski (eds.). Dictionary of the 16th century Polish. Wrocław — Warszawa, 1966-???? (work in progress)"
 msgstr "S. Bąk, M. R. Mayenowa, F. Pepłowski (red.). Słownik polszczyzny XVI wieku. Wrocław — Warszawa, 1966-???? (praca w toku)"
 
-msgid "M. Samuel Bogumił Linde. Dictionary of Polish (2nd edition). Lwów 1854-1861."
-msgstr "M. Samuel Bogumił Linde. Słownik języka polskiego (2. wydanie). Lwów 1854-1861."
+#: settings/cauda.py:24
+msgid "S. B. Linde. Dictionary of Polish (2nd edition). Lwów 1854-1861."
+msgstr "S. B. Linde. Słownik języka polskiego (2. wydanie). Lwów 1854-1861."
 
+#: settings/cauda.py:29
 msgid "B. Chlebowski, F. Sulimierski, W. Walewski (ed.), The Geographical Dictionary of the Polish Kingdom and other Slavic Countries, Warszawa 1880-1902"
 msgstr "B. Chlebowski, F. Sulimierski, W. Walewski (red.), Słownik Geograficzny Królestwa Polskiego i innych krajów słowiańskich, Warszawa 1880-1902"
 
+#: settings/cauda.py:34
 msgid "IMPACT GT corpus (1-d), 1570-1756"
 msgstr "Korpus GT projektu IMPACT (wersja 1-w.), 1570-1756"
 
+#: settings/cauda.py:41
 msgid "IMPACT GT corpus (2-d), 1570-1756"
 msgstr "Korpus GT projektu IMPACT (wersja 2-w.), 1570-1756"
 
+#: templates/404.html:5 templates/404.html.py:9
 msgid "Page not found"
 msgstr "Strona nie znaleziona"
 
+#: templates/404.html:13
 msgid "We're sorry, but the requested page could not be found."
 msgstr "Niestety, żądana strona nie została znaleziona. "
 
+#: templates/500.html:5
 msgid "Server error (500)"
 msgstr "Błąd serwera (500)"
 
+#: templates/500.html:9
 msgid "Server error"
 msgstr "Błąd serwera"
 
+#: templates/500.html:13
 msgid "There's been an error. It's been reported to the site administrators and should be fixed shortly. Thanks for your patience."
 msgstr "Wystąpił niespodziewany błąd. Został on zgłoszony administratorowi strony i powinien zostać wkrótce naprawiony. Dziękujemy za cierpliwość."
 
+#: templates/503.html:5
 msgid "Service unavailable (503)"
 msgstr "Usługa niedostępna (503)"
 
+#: templates/503.html:9
 msgid "Service unavailable"
 msgstr "Usługa niedostępna"
 
+#: templates/503.html:13
 msgid "The server is currently unable to handle the request due to a temporary overload."
 msgstr "Serwer nie może obecnie obsłużyć zapytania z powodu chwilowego przeciążenia."
 
+#: templates/about.html:6
 msgid ""
 "\n"
 "The search engine, made available by\n"
@@ -215,6 +282,7 @@ msgstr ""
 "\n"
 "Udostępniona przez <a href='http://www.klf.uw.edu.pl'>Katedrę Lingwistyki Formalnej</a> wyszukiwarka pozwala na wygodne przeszukiwanie tekstów w <a href='http://pl.wikipedia.org/wiki/DjVu'>formacie DjVu</a>.\n"
 
+#: templates/about.html:12
 msgid ""
 "\n"
 "The engine is a modification of the\n"
@@ -231,6 +299,7 @@ msgstr ""
 "\n"
 "Wykorzystuje ona specjalnie zmodyfikowaną wersję <a href='http://poliqarp.sourceforge.net/'>systemu Poliqarp</a>, stworzonego w <a href='http://nlp.ipipan.waw.pl/'>Instytucie Podstaw Informatyki PAN</a> i aktualnie rozwijanego na potrzeby <a href='http://nkjp.pl/'>Narodowego Korpusu Języka Polskiego</a>; w konsekwencji składnia zapytań jest identyczna jak w korpusie narodowym. Modyfikacji systemu dokonał <a href='http://jwilk.net/'>Jakub Wilk</a>, który również skonwertował większość udostępnianych tekstów na format wymagany przez system.\n"
 
+#: templates/about.html:24
 msgid ""
 "\n"
 "The idea to use Poliqarp for DjVu texts was developed by\n"
@@ -243,29 +312,52 @@ msgstr ""
 "\n"
 "Koncepcję wykorzystania wyszukiwarki Poliqarp do tekstów w formacie DjVu sformułował <a href='http://fleksem.klf.uw.edu.pl/~jsbien/'>Janusz S. Bień</a>. Była ona prezentowana m.in. w publikacji <a href='http://bc.klf.uw.edu.pl/107/'>„Dygitalizacja i komputeryzacja słowników…”</a>, a także w publikacjach angielskojęzycznych dostępnych w <a href='http://bc.klf.uw.edu.pl'>Bibliotece Cyfrowej KLF UW.</a>\n"
 
+#: templates/about.html:32
 msgid ""
 "\n"
-"The work on the search engine is supported by\n"
+"The work on the search engine was supported by\n"
 "the Ministry of Science and Higher Education's\n"
 "<a href='https://bitbucket.org/jsbien/ndt'>grant no. N N519 384036</a>.\n"
 msgstr ""
 "\n"
-"Prace nad wyszukiwarką są finansowane\n"
+"Prace nad wyszukiwarką były finansowane\n"
 "przez grant MNiSzW nr N N519 384036\n"
 "<a href='https://bitbucket.org/jsbien/ndt'>„Narzędzia dygitalizacji tekstów na potrzeby badań filologicznych”</a>.\n"
 
+#: templates/djvu-detector-Ateny.html:23
 msgid ""
 "\n"
-"Both systematic and potential users of the search\n"
-"engine are invited to subscribe to the mailing lists:\n"
-"<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>the announcement list</a> and\n"
-"<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>the discusion and support list</a>.\n"
+"Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>\n"
+"or use the <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a> client program.\n"
 msgstr ""
 "\n"
-"Zachęca się użytkowników wyszukiwarki do korzystania z list pocztowych:\n"
-"<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>listy komunikatów</a> i \n"
-"<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>listy dyskusyjnej</a>.\n"
+"Proszę zainstalować w swojej przeglądarce <a href='http://djvu.org/resources/'>wtyczkę DjVu</a>\n"
+"lub używać programu klienckiego <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a>.\n"
 
+#: templates/djvu-detector-Ateny.html:27
+msgid ""
+"\n"
+"You may also switch on the option <i>Experimental graphical concordances</i>.\n"
+msgstr ""
+"\n"
+"Można również włączyć opcję <i>Eksperymentalne konkordancje graficzne</i>.\n"
+
+#: templates/djvu-detector-Ateny.html:32
+msgid ""
+" If you see a fragment of <i>Nowe Ateny</i> (from the\n"
+"IMPACT corpus), then you have a DjVu plugin working correctly.\n"
+"Nevertheless the recommended way to use this site is\n"
+"with <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for\n"
+"Poliqarp</a> client program.  "
+msgstr ""
+" Jeśli widoczny jest fragment  <i>Nowych Aten</i> (z korpusu IMPACT),\n"
+"to wtyczka DjVu działa poprawnie.\n"
+"Tym niemniej zalecanym sposobem korzystania z tej witryny\n"
+"jest używanie programu <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for\n"
+"Poliqarp</a>.\n"
+" "
+
+#: templates/djvu-detector.html:13 templates/corpora/slownik-lindego.html:19
 msgid ""
 "\n"
 "Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>\n"
@@ -277,6 +369,7 @@ msgstr ""
 "lub używać programu klienckiego <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a>.\n"
 "Można również włączyć opcję “Eksperymentalne konkordancje graficzne”.\n"
 
+#: templates/help.html:9
 msgid ""
 "\n"
 "The query syntax is fully compatible with the following descriptions\n"
@@ -284,6 +377,7 @@ msgstr ""
 "\n"
 "Pod względem formalnym składnia zapytań jest zgodna z opisami\n"
 
+#: templates/help.html:19
 msgid ""
 "\n"
 "but due to the specific characters of this corpus only the segment\n"
@@ -292,16 +386,20 @@ msgstr ""
 "\n"
 "ale ze względu na inny charakter korpusu funkcjonują tylko zapytania o segmenty.\n"
 
+#: templates/pending.html:8
 msgid "<span id='wait'>Searching corpus, please wait&#8230;</span>"
 msgstr "<span id='wait'>Trwa przeszukiwanie korpusu, proszę czekać…</span>"
 
+#: templates/pending.html:9
 #, python-format
 msgid "This page will <a href='%(refresh_url)s'>refresh</a> automatically in a second."
 msgstr "Strona <a href='%(refresh_url)s'>odświeży się</a> automatycznie za sekundę"
 
+#: templates/query-form.html:7
 msgid "Search"
 msgstr "Szukaj"
 
+#: templates/query-nresults.html:6
 #, python-format
 msgid "Found <span id='matches-so-far'>%(n)s</span> result so far"
 msgid_plural "Found <span id='matches-so-far'>%(n)s</span> results so far"
@@ -309,6 +407,7 @@ msgstr[0] "Dotychczas znaleziono <span id='matches-so-far'>%(n)s</span> wynik"
 msgstr[1] "Dotychczas znaleziono <span id='matches-so-far'>%(n)s</span> wyniki"
 msgstr[2] "Dotychczas znaleziono <span id='matches-so-far'>%(n)s</span> wyników"
 
+#: templates/query-nresults.html:10
 #, python-format
 msgid "<span id='matches'>%(n)s</span> results (of all <span id='all-matches'>%(m)s</span>)"
 msgid_plural "<span id='matches'>%(n)s</span> results (of all <span id='all-matches'>%(m)s</span>)"
@@ -316,6 +415,7 @@ msgstr[0] "%(n)s wynik (spośród <span id='matches'>%(m)s</span> wszystkich)"
 msgstr[1] "%(n)s wyniki (spośród <span id='matches'>%(m)s</span> wszystkich)"
 msgstr[2] "%(n)s wyników (spośród <span id='matches'>%(m)s</span> wszystkich)"
 
+#: templates/query-nresults.html:12
 #, python-format
 msgid "Found <span id='matches'>%(n)s</span> result"
 msgid_plural "Found <span id='matches'>%(n)s</span> results"
@@ -323,10 +423,12 @@ msgstr[0] "Znaleziono <span id='matches'>%(n)s</span> wynik"
 msgstr[1] "Znaleziono <span id='matches'>%(n)s</span> wyniki"
 msgstr[2] "Znaleziono <span id='matches'>%(n)s</span> wyników"
 
+#: templates/query-nresults.html:20
 #, python-format
 msgid "Displaying results %(l)s—%(r)s"
 msgstr "Wyświetlanie wyników %(l)s-%(r)s"
 
+#: templates/query-pagination.html:5
 #, python-format
 msgid "Previous %(n)s"
 msgid_plural "Previous %(n)s"
@@ -334,6 +436,7 @@ msgstr[0] "Poprzedni %(n)s"
 msgstr[1] "Poprzednie %(n)s"
 msgstr[2] "Poprzednich %(n)s"
 
+#: templates/query-pagination.html:10
 #, python-format
 msgid "Next %(n)s"
 msgid_plural "Next %(n)s"
@@ -341,75 +444,151 @@ msgstr[0] "Następny %(n)s"
 msgstr[1] "Następne %(n)s"
 msgstr[2] "Następnych %(n)s"
 
+#: templates/query-table.html:21
 msgid "Bookmark"
 msgstr "Zakładka"
 
+#: templates/query.html:19
 msgid "Results"
 msgstr "Wyniki"
 
+#: templates/query.html:26
 msgid "Context"
 msgstr "Kontekst"
 
+#: templates/query.html:30
 msgid "Metadata"
 msgstr "Metadane"
 
+#: templates/settings.html:11
 msgid "Random sample of size:"
 msgstr "Losowa próbka rozmiaru:"
 
+#: templates/settings.html:15
 msgid "Sort results"
 msgstr "Sortuj wyniki"
 
+#: templates/settings.html:24
 msgid "Show:"
 msgstr "Pokazuj:"
 
+#: templates/settings.html:26
 msgid "in match:"
 msgstr "w dopasowaniu:"
 
+#: templates/settings.html:29
 msgid "in context:"
 msgstr "w kontekście:"
 
+#: templates/settings.html:36
 msgid "Context width:"
 msgstr "Szerokość kontekstu:"
 
+#: templates/settings.html:38
 msgid "left:"
 msgstr "lewego:"
 
+#: templates/settings.html:39
 msgid "right:"
 msgstr "prawego:"
 
+#: templates/settings.html:40
 msgid "wide:"
 msgstr "szerokiego:"
 
+#: templates/settings.html:44
 msgid "Experimental graphical concordances"
 msgstr "Eksperymentalne konkordancje graficzne"
 
+#: templates/settings.html:47
 msgid "Results per page:"
 msgstr "Wyników na stronę:"
 
+#: templates/settings.html:51
 msgid "Modify settings"
 msgstr "Zmień ustawienia"
 
-msgid "Poliqarp search engine"
-msgstr "Wyszukiwarka Poliqarp"
+#: templates/slownik-lindego-reminder-bot.html:5
+msgid ""
+"<p> The recommended form of acknowledging the use of this resource is to reference the\n"
+"paper <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+"hidden text of large DjVu documents</a> or the\n"
+"presentation <a href=\"http://bc.klf.uw.edu.pl/322/\">Skanowane teksty\n"
+"jako korpusy</a>. \n"
+"</p>\n"
+msgstr ""
+"<p> Aktualnie rekomendowaną formą powoływania się na wyszukiwarkę jest cytowanie artykułu\n"
+"<a href=\"http://bc.klf.uw.edu.pl/322/\">Skanowane teksty jako korpusy</a>\n"
+"lub <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+"hidden text of large DjVu documents</a>.\n"
+"</p>\n"
 
+#: templates/slownik-lindego-reminder-top.html:5
+msgid ""
+"<p> Search can be limited to a specific volume,\n"
+"e.g. <code>within vol1</code>,..., <code>within\n"
+"vol6</code>, <code>within vol6part1</code> or <code>within\n"
+"vol6part2</code>.  "
+msgstr ""
+"<p>\n"
+"Wyszukiwanie może być ograniczone do konkretnych tomów, n.p. <code>within\n"
+"vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>\n"
+"lub <code>within vol6part2</code>.  "
+
+#: templates/slownik-lindego-reminder-top.html:10
+msgid ""
+"<p>\n"
+"The <code>within</code> clause can\n"
+"be also used to limit the search to the following <a href='..'>sections</a>:\n"
+"<code>body</code>,\n"
+"<code>errata</code>,\n"
+"<code>intro</code>,\n"
+"<code>info</code>,\n"
+"<code>varia</code>,\n"
+"<code>front</code>,\n"
+"<code>back</code>.\n"
+"</p>\n"
+msgstr ""
+"<p>\n"
+"Za pomocą warunku <code>within</code> wyszukiwanie może być też ograniczone do <a href='..'>sekcji o umownych nazwach</a>:\n"
+"<code>front</code>,\n"
+"<code>intro</code>,\n"
+"<code>list</code>,\n"
+"<code>body</code>,\n"
+"<code>errata</code>,\n"
+"<code>back</code>,\n"
+"<code>inset</code>.\n"
+"</p>\n"
+
+#: templates/template.html:7
+msgid "Poliqarp/marasca DjVu search engine at the Formal Linguistics Department of the University of Warsaw"
+msgstr "Wyszukiwarka Poliqarp/marasca Katedry Lingwistyki Formalnej Uniwersytetu Warszawskiego"
+
+#: templates/template.html:23
 msgid "Interface language:"
 msgstr "Język interfejsu"
 
+#: templates/template.html:30
 msgid "Change"
 msgstr "Zmień"
 
+#: templates/template.html:33
 msgid "About"
 msgstr "O wyszukiwarce"
 
+#: templates/template.html:35
 msgid "Available texts:"
 msgstr "Dostępne teksty:"
 
+#: templates/template.html:46
 msgid "Settings"
 msgstr "Ustawienia"
 
+#: templates/template.html:47
 msgid "Basic help"
 msgstr "Podstawowa pomoc"
 
+#: templates/corpora/impact-gt-1.html:2
 msgid ""
 "<p>\n"
 "The search engine provides access to two versions of the IMPACT Polish GT corpus:\n"
@@ -423,6 +602,7 @@ msgstr ""
 "to znaczy słowa podzielone przy przenoszeniu do nowego wiersza zostały automatycznie odtworzone.\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1.html:9 templates/corpora/impact-gt-2.html:9
 msgid ""
 "<p>\n"
 "The corpus uses data made available by\n"
@@ -444,6 +624,7 @@ msgstr ""
 "jako teksty wzorcowe do oceny i trenowania programów do optycznego rozpoznawania znaków (OCR).\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1.html:20 templates/corpora/impact-gt-2.html:20
 msgid ""
 "<p>\n"
 "The corpus has been creating by\n"
@@ -457,6 +638,7 @@ msgstr ""
 "stosując różne swobodne narzędzia programistyczne.\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1.html:28 templates/corpora/impact-gt-2.html:28
 msgid ""
 "<p>\n"
 "Some additional informations about the corpus are available in Janusz S. Bień's notes\n"
@@ -472,6 +654,7 @@ msgstr ""
 "<a href='http://bc.klf.uw.edu.pl/289/'>Delivering the IMPACT project Polish Ground-Truth texts with Poliqarp for DjVu</a>.\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1.html:37
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 1.5 million segments. This version of the\n"
@@ -483,6 +666,8 @@ msgstr ""
 "Aktualnie dostępna jest pierwsza wersja korpusu z 20 kwietnia 2012.\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1_suffix.html:3
+#: templates/corpora/impact-gt-2_suffix.html:3
 msgid ""
 "<p>\n"
 "The <code>base</code> fields of the tokens contain so\n"
@@ -496,6 +681,8 @@ msgstr ""
 "\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1_suffix.html:10
+#: templates/corpora/impact-gt-2_suffix.html:10
 msgid ""
 "<p>\n"
 "The metadata include the links to the digital library and the <code>title</code> field,\n"
@@ -508,6 +695,8 @@ msgstr ""
 "\n"
 "</p>\n"
 
+#: templates/corpora/impact-gt-1_suffix.html:16
+#: templates/corpora/impact-gt-2_suffix.html:16
 msgid ""
 "<p>\n"
 "The <code>title</code> field takes the following values:\n"
@@ -515,6 +704,8 @@ msgstr ""
 "<p>\n"
 "Pole <code>title</code> przymuje następujące wartości:\n"
 
+#: templates/corpora/impact-gt-1_suffix.html:124
+#: templates/corpora/impact-gt-2_suffix.html:124
 msgid ""
 "<p>\n"
 "The users are invited to join the mailing lists: <a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>the announcement list</a>\n"
@@ -525,6 +716,7 @@ msgstr ""
 "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>listy komunikatów</a> i \n"
 "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>listy dyskusyjnej</a>.\n"
 
+#: templates/corpora/impact-gt-2.html:2
 msgid ""
 "<p>\n"
 "The search engine provides access to two versions of the IMPACT Polish GT corpus:\n"
@@ -538,6 +730,7 @@ msgstr ""
 "to znaczy zachowane są podziału słów przy przenoszeniu do nowego wiersza.\n"
 "<p>\n"
 
+#: templates/corpora/impact-gt-2.html:37
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 1.6 million segments. This version of the\n"
@@ -549,6 +742,7 @@ msgstr ""
 "Aktualnie dostępna jest pierwsza wersja korpusu z 20 kwietnia  2012.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-geograficzny.html:3
 msgid ""
 "<p>\n"
 "The search engine uses the electronic versions of the 15 volumes of\n"
@@ -565,6 +759,7 @@ msgstr ""
 "<p>Wykorzystywane przez wyszukiwarkę 15 tomów <a href='http://www.mimuw.edu.pl/polszczyzna/SGKPi/'>Słownika Geograficznego Królestwa Polskiego i innych krajów słowiańskich</a>\n"
 "(łacznie prawie 15 tysięcy stron, w tym 14758 stron z hasłami) znajduje się na witrynie <a href='http://www.mimuw.edu.pl/polszczyzna/'><i>Komputery i Polszczyzna</i></a> na serwerze <a href='http://www.mimuw.edu.pl/'>Wydziału Matematyki, Informatyki i Mechaniki</a> <a href='http://www.uw.edu.pl/'>Uniwersytetu Warszawskiego</a>.</p>\n"
 
+#: templates/corpora/slownik-geograficzny.html:16
 msgid ""
 "<p>\n"
 "It is the very first version on the dictionary available on Internet, prepared in 2005 by\n"
@@ -590,6 +785,7 @@ msgstr ""
 "opartą na skanach przygotowanych w 2003 r. przez ZETO w Tarnowie i wcześniej udostępnianych tylko na płytach CD. Dwa lata później (7 maja 2007 r.) swoją edycję uzupełnioną o <a href='http://dir.icm.edu.pl/pl/Slownik_geograficzny/'>wyszukiwarkę</a>\n"
 "udostępniło <a href='http://www.icm.edu.pl/'>Interdyscyplinarne Centrum Modelowania Matematycznego i Komputerowego</a> <a href='http://www.uw.edu.pl/'>Uniwersytetu Warszawskiego</a> w ramach uroczystej inauguracji Domeny Internetowych Repozytoriów Wiedzy (obecnie <a href='http://otwartanauka.pl/'>Otwarta Nauka</a>).</p>\n"
 
+#: templates/corpora/slownik-geograficzny.html:37
 msgid ""
 "<p>\n"
 "The scans of the dictionary has been prepared in 2003 by the\n"
@@ -606,6 +802,7 @@ msgstr ""
 "<p>Skanowanie słownika wykonała w 2003 r. Biblioteka Uniwersytecka w Warszawie z inicjatywy Interdyscyplinarnego Centrum Modelowania Matematycznego i Komputerowego, które częściowo finansowało tę pracę. OCR wykonał w 2010 r. Janusz S. Bień za pomocą programu FineReader 10 (język polski, pozostałe parametry domyślne) zapisując wyniki w formacie PDF, które następnie za pomocą programu <a href='http://pdf2djvu.googlecode.com'>pdf2djvu</a>\n"
 "skonwertował na format DjVu (zastępując poprzednią wersję plików) i przekształcił wyniki OCR na format korpusu.</p>\n"
 
+#: templates/corpora/slownik-geograficzny.html:50
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 19 million segments.\n"
@@ -616,6 +813,7 @@ msgstr ""
 "Korpus ten liczy ok. 19 mln segmentów. Aktualnie dostępna jest wersja 1 korpusu z 12 listopada 2010.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-geograficzny_suffix.html:3
 msgid ""
 "<p>\n"
 "Search can be limited to a specific volume with the meta clause, e.g. <code>meta vol=i/X</code> or <code>meta vol=I/X</code> limits the search to the first volume.\n"
@@ -625,6 +823,7 @@ msgstr ""
 "Wyszukiwanie może być ograniczone do konkretnych tomów za pomocą warunku meta, np. <code>meta vol=i/X</code> lub <code>meta vol=I/X</code> ogranicza wyszukiwanie do pierwszego tomu.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-geograficzny_suffix.html:8
 msgid ""
 "<p>\n"
 "The <code>within</code> clause can be used to limit the search to the so called sections:\n"
@@ -647,65 +846,141 @@ msgstr ""
 "<code>inset</code> (wkładki z wykazem źródeł i skrótów).\n"
 "</p>\n"
 
+#: templates/corpora/slownik-lindego.html:33
 msgid ""
-"<p>\n"
-"<a href='http://poliqarp.wbl.klf.uw.edu.pl/extra/linde/index.djvu'>A\n"
-"preliminary electronic version</a> of the second edition of Linde's dictionary\n"
+"<p> This is a preliminary retrodigitization\n"
+"of <a href='http://korpusy.klf.uw.edu.pl/extra/linde/index.djvu'> the\n"
+"second edition of Linde's dictionary</a> in a form of a two-layer\n"
+"(texts and scans) <a href='http://en.wikipedia.org/wiki/DjVu'>DjVu</a>\n"
+"corpus with\n"
+"an <a href='https://bitbucket.org/jsbien/ilindecsv'>index</a> and the\n"
+"two-level regular\n"
+"expressions <a href='http://jwilk.net/software/poliqarp'>Poliqarp\n"
+"search engine</a>.\n"
 "</p>\n"
 msgstr ""
-"<p><a href='http://poliqarp.wbl.klf.uw.edu.pl/extra/linde/index.djvu'>Wstępna wersja elektronicznej edycji</a> drugiego wydania słownika Lindego\n"
+"<p> Wstępna wersja retrodygitalizacji <a href='http://korpusy.klf.uw.edu.pl/extra/linde/index.djvu'> drugiego wydania słownika Lindego</a> w formie dwuwarstwowego (teksty i skany) korpusu <a href='http://en.wikipedia.org/wiki/DjVu'>DjVu</a>\n"
+"z <a href='https://bitbucket.org/jsbien/ilindecsv'>indeksem</a> \n"
+"i wyszukiwarką <a href='http://jwilk.net/software/poliqarp'>Poliqarp</a> wykorzystującą dwupoziomowe wyrażenia regularne.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-lindego.html:45
 msgid ""
+"<p> The version 1 of the corpus is\n"
+"available since August 6, 2010. It contains about 7 milions tokens\n"
+"representing about 5000 pages of the dictionary.\n"
+"</p>\n"
+msgstr ""
 "<p>\n"
+"Aktualnie dostępna jest wersja 1 korpusu z 6 sierpnia 2010. Korpus ten liczy ok. 7 mln segmentów, odpowiadającym około 5000 stronom słownika.\n"
+"</p>\n"
+
+#: templates/corpora/slownik-lindego.html:51
+msgid ""
+"<p> The recommended form of acknowledging in the\n"
+"scientific publications the use of this retrodigitization and the\n"
+"search engine is to reference the\n"
+"paper <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+"hidden text of large DjVu documents</a> or \n"
+"<a href=\"http://bc.klf.uw.edu.pl/322/\">Skanowane teksty\n"
+"jako korpusy</a>. The recommended form of acknowledging the use of\n"
+"index is referencing the\n"
+"presentation <a href=\"http://bc.klf.uw.edu.pl/379/\">Elektroniczny\n"
+"indeks do słownika Lindego</a>.\n"
+"</p>\n"
+msgstr ""
+"<p> Aktualnie rekomendowaną formą powoływania się  w publikacjach naukowych na dygitalizację słownika i wyszukiwarkę  jest cytowanie artykułu\n"
+"<a href=\"http://bc.klf.uw.edu.pl/322/\">Skanowane teksty jako korpusy</a>\n"
+"lub <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+"hidden text of large DjVu documents</a>.\n"
+"Rekomendowaną formą powoływania się na indeks jest cytowanie referatu\n"
+"<a href=\"http://bc.klf.uw.edu.pl/379/\">Elektroniczny\n"
+"indeks do słownika Lindego</a>.\n"
+"</p>\n"
+
+#: templates/corpora/slownik-lindego.html:64
+msgid ""
+"<p> The recommended way to use the search engine and\n"
+"the index is\n"
+"the <a href=\"https://bitbucket.org/jsbien/ndt/wiki/wyniki#!djview-for-poliqarp-zdalny-klient-graficzny-serwera-poliqarp-for-djvu-remote-graphical-client-for-poliqarp-for-djvu\">djview4poliqarp</a>\n"
+"remote client available on all basic platforms. For use with a WWW\n"
+"browser it is recommended to switch on <i>Experimental graphical\n"
+"concordances</i> in the <i>Settings</i> panel.\n"
+"</p>\n"
+msgstr ""
+"<p> Zaleca się korzystanie z korpusu i indeksu za pomocą programu \n"
+"the <a href=\"https://bitbucket.org/jsbien/ndt/wiki/wyniki#!djview-for-poliqarp-zdalny-klient-graficzny-serwera-poliqarp-for-djvu-remote-graphical-client-for-poliqarp-for-djvu\">djview4poliqarp</a>\n"
+"Przy korzystaniu z przeglądarki WWW\n"
+"wskazane jest włączenie w <i>Ustawieniach</i>\n"
+"opcji <i>Eksperymentalne konkordancje graficzne</i>.\n"
+"</p>\n"
+
+#: templates/corpora/slownik-lindego.html:74
+msgid ""
+"\n"
 "Scans were made with Fujitsu fi-6130 scanner and Kofax VRS software by Joanna\n"
-"A. Bilińska. OCR was prepared with FineReader 10 (selected language Polish,\n"
+"A. Bilińska. OCR was prepared by Janusz S. Bień with FineReader 10 (selected language Polish,\n"
 "default values of other recognition parameters) and saved as PDF/A files with\n"
 "MRC lossy compression. The scans has been converted to DjVu format by Jakub\n"
 "Wilk, he also converted the OCR results to the suitable corpus format.\n"
 "</p>\n"
 msgstr ""
-"<p>\n"
+"\n"
 "Skany wykonała Joanna A. Bilińska na skanerze Fujitsu fi-6130 przy użyciu oprogramowania Kofax VRS. OCR wykonał Janusz S. Bień stosując program FineReader 10 (język polski, pozostałe parametry domyślne) zapisując wyniki w formacie PDF/A z użyciem stratnej kompresji MRC. Konwersję na format DjVu wykonał Jakub Wilk, który skonwertował również wyniki OCR na format korpusu.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-lindego_suffix.html:3
 msgid ""
-"<p>\n"
-"The corpus consists of ca. 7 million segments. This version of the\n"
-"corpus is available since August 6, 2010.\n"
-"</p>\n"
+"<p> Search can be limited to a specific volume with\n"
+"the <code>within</code> clause, e.g. <code>within\n"
+"vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>\n"
+"or <code>within vol6part2</code>.  "
 msgstr ""
 "<p>\n"
-"Korpus ten liczy ok. 7 mln segmentów.\n"
-"Aktualnie dostępna jest wersja korpusu z 6 sierpnia 2010.\n"
-"</p>\n"
+"Wyszukiwanie może być ograniczone do konkretnych tomów za pomocą warunku <code>within</code>, n.p. <code>within\n"
+"vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>\n"
+"lub <code>within vol6part2</code>.  "
 
+#: templates/corpora/slownik-lindego_suffix.html:8
 msgid ""
 "<p>\n"
-"It is recommended to switch on graphical concordances option in\n"
-"<a href='/settings/'>Settings</a>.\n"
-msgstr ""
-"<p>\n"
-"Zaleca się wybranie w <a href='/settings/'>Ustawieniach</a> opcji konkordancji graficznych.\n"
-"</p>\n"
-
-msgid ""
-"<p>\n"
-"Search can be limited to a specific volume with the <code>within</code> clause,\n"
-"e.g. <code>within vol6</code> or <code>within vol6part2</code>. The clause can\n"
+"The <code>within</code> clause can\n"
 "be also used to limit the search to the following sections:\n"
-"<code>body</code> (entries and their corrections),\n"
-"<code>errata</code> (just the corrections),\n"
-"<code>intro</code> (introductory texts),\n"
-"<code>info</code> (other informations),\n"
-"<code>varia</code> (dedications, subscriber lists),\n"
-"<code>front</code> (frontmatter),\n"
-"<code>back</code> (backmatter).\n"
+"<ul>\n"
+"<li><code>body</code> (entries and their corrections),</li>\n"
+"<li><code>errata</code> (just the corrections),</li>\n"
+"<li><code>intro</code> (introductory texts),</li>\n"
+"<li><code>info</code> (other informations),</li>\n"
+"<li><code>varia</code> (dedications, subscriber lists),</li>\n"
+"<li><code>front</code> (frontmatter),</li>\n"
+"<li><code>back</code> (backmatter).</li>\n"
+"</ul>\n"
 "</p>\n"
 msgstr ""
 "<p>\n"
-"Wyszukiwanie może być ograniczone do konkretnych tomów za pomocą warunku <code>within</code>, np. <code>within vol6</code> lub <code>within vol6part2</code>. Za pomocą tego warunku można też ograniczać wyszukiwanie do następujących sekcji: <code>body</code> (hasła i poprawki do nich), <code>errata</code> (poprawki do haseł), <code>intro</code> (informacje wstępne), <code>info</code> (inne teksty informacyjne), <code>varia</code> (dedykacje, listy subskrybentów), <code>front</code> (tytularia i inne materiały wstępne), <code>back</code> (teksty następujące po części hasłowej).</p>\n"
+"Warunek  <code>within</code> może być używany do ograniczania wyszukiwania do następujących sekcji:\n"
+"<ul>\n"
+"<li><code>body</code> (hasła i poprawki do nich),</li>\n"
+"<li><code>errata</code> (poprawki do haseł),</li>\n"
+"<li><code>intro</code> (informacje wstępne),</li>\n"
+"<li><code>info</code> (inne teksty informacyjne),</li>\n"
+"<li><code>varia</code> (dedykacje, listy subskrybentów),</li>\n"
+"<li><code>front</code> (tytularia i inne materiały wstępne),</li>\n"
+"<li><code>back</code> (teksty następujące po części hasłowej).</li>\n"
+"</ul>\n"
+"</p>\n"
 
+#: templates/corpora/slownik-lindego_suffix.html:22
+msgid ""
+"<p class='small-print'>\n"
+"The page was updated by Janusz S. Bień in September 2014.\n"
+"</p>\n"
+msgstr ""
+"<p class='small-print'>\n"
+"Stronę uaktualnił Janusz S. Bień we wrześniu 2014 r.\n"
+"</p>\n"
+
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:3
 msgid ""
 "<p>\n"
 "The search engine uses the electronic versions of the 35 volumes\n"
@@ -720,6 +995,7 @@ msgstr ""
 "<p>\n"
 "Wykorzystywane przez wyszukiwarkę 35 tomów <a href='http://www.spxvi.edu.pl'>Słownika polszczyzny XVI wieku</a> — obejmujących hasła od <a href='http://kpbc.umk.pl/publication/17781'><em>A</em> do <em>ROWNY</em></a> — znajdują się w <a href='http://kpbc.umk.pl/'>Kujawsko-Pomorskiej Bibliotece Cyfrowej</a>, gdzie są sukcesywnie udostępniane od 2008 roku w formacie DjVu na <a href='http://www.mimuw.edu.pl/polszczyzna/SpXVIwwI/#x1-20002'>zasadach</a> licencji <a href='http://creativecommons.org/licenses/by-nc-nd/2.5/pl/'>Creative Commons Uznanie autorstwa-Użycie niekomercyjne-Bez utworów zależnych wersja 2.5</a>.</p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:14
 msgid ""
 "<p>\n"
 "Scanning the first 32 volumes, and later OCR with LizardTech\n"
@@ -747,6 +1023,7 @@ msgstr ""
 "<p><a href='http://kpbc.umk.pl/publication/33857'>Tomy XXXIII</a>i <a href='http://kpbc.umk.pl/publication/43926'>XXXIV</a> są „urodzone cyfrowo”; ich udostępnienie stanowi częściową realizację <a href='/extra/2008-09-02_JSB2FNP_bURL_ann.djvu'>postulatów Janusza S. Bienia z 2 września 2008 r.</a>; konwersję na format DjVu wykonał Jakub Wilk za pomocą programów <a href='http://pdf2djvu.googlecode.com/'>pdf2djvu</a> i <a href='http://minidjvu.sourceforge.net/'>minidjvu</a>.</p>\n"
 "<p>Od 14 lipca 2010 r. tomy <a href='http://kpbc.umk.pl/publication/18640'>XXXI</a> i <a href='http://kpbc.umk.pl/publication/18641'>XXXII</a> są również dostępne w wersji „urodzonej cyfrowo”, co stanowi częściową realizację <a href='/extra/2008-05-06_JSB2IBL_BObURL.djvu'>postulatów Janusza S. Bienia z 6 maja 2008 r.</a>; konwersję na format DjVu wykonał Jakub Wilk za pomocą programów <a href='http://pdf2djvu.googlecode.com/'>pdf2djvu</a> i <a href='http://minidjvu.sourceforge.net/'>minidjvu</a>.</p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:37
 msgid ""
 "<p class='small-print'>\n"
 "Unfortunately using the digitally-born versions of some other volumes is not\n"
@@ -758,6 +1035,7 @@ msgstr ""
 "Niektóre urodzone cyfrowo tomy nie są przygotowane do wykorzystania z powodu braku pozytywnej reakcji na <a href='/extra/2003-11-26_JSB2IBL_BO.djvu'>pismo z 26 listopada 2003 r.</a> i stanowiska dyrekcji Instytutu Badań Literackich PAN przedstawionego <a href='/extra/2008-09-17_IBL2JSB.djvu'>w piśmie z 17 września 2008 r.</a>\n"
 "</p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:44
 msgid ""
 "<p>\n"
 "The volume <a href='http://kpbc.umk.pl/publication/55856'>XXXV</a> is the first one prepared with the intention\n"
@@ -782,6 +1060,7 @@ msgstr ""
 "\n"
 "</p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:58
 msgid ""
 "<p>\n"
 "The OCR results for the scanned volumes and the hidden text layer of volumes\n"
@@ -803,6 +1082,7 @@ msgstr ""
 "Aktualnie dostępna jest wersja 6 korpusu z 20 marca 2012.\n"
 "</p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku_suffix.html:3
 msgid ""
 "<p>\n"
 "Search can be limited to a specific volume with the meta clause, e.g. <code>meta vol=i/X</code> or <code>meta vol=I/X</code> limits the search to the first volume while <code>meta orig=pdf</code> limits the search to the 5 digitally-born volumes.\n"
@@ -812,6 +1092,7 @@ msgstr ""
 "Wyszukiwanie może być ograniczone do konkretnych tomów za pomocą warunku meta, np. <code>meta vol=i/X</code> lub <code>meta vol=I/X</code> ogranicza wyszukiwanie do pierwszego tomu,\n"
 "natomiast <code>meta orig=pdf</code> ogranicza je do 5 tomów „urodzonych cyfrowo”. </p>\n"
 
+#: templates/corpora/slownik-polszczyzny-xvi-wieku_suffix.html:8
 msgid ""
 "<p>\n"
 "The <code>within</code> clause can be used to limit the search to the so called sections:\n"
@@ -835,6 +1116,7 @@ msgstr ""
 "<code>inset</code> (wkładki z wykazem źródeł i skrótów).\n"
 "</p>\n"
 
+#: templates/corpora/slownik-warszawski.html:5
 #, python-format
 msgid ""
 "<p>\n"
@@ -854,6 +1136,7 @@ msgstr ""
 "Realizacja — Recepcja”, Warszawa 2008).\n"
 "</p>\n"
 
+#: templates/corpora/slownik-warszawski.html:18
 msgid ""
 "<p>\n"
 "OCR on the scans was done by the library staff, namely Tomasz\n"
@@ -863,6 +1146,7 @@ msgstr ""
 "<p>\n"
 "Optyczne rozpoznawanie znaków wykonali pracownicy biblioteki — Tomasz Trynkowski i Grzegorz Kłębek — za pomocą programu Abby FineReader w wersji 8.</p>\n"
 
+#: templates/corpora/slownik-warszawski.html:24
 msgid ""
 "<p>\n"
 "The OCR results has been converted to the suitable corpus format by Jakub Wilk.\n"
@@ -874,3 +1158,92 @@ msgstr ""
 "Wyniki OCR skonwertował na format korpusu Jakub Wilk. Korpus ten liczy ok. 11 mln segmentów.\n"
 "Aktualnie dostępna jest wersja 2 korpusu z 6 stycznia 2010.\n"
 "</p>\n"
+
+#~ msgid ""
+#~ "<p> The recomended form of acknowledging the use of this retrodigitization and the\n"
+#~ "search engine is to reference the\n"
+#~ "paper <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+#~ "hidden text of large DjVu documents</a> or the the\n"
+#~ "presentation <a href=\"http://bc.klf.uw.edu.pl/201/\">Skanowane teksty\n"
+#~ "jako korpusy</a>. \n"
+#~ "</p>\n"
+#~ msgstr ""
+#~ "<p> Aktualnie rekomendowaną formą powoływania się  w publikacjach naukowych na dygitalizację słownika i wyszukiwarkę  jest cytowanie referatu\n"
+#~ "<a href=\"http://bc.klf.uw.edu.pl/201/\">Skanowane teksty\n"
+#~ "lub artykułu <a href='http://bc.klf.uw.edu.pl/177/'>Efficient search in\n"
+#~ "hidden text of large DjVu documents</a>.\n"
+#~ "Rekomendowaną formą powoływania się na indeks jest cytowanie referatu\n"
+#~ "<a href=\"http://bc.klf.uw.edu.pl/379/\">Elektroniczny\n"
+#~ "indeks do słownika Lindego</a>.\n"
+#~ "</p>\n"
+
+#~ msgid ""
+#~ "<p> The recommended form of acknowledging in the\n"
+#~ "scientific publications the use of this retrodigitization and the\n"
+#~ "search engine is to reference the appropriate publications from\n"
+#~ "the <a href='http://bc.klf.uw.edu.pl/'>Digital Library of the Formal\n"
+#~ "Linguistics Department at the University of Warsaw </a>.\n"
+#~ "</p>\n"
+#~ msgstr ""
+#~ "<p> Aktualnie rekomendowaną formą powoływania się  w publikacjach naukowych\n"
+#~ "na dygitalizację słownika i wyszukiwarkę  jest cytowanie odpowienich publikacji\n"
+#~ "z <a href='http://bc.klf.uw.edu.pl/'>Biblioteki Cyfrowej\n"
+#~ "Katedry Lingwistyki Formalnej Uniwersytetu Warszawskiego</a>.\n"
+#~ "</p>\n"
+
+#~ msgid ""
+#~ "<p> Search can be limited to a specific section with\n"
+#~ "the <code>within</code> clause and, for some corpora, with <code>meta</code>.\n"
+#~ "</p>\n"
+#~ msgstr ""
+#~ "<p>\n"
+#~ "Wyszukiwanie może być ograniczone do wybranych sekcji korpusu za pomocą warunku <code>within</code> i, dla niektórych korpusów, za pomocą warunku <code>meta</code>.\n"
+#~ "</p>\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Both systematic and potential users of the search\n"
+#~ "engine are invited to subscribe to the mailing lists:\n"
+#~ "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>the announcement list</a> and\n"
+#~ "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>the discusion and support list</a>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Zachęca się użytkowników wyszukiwarki do korzystania z list pocztowych:\n"
+#~ "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>listy komunikatów</a> i \n"
+#~ "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>listy dyskusyjnej</a>.\n"
+
+#~ msgid "Poliqarp search engine"
+#~ msgstr "Wyszukiwarka Poliqarp"
+
+#~ msgid ""
+#~ "<p>\n"
+#~ "It is recommended to switch on graphical concordances option in\n"
+#~ "<a href='/settings/'>Settings</a>.\n"
+#~ msgstr ""
+#~ "<p>\n"
+#~ "Zaleca się wybranie w <a href='/settings/'>Ustawieniach</a> opcji konkordancji graficznych.\n"
+#~ "</p>\n"
+
+#~ msgid ""
+#~ "<p>\n"
+#~ "The corpus consists of ca. 7 million segments. This version of the\n"
+#~ "corpus is available since August 6, 2010.\n"
+#~ "</p>\n"
+#~ msgstr ""
+#~ "<p>\n"
+#~ "Korpus ten liczy ok. 7 mln segmentów.\n"
+#~ "Aktualnie dostępna jest wersja korpusu z 6 sierpnia 2010.\n"
+#~ "</p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>\n"
+#~ "<a href='http://poliqarp.wbl.klf.uw.edu.pl/extra/linde/index.djvu'>A\n"
+#~ "preliminary electronic version</a> of the second edition of Linde's dictionary\n"
+#~ "</p>\n"
+#~ msgstr ""
+#~ "<p><a href='http://korpusy.klf.uw.edu.pl/extra/linde/index.djvu'>Wstępna wersja elektronicznej edycji</a> drugiego wydania słownika Lindego\n"
+#~ "</p>\n"
+
+#~ msgid "Technical documentation of the search engine is available <a href='http://korpusy.klf.uw.edu.pl/doc/'>here</a>."
+#~ msgstr "Dokumentacja techniczna wyszukiwarki znajduje się <a href='http://korpusy.klf.uw.edu.pl/doc/'>tutaj</a>."

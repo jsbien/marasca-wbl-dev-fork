@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<div class='djvu-detector'>
+
+
+<div class='djvu-detector'>
+
+<object data='/extra/00433551.djvu' type='image/vnd.djvu' width='100%' height='100'>
+<param name='page' value='1'/>
+<param name='toolbar' value='no'/>
+<param name='zoom' value='width'/>
+<param name='showposition' value='0.5,0.8'/>
+{#<param name='highlight' value='215,416,563,58'/>#}
+<param name='sidebar' value='no'/>
+<param name='menubar' value='no'/>
+<param name='statusbar' value='no'/>
+<param name='menu' value='yes'/>
+{# In Caminova plugin has opposite effect:#}
+{#<param name='thumbnails' value='no'/>#}
+<param name='scrollbars' value='no'/>
+<param name='frame' value='yes'/>
+<param name='mode' value='text'/>
+{% blocktrans %}
+Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>
+or use the <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a> client program.
+{% endblocktrans %}
+{% blocktrans %}
+You may also switch on the option <i>Experimental graphical concordances</i>.
+{% endblocktrans %}
+</object>
+
+{% blocktrans %} If you see a fragment of <i>Nowe Ateny</i> (from the
+IMPACT corpus), then you have a DjVu plugin working correctly.
+Nevertheless the recommended way to use this site is
+with <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for
+Poliqarp</a> client program.  {% endblocktrans %}
+
+</div>
+
+{# vim:set ts=4 sw=4 et: #}
