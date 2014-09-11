@@ -4,6 +4,11 @@
 
 {% block body %}
 
+
+{% if selected.id|stringformat:"s" == "slownik-lindego"  %}
+     {% include "slownik-lindego-reminder-top.html" %}
+{% endif %}
+
 {% include "query-form.html" %}
 
 {% if qinfo %}
@@ -26,6 +31,11 @@
         {% endif %}
     </div>
 {% endif %}
+
+{% if selected.id|stringformat:"s" == "slownik-lindego"  %}
+     {% include "slownik-lindego-reminder-bot.html" %}
+{% endif %}
+
 
 {% endblock %}
 
