@@ -5,7 +5,7 @@
 {% block body %}
 
 
-{% if selected.id|stringformat:"s" == "slownik-lindego"  %}
+{% if selected.id == "slownik-lindego"  %}
      {% include "slownik-lindego-reminder-top.html" %}
 {% endif %}
 
@@ -32,7 +32,7 @@
     </div>
 {% endif %}
 
-{% if selected.id|stringformat:"s" == "slownik-lindego"  %}
+{% if selected.id == "slownik-lindego"  %}
      {% include "slownik-lindego-reminder-bot.html" %}
 {% endif %}
 
