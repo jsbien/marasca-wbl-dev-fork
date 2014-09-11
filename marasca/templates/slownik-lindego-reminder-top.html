@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div class='acknowledgments'>
+
+{% blocktrans %}<p> Search can be limited to a specific volume,
+e.g. <code>within vol1</code>,..., <code>within
+vol6</code>, <code>within vol6part1</code> or <code>within
+vol6part2</code>.  {% endblocktrans %}
+
+{% blocktrans %}<p>
+The <code>within</code> clause can
+be also used to limit the search to the following <a href='..'>sections</a>:
+<code>body</code>,
+<code>errata</code>,
+<code>intro</code>,
+<code>info</code>,
+<code>varia</code>,
+<code>front</code>,
+<code>back</code>.
+</p>
+{% endblocktrans %}
+
+</div>
+
+{# vim:set ts=4 sw=4 et: #}
