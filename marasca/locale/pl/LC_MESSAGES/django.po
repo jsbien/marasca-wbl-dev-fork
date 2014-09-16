@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Marasca (Poliqarp web interface)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-11 03:33-0500\n"
+"POT-Creation-Date: 2014-09-16 10:42-0500\n"
 "PO-Revision-Date: 2014-09-05 14:28+0200\n"
 "Last-Translator: Janusz S. Bień <jsbien@uw.edu.pl>\n"
 "Language-Team: KLF UW\n"
@@ -324,7 +324,7 @@ msgstr ""
 "przez grant MNiSzW nr N N519 384036\n"
 "<a href='https://bitbucket.org/jsbien/ndt'>„Narzędzia dygitalizacji tekstów na potrzeby badań filologicznych”</a>.\n"
 
-#: templates/djvu-detector-Ateny.html:23
+#: templates/djvu-detector-Ateny.html:20
 msgid ""
 "\n"
 "Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>\n"
@@ -334,7 +334,7 @@ msgstr ""
 "Proszę zainstalować w swojej przeglądarce <a href='http://djvu.org/resources/'>wtyczkę DjVu</a>\n"
 "lub używać programu klienckiego <a href='https://bitbucket.org/jsbien/ndt/wiki/wyniki'>djview for Poliqarp</a>.\n"
 
-#: templates/djvu-detector-Ateny.html:27
+#: templates/djvu-detector-Ateny.html:24
 msgid ""
 "\n"
 "You may also switch on the option <i>Experimental graphical concordances</i>.\n"
@@ -342,7 +342,7 @@ msgstr ""
 "\n"
 "Można również włączyć opcję <i>Eksperymentalne konkordancje graficzne</i>.\n"
 
-#: templates/djvu-detector-Ateny.html:32
+#: templates/djvu-detector-Ateny.html:29
 msgid ""
 " If you see a fragment of <i>Nowe Ateny</i> (from the\n"
 "IMPACT corpus), then you have a DjVu plugin working correctly.\n"
@@ -357,7 +357,9 @@ msgstr ""
 "Poliqarp</a>.\n"
 " "
 
-#: templates/djvu-detector.html:13 templates/corpora/slownik-lindego.html:19
+#: templates/djvu-detector.html:13
+#: templates/corpora/slownik-lindego-djvu-detector.html:19
+#: templates/corpora/slownik-lindego.html:19
 msgid ""
 "\n"
 "Please install a <a href='http://djvu.org/resources/'>DjVu plugin for your browser</a>\n"
@@ -528,14 +530,15 @@ msgid ""
 "<p> Search can be limited to a specific volume,\n"
 "e.g. <code>within vol1</code>,..., <code>within\n"
 "vol6</code>, <code>within vol6part1</code> or <code>within\n"
-"vol6part2</code>.  "
+"vol6part2</code>.  \n"
+"</p>"
 msgstr ""
-"<p>\n"
-"Wyszukiwanie może być ograniczone do konkretnych tomów, n.p. <code>within\n"
-"vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>\n"
-"lub <code>within vol6part2</code>.  "
+"<p>Wyszukiwanie może być ograniczone do konkretnych tomów,\n"
+"n.p. <code>within vol1</code>,..., <code>within vol6</code>, <code>within vol6part1</code>\n"
+"lub <code>within vol6part2</code>.\n"
+"</p>"
 
-#: templates/slownik-lindego-reminder-top.html:10
+#: templates/slownik-lindego-reminder-top.html:11
 msgid ""
 "<p>\n"
 "The <code>within</code> clause can\n"
@@ -588,7 +591,7 @@ msgstr "Ustawienia"
 msgid "Basic help"
 msgstr "Podstawowa pomoc"
 
-#: templates/corpora/impact-gt-1.html:2
+#: templates/corpora/impact-gt-1.html:5
 msgid ""
 "<p>\n"
 "The search engine provides access to two versions of the IMPACT Polish GT corpus:\n"
@@ -602,7 +605,7 @@ msgstr ""
 "to znaczy słowa podzielone przy przenoszeniu do nowego wiersza zostały automatycznie odtworzone.\n"
 "</p>\n"
 
-#: templates/corpora/impact-gt-1.html:9 templates/corpora/impact-gt-2.html:9
+#: templates/corpora/impact-gt-1.html:12 templates/corpora/impact-gt-2.html:13
 msgid ""
 "<p>\n"
 "The corpus uses data made available by\n"
@@ -624,7 +627,7 @@ msgstr ""
 "jako teksty wzorcowe do oceny i trenowania programów do optycznego rozpoznawania znaków (OCR).\n"
 "</p>\n"
 
-#: templates/corpora/impact-gt-1.html:20 templates/corpora/impact-gt-2.html:20
+#: templates/corpora/impact-gt-1.html:23 templates/corpora/impact-gt-2.html:24
 msgid ""
 "<p>\n"
 "The corpus has been creating by\n"
@@ -638,7 +641,7 @@ msgstr ""
 "stosując różne swobodne narzędzia programistyczne.\n"
 "</p>\n"
 
-#: templates/corpora/impact-gt-1.html:28 templates/corpora/impact-gt-2.html:28
+#: templates/corpora/impact-gt-1.html:31 templates/corpora/impact-gt-2.html:32
 msgid ""
 "<p>\n"
 "Some additional informations about the corpus are available in Janusz S. Bień's notes\n"
@@ -654,7 +657,7 @@ msgstr ""
 "<a href='http://bc.klf.uw.edu.pl/289/'>Delivering the IMPACT project Polish Ground-Truth texts with Poliqarp for DjVu</a>.\n"
 "</p>\n"
 
-#: templates/corpora/impact-gt-1.html:37
+#: templates/corpora/impact-gt-1.html:40
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 1.5 million segments. This version of the\n"
@@ -716,7 +719,7 @@ msgstr ""
 "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-ann'>listy komunikatów</a> i \n"
 "<a href='http://lists.mimuw.edu.pl/listinfo/nmpt-l'>listy dyskusyjnej</a>.\n"
 
-#: templates/corpora/impact-gt-2.html:2
+#: templates/corpora/impact-gt-2.html:6
 msgid ""
 "<p>\n"
 "The search engine provides access to two versions of the IMPACT Polish GT corpus:\n"
@@ -730,7 +733,7 @@ msgstr ""
 "to znaczy zachowane są podziału słów przy przenoszeniu do nowego wiersza.\n"
 "<p>\n"
 
-#: templates/corpora/impact-gt-2.html:37
+#: templates/corpora/impact-gt-2.html:41
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 1.6 million segments. This version of the\n"
@@ -742,7 +745,7 @@ msgstr ""
 "Aktualnie dostępna jest pierwsza wersja korpusu z 20 kwietnia  2012.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-geograficzny.html:3
+#: templates/corpora/slownik-geograficzny.html:5
 msgid ""
 "<p>\n"
 "The search engine uses the electronic versions of the 15 volumes of\n"
@@ -759,7 +762,7 @@ msgstr ""
 "<p>Wykorzystywane przez wyszukiwarkę 15 tomów <a href='http://www.mimuw.edu.pl/polszczyzna/SGKPi/'>Słownika Geograficznego Królestwa Polskiego i innych krajów słowiańskich</a>\n"
 "(łacznie prawie 15 tysięcy stron, w tym 14758 stron z hasłami) znajduje się na witrynie <a href='http://www.mimuw.edu.pl/polszczyzna/'><i>Komputery i Polszczyzna</i></a> na serwerze <a href='http://www.mimuw.edu.pl/'>Wydziału Matematyki, Informatyki i Mechaniki</a> <a href='http://www.uw.edu.pl/'>Uniwersytetu Warszawskiego</a>.</p>\n"
 
-#: templates/corpora/slownik-geograficzny.html:16
+#: templates/corpora/slownik-geograficzny.html:18
 msgid ""
 "<p>\n"
 "It is the very first version on the dictionary available on Internet, prepared in 2005 by\n"
@@ -785,7 +788,7 @@ msgstr ""
 "opartą na skanach przygotowanych w 2003 r. przez ZETO w Tarnowie i wcześniej udostępnianych tylko na płytach CD. Dwa lata później (7 maja 2007 r.) swoją edycję uzupełnioną o <a href='http://dir.icm.edu.pl/pl/Slownik_geograficzny/'>wyszukiwarkę</a>\n"
 "udostępniło <a href='http://www.icm.edu.pl/'>Interdyscyplinarne Centrum Modelowania Matematycznego i Komputerowego</a> <a href='http://www.uw.edu.pl/'>Uniwersytetu Warszawskiego</a> w ramach uroczystej inauguracji Domeny Internetowych Repozytoriów Wiedzy (obecnie <a href='http://otwartanauka.pl/'>Otwarta Nauka</a>).</p>\n"
 
-#: templates/corpora/slownik-geograficzny.html:37
+#: templates/corpora/slownik-geograficzny.html:39
 msgid ""
 "<p>\n"
 "The scans of the dictionary has been prepared in 2003 by the\n"
@@ -802,7 +805,7 @@ msgstr ""
 "<p>Skanowanie słownika wykonała w 2003 r. Biblioteka Uniwersytecka w Warszawie z inicjatywy Interdyscyplinarnego Centrum Modelowania Matematycznego i Komputerowego, które częściowo finansowało tę pracę. OCR wykonał w 2010 r. Janusz S. Bień za pomocą programu FineReader 10 (język polski, pozostałe parametry domyślne) zapisując wyniki w formacie PDF, które następnie za pomocą programu <a href='http://pdf2djvu.googlecode.com'>pdf2djvu</a>\n"
 "skonwertował na format DjVu (zastępując poprzednią wersję plików) i przekształcił wyniki OCR na format korpusu.</p>\n"
 
-#: templates/corpora/slownik-geograficzny.html:50
+#: templates/corpora/slownik-geograficzny.html:52
 msgid ""
 "<p>\n"
 "The corpus consists of ca. 19 million segments.\n"
@@ -846,7 +849,7 @@ msgstr ""
 "<code>inset</code> (wkładki z wykazem źródeł i skrótów).\n"
 "</p>\n"
 
-#: templates/corpora/slownik-lindego.html:33
+#: templates/corpora/slownik-lindego.html:35
 msgid ""
 "<p> This is a preliminary retrodigitization\n"
 "of <a href='http://korpusy.klf.uw.edu.pl/extra/linde/index.djvu'> the\n"
@@ -864,7 +867,7 @@ msgstr ""
 "i wyszukiwarką <a href='http://jwilk.net/software/poliqarp'>Poliqarp</a> wykorzystującą dwupoziomowe wyrażenia regularne.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-lindego.html:45
+#: templates/corpora/slownik-lindego.html:47
 msgid ""
 "<p> The version 1 of the corpus is\n"
 "available since August 6, 2010. It contains about 7 milions tokens\n"
@@ -875,7 +878,7 @@ msgstr ""
 "Aktualnie dostępna jest wersja 1 korpusu z 6 sierpnia 2010. Korpus ten liczy ok. 7 mln segmentów, odpowiadającym około 5000 stronom słownika.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-lindego.html:51
+#: templates/corpora/slownik-lindego.html:53
 msgid ""
 "<p> The recommended form of acknowledging in the\n"
 "scientific publications the use of this retrodigitization and the\n"
@@ -898,7 +901,7 @@ msgstr ""
 "indeks do słownika Lindego</a>.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-lindego.html:64
+#: templates/corpora/slownik-lindego.html:66
 msgid ""
 "<p> The recommended way to use the search engine and\n"
 "the index is\n"
@@ -915,7 +918,7 @@ msgstr ""
 "opcji <i>Eksperymentalne konkordancje graficzne</i>.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-lindego.html:74
+#: templates/corpora/slownik-lindego.html:76
 msgid ""
 "\n"
 "Scans were made with Fujitsu fi-6130 scanner and Kofax VRS software by Joanna\n"
@@ -980,7 +983,7 @@ msgstr ""
 "Stronę uaktualnił Janusz S. Bień we wrześniu 2014 r.\n"
 "</p>\n"
 
-#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:3
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:5
 msgid ""
 "<p>\n"
 "The search engine uses the electronic versions of the 35 volumes\n"
@@ -995,7 +998,7 @@ msgstr ""
 "<p>\n"
 "Wykorzystywane przez wyszukiwarkę 35 tomów <a href='http://www.spxvi.edu.pl'>Słownika polszczyzny XVI wieku</a> — obejmujących hasła od <a href='http://kpbc.umk.pl/publication/17781'><em>A</em> do <em>ROWNY</em></a> — znajdują się w <a href='http://kpbc.umk.pl/'>Kujawsko-Pomorskiej Bibliotece Cyfrowej</a>, gdzie są sukcesywnie udostępniane od 2008 roku w formacie DjVu na <a href='http://www.mimuw.edu.pl/polszczyzna/SpXVIwwI/#x1-20002'>zasadach</a> licencji <a href='http://creativecommons.org/licenses/by-nc-nd/2.5/pl/'>Creative Commons Uznanie autorstwa-Użycie niekomercyjne-Bez utworów zależnych wersja 2.5</a>.</p>\n"
 
-#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:14
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:16
 msgid ""
 "<p>\n"
 "Scanning the first 32 volumes, and later OCR with LizardTech\n"
@@ -1023,7 +1026,7 @@ msgstr ""
 "<p><a href='http://kpbc.umk.pl/publication/33857'>Tomy XXXIII</a>i <a href='http://kpbc.umk.pl/publication/43926'>XXXIV</a> są „urodzone cyfrowo”; ich udostępnienie stanowi częściową realizację <a href='/extra/2008-09-02_JSB2FNP_bURL_ann.djvu'>postulatów Janusza S. Bienia z 2 września 2008 r.</a>; konwersję na format DjVu wykonał Jakub Wilk za pomocą programów <a href='http://pdf2djvu.googlecode.com/'>pdf2djvu</a> i <a href='http://minidjvu.sourceforge.net/'>minidjvu</a>.</p>\n"
 "<p>Od 14 lipca 2010 r. tomy <a href='http://kpbc.umk.pl/publication/18640'>XXXI</a> i <a href='http://kpbc.umk.pl/publication/18641'>XXXII</a> są również dostępne w wersji „urodzonej cyfrowo”, co stanowi częściową realizację <a href='/extra/2008-05-06_JSB2IBL_BObURL.djvu'>postulatów Janusza S. Bienia z 6 maja 2008 r.</a>; konwersję na format DjVu wykonał Jakub Wilk za pomocą programów <a href='http://pdf2djvu.googlecode.com/'>pdf2djvu</a> i <a href='http://minidjvu.sourceforge.net/'>minidjvu</a>.</p>\n"
 
-#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:37
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:39
 msgid ""
 "<p class='small-print'>\n"
 "Unfortunately using the digitally-born versions of some other volumes is not\n"
@@ -1035,7 +1038,7 @@ msgstr ""
 "Niektóre urodzone cyfrowo tomy nie są przygotowane do wykorzystania z powodu braku pozytywnej reakcji na <a href='/extra/2003-11-26_JSB2IBL_BO.djvu'>pismo z 26 listopada 2003 r.</a> i stanowiska dyrekcji Instytutu Badań Literackich PAN przedstawionego <a href='/extra/2008-09-17_IBL2JSB.djvu'>w piśmie z 17 września 2008 r.</a>\n"
 "</p>\n"
 
-#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:44
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:46
 msgid ""
 "<p>\n"
 "The volume <a href='http://kpbc.umk.pl/publication/55856'>XXXV</a> is the first one prepared with the intention\n"
@@ -1060,7 +1063,7 @@ msgstr ""
 "\n"
 "</p>\n"
 
-#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:58
+#: templates/corpora/slownik-polszczyzny-xvi-wieku.html:60
 msgid ""
 "<p>\n"
 "The OCR results for the scanned volumes and the hidden text layer of volumes\n"
@@ -1116,7 +1119,7 @@ msgstr ""
 "<code>inset</code> (wkładki z wykazem źródeł i skrótów).\n"
 "</p>\n"
 
-#: templates/corpora/slownik-warszawski.html:5
+#: templates/corpora/slownik-warszawski.html:7
 #, python-format
 msgid ""
 "<p>\n"
@@ -1136,7 +1139,7 @@ msgstr ""
 "Realizacja — Recepcja”, Warszawa 2008).\n"
 "</p>\n"
 
-#: templates/corpora/slownik-warszawski.html:18
+#: templates/corpora/slownik-warszawski.html:20
 msgid ""
 "<p>\n"
 "OCR on the scans was done by the library staff, namely Tomasz\n"
@@ -1146,7 +1149,7 @@ msgstr ""
 "<p>\n"
 "Optyczne rozpoznawanie znaków wykonali pracownicy biblioteki — Tomasz Trynkowski i Grzegorz Kłębek — za pomocą programu Abby FineReader w wersji 8.</p>\n"
 
-#: templates/corpora/slownik-warszawski.html:24
+#: templates/corpora/slownik-warszawski.html:26
 msgid ""
 "<p>\n"
 "The OCR results has been converted to the suitable corpus format by Jakub Wilk.\n"
