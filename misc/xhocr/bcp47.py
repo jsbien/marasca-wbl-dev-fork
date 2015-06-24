@@ -155,7 +155,7 @@ zbl Blis
 '''
 
 _suppress_script = dict(
-	line.split()
+    line.split()
     for line in _suppress_script.strip().splitlines()
 )
 
@@ -303,7 +303,7 @@ vie vi
 '''
 
 _tesseract_to_bcp47 = dict(
-	line.split()
+    line.split()
     for line in _tesseract_to_bcp47.strip().splitlines()
 )
 
