@@ -90,7 +90,7 @@ def validate(base):
                 break
             n0 = n
         if n < n0:
-            rc |= error(item, 'invalid' % (n, n0))
+            rc |= error(item, 'unsorted pages: %d < %d' % (n, n0))
         elif first_page_empty:
             rc |= warn(item, 'the first page appears to be empty')
         else:

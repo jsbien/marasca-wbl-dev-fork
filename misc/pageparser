@@ -453,7 +453,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format='%(message)s')
     parser = argparse.ArgumentParser()
     parser.add_argument('-F', '--output-format', choices=('djvused', 'hocr'), default='djvused', help='set output format')
-    parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numering from N (djvused output only)')
+    parser.add_argument('-p', '--page', type=int, default=1, metavar='N', help='start page numbering from N (djvused output only)')
     parser.add_argument('--extra-hocr-classes', action='store_true', help='add hOCR classes corresponding to every PAGE document and to every PAGE region')
     parser.add_argument('--discard', metavar='ELEMENT', action='append', help='discard contents of these XML elements')
     parser.add_argument('--join-lines', action='store_true', help='join lines on NON-BREAKING HYPHEN or DOUBLE OBLIQUE HYPHEN characters')

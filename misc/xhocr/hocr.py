@@ -55,10 +55,11 @@ def subst_bbox(elem, bbox):
     elem.set('title', title)
 
 XMLSyntaxError = lxml.etree.XMLSyntaxError
+xml_parser = lxml.etree.XMLParser(remove_comments=True)
 
 def parse(path):
     try:
-        return lxml.etree.parse(path)
+        return lxml.etree.parse(path, parser=xml_parser)
     except XMLSyntaxError, exc:
         logger.error('error: XML is not well formed:')
         logger.error('- {path}: {msg}', path=path, n=exc.lineno, msg=str(exc))
