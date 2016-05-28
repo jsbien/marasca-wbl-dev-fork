@@ -1,0 +1,627 @@
+% http://korpusy.klf.uw.edu.pl/doc/index.html
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+\usepackage[utf8]{inputenx}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{url}
+\urldef{\mailjsb}\path|jsbien@uw.edu.pl|
+\urldef{\mailsa}\path|{jsbien,|
+\urldef{\mailsb}\path|r.moszczynski}@uw.edu.pl|
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Setting up a DjVu search engine\\ for scanned documents with OCR\\A case study of Linde's dictionary}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{Setting up a DjVu search engine for scanned documents with OCR}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+%\author{Janusz S. Bień \and Radosław Moszczyński}
+\author{Janusz S. Bień}
+%
+\authorrunning{Setting up a DjVu search engine for scanned documents with OCR}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Formal Linguistics Department, University of Warsaw,\\ Dobra 55, 00-312 Warszawa, Poland\\
+\mailjsb\\
+% \mailsa
+% \mailsb\\
+\url{http://www.klf.uw.edu.pl}}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+% \toctitle{Lecture Notes in Computer Science}
+% \tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+  It is now standard that scans published in digital libraries are
+  accompanied by dirty OCR.  It is also more and more common to
+  provide a search engine for the OCRed texts. Some search engines
+  highlight the hits on the scans, which is very useful. We intend to
+  demonstrate that owing to the DjVu format and the Open Source
+  search engine presented such functionality can be provided very
+  easily and without additional costs.  \keywords{DjVu, OCR, search
+    engine, regular expressions, Poliqarp}
+\end{abstract}
+
+
+\section{Introduction}
+
+Although the DjVu format is renowned primarily for its high
+compression ratio, this is not its most important advantage in the
+present day, as this factor is no longer of crucial importance for
+desktop users, and even smartphones can handle large files without
+technical problems.
+
+The unique feature of the DjVu format is the ability to address with
+a URL not only a document and not only a page (the latter is at least
+theoretically possible also with the PDF format), but also a page
+fragment in a specific view. This allows the users, especially the
+researches, to easily “quote” the relevant fragments of scanned
+words. 
+% An example of an extensive use of this technique is the
+% Ph.D. thesis \textit{The analysis and lexicographical description of
+%   Linde's dictionary for digitization purposes} \cite{JB13dr}.
+
+A search engine for DjVu documents has been developed under the
+supervision of the present author and has been in use since 2009 at
+\url{http://corpora.klf.uw.edu.pl/en/}; the usage statistics can be
+found at \url{http://www.klf.uw.edu.pl/} (the \textit{Słowniki}
+section).
+
+The system in question is based on the linguistically oriented
+Poliqarp system (Polyinterpretation Indexing Query and Retrieval
+Processor, \url{http://poliqarp.sourceforge.net/}). It has a
+client-server architecture, and its Web client is available in two
+variants: a text only one used for the Polish National Corpus
+(\url{https://bitbucket.org/jwilk/marasca}), and a graphical one,
+which uses the aforementioned feature of DjVu to highlight hits on
+the scans (\url{https://bitbucket.org/jwilk/marasca-wbl}); we call it
+simply Poliqarp for DjVu.
+
+The Poliqarp query language has been inspired by the Corpus Query
+Processor, a component of the Corpus Workbench developed at the
+University of Stuttgart and allows for sophisticated use of regular
+expressions, cf. e.g. \cite{etal04}. A power user can use them to
+circumvent the OCR errors or historical spelling differences, as
+illustrated e.g. in \cite{JSB2014CS}.
+
+More background information can be found in
+\cite{JSB2011LNCS}. Although the primary purpose of the system is to
+be run on a server, it can be also installed on a typical desktop
+using a GNU/Linux operating system. The technical documentation is
+available at \url{http://korpusy.klf.uw.edu.pl/doc/index.html}.
+
+All the required software is provided on the basis of the GNU General
+Public License or another open source license.
+
+\section{Creating graphic page images}
+\label{sec:creat-page-graph}
+
+
+
+\subsection{Scanning}
+\label{sec:scanning}
+
+scanhelper
+
+\url{http://jwilk.net/software/scanhelper}
+
+scan tailor
+
+\url{http://scantailor.org/}
+
+niektóre wakaty nadal zwichrowane!
+
+OCR not yet
+
+\subsection{Scan adjustments}
+\label{sec:scan-adjustments}
+
+The frontmatter added by the reprint editor distorted the page numbers
+in the volumes with single pagination. It appeared also that some
+original fontmatter (bastard title\footnote{the bastard title, usually
+  a single line in capital letters, precedes the full title, and takes
+  a separate leaf with blank verso,
+  \url{http://archive.org/details/practicetypogra11vinngoog} after
+  \url{https://en.wikipedia.org/wiki/Half_title}}) has been skipped in
+the reprint. The reprint frontmatter has been moved to separate files,
+and the bastard title has been scanned from the PIW reprint (ref???).
+
+Moreover the large 6th volume of the dictionary has been split into
+two smaller volumes. Again the reprint frontmatter has been moved to
+separate files, and the original frontmatter reconstructed.
+% Co konkretnie zrobiłem?
+
+The operation actually has been performed later on the DjVu files
+after the OCR stage using the DjVu Libre utilities
+(\url{http://djvu.sourceforge.net/}), namely djvm.
+
+The results are available at
+\url{http://teksty.klf.uw.edu.pl/view/creators/Linde=3ASamuel_Bogumi==0142=3A=3A.html}.
+
+\section{Creating DjVu documents}
+\label{sec:creat-djvu-docum}
+
+The DjVu files serve several purposes:
+
+\begin{itemize}
+\item They are used for OCR, cf. section \ref{sec:ocr} (page \pageref{sec:ocr}).
+\item They are served to the users, cf. ???
+\item They are also used in the run time to create the graphic
+  snippets, cf. ???. That is the primary reason why the files are
+  needed on the Poliqarp server.
+\end{itemize}
+
+The DjVu output of didjvu can have bundled or unbundled form. It does
+it matter till the stage ???, the bundled form is slightly more
+convenient in the early stages.
+
+
+For this stage we have to prepare two input files:
+\begin{itemize}
+\item metadata
+\item outlines
+\end{itemize}
+and of course the graphic files with the scans.
+
+\subsection{Converting to DjVu}
+\label{sec:converting-djvu}
+
+
+%  http://korpusy.klf.uw.edu.pl/doc/designing.html#preparing-djvu-sources
+
+
+didjvu
+
+\url{http://jwilk.net/software/didjvu}
+
+
+\subsection{OCR}
+\label{sec:ocr}
+
+OCR was performed with Tesseract called by \texttt{ocrodjvu} in
+several passes with different language parameters. The empty pages
+were not subject to OCR.
+
+The results was in the following form:
+\begin{itemize}
+\item a DjVu document with a hidden text layer
+\item hOCR files generated by Tesseract for individual pages
+\end{itemize}
+
+The resulting DjVu files are available at \url{http://teksty.klf.uw.edu.pl/20/}.
+
+At this stage it is already possible to create the character histogram
+with \url{https://bitbucket.org/jsbien/unihistext/}. The data for the
+histogram have to be exported from the resulting DjVu files with
+\texttt{djvutxt}.
+
+
+
+\subsection{Augmenting the DjVu files}
+\label{sec:augm-djvu-files}
+
+There are three ways to augment the DjVu documents:
+\begin{itemize}
+\item outlines
+\item metadata
+\item thumbnails
+\end{itemize}
+
+The syntax of outlines is described in the man page of djvused.
+
+Outlines may contain both local and external references allowing to
+switch easily from volume to volume, therefore the final URLs of the
+volume are to be decided at this stage. 
+
+Outlines originally has been prepared with djvusmooth and later
+updated by hand. The result was in the form of a djvused script.
+
+djvusmooth can be also used for preparing the
+metadata.
+
+Metadata are to be stored in the document, moreover for user
+convenience they will be provided also in a different format as corpus
+metadata, cf. stage ??? The keywords are not predefined, so the
+content can be easily adapted to the needs. It is quite natural to
+include the bibliographic description in the metadata.
+
+Thumbnails
+
+\section{Serving the DjVu files}
+\label{sec:serving-djvu-files}
+
+The DjVu files should be served unbundled, cf. 
+
+The client references the documents only by their numbers, which are
+converted to the appropiate URLs thanks to the
+<basename>.djvu.filenames file.
+% Szafran - file:// nie działa.
+
+The files can be served before the corpus is created.
+
+\section{Creating poliqarp corpus auxiliary files}
+\label{sec:creat-poliq-corp-1}
+
+We need the following input files:
+
+\begin{itemize}
+\item tagset definition
+\item metadata definition
+\item actual metadata
+\item structure
+\item hOCR:
+  \begin{itemize}
+  \item generated from the DjVu files, or
+  \item generated directly by Tesseract
+  \end{itemize}
+\item addresses of the DjVu documents 
+\end{itemize}
+
+The output consists of augmented hocr files.
+
+The hOCR files are augmented with the structure and in the next stage
+only the modified version is used.
+
+\subsection{Preparing tagset for poliqarp}
+\label{sec:prep-tags-poliq}
+
+tagset depends on hOCR and XCES files used!
+
+
+\subsection{Preparing metadata for poliqarp}
+\label{sec:preparing-matadata}
+
+The keywords used in the metadata have to be specified in ????.
+
+The actual metadata have the form of a directory tree
+
+????
+
+% http://korpusy.klf.uw.edu.pl/doc/designing.html#preparing-djvu-sources
+
+% Janus s. 47 S/D string date
+
+\textbf{The names of metadata fields are localised later, cf.}
+
+\subsection{Preparing document structure for poliqarp}
+\label{sec:prep-docum-struct}
+
+\url{http://korpusy.klf.uw.edu.pl/doc/building.html}
+
+
+Another configuration file can define the documents structure, which
+can be then used in the queries to limit the search. The is the top
+level structure specified as page ranges, e.g. frontmatter, preface
+etc.  The text units defined this way are called sections.
+
+% jak sekcje są reprezentowane w hOCR? Wilk mi mówił, ale zapomniałem
+
+
+
+\section{Creating poliqarp corpus XCES files}
+\label{sec:creat-poliq-corp-2}
+
+
+
+hOCR files are used indirectly, after converting to XCES.
+
+The ??? is to be used for hOCR generated from the DjVu files and xhocr
+tools are to be used for the Tesseract hOCR files. 
+
+The results of converting the Tesseract files to XCES are available at
+\url{http://teksty.klf.uw.edu.pl/21/}. The files are in a sense
+incomplete, as they don't account for empty pages!
+
+\section{Creating poliqarp corpus}
+\label{sec:creat-poliq-corp-3}
+
+We need the following input files created in the previous step:
+
+\begin{itemize}
+\item tagset ???
+\item metadata
+\item actual metadata
+\item XCES files
+\end{itemize}
+
+
+veryfing
+
+frequency list:
+
+the script:  marasca-wbl / misc / frequency-list
+
+\section{Creating marasca corpus}
+\label{sec:creat-marasca-corp}
+
+We need the following input files created in the previous step:
+
+\begin{itemize}
+\item augmented (?) hOCR files
+\item addresses of the DjVu documents 
+\end{itemize}
+
+augment-djvu-corpus.py newcorpus v01/hocr/v01.hocr v02/hocr/v02.hocr v03/hocr/v03.hocr
+
+Information pages!!!
+
+\section{Running the poliqarp server}
+\label{sec:runn-poliq-serv}
+
+Configuration file
+
+\section{Running the marasca server}
+\label{sec:runn-marasca-serv}
+
+Configuring www server
+
+\section{Searched texts format}
+\label{sec:search-text-format}
+
+For the search engine we need both the page images in the DjVu format
+and the OCR results in some form convertible to XCES (XML Corpus
+Encoding Standard). As the pages of the documents will be accessed in
+random order, we need the so-called unbundled or indirect form of DjVu
+documents; this means that every page is stored in a separate file and
+can be served independently of others.
+
+\bigskip
+Actually two workflows are most practical:
+\begin{itemize}
+\item Scans and OCR to PDF, PDF to DjVu.  When using an OCR program
+  providing output in the PDF format with the text underlying the page
+  images, Jakub Wilk's pdf2djvu program will convert them into DjVu
+  documents with the hidden text layers. Later appropriate utilities
+  will extract the required information.
+\item Scans to DjVu, OCR to DjVu and/or hOCR. 
+  \begin{itemize}
+  \item Scans can be converted to DjVu using the original programs of
+    the DjVuLibre bundle (c44 etc.,
+    cf. \url{http://djvu.sourceforge.net/}), or the  more recent and more
+    powerful didjvu  program by Jakub Wilk, which in particular allows
+    to select one of nine additional binarization methods provided by the
+    Gamera library
+    (cf. e.g. \url{http://gamera.sourceforge.net/doc/html/binarization.html}). At
+    \url{http://teksty.klf.uw.edu.pl/6/} you can find for comparison
+    the same scans processed with different binarization methods.
+
+    It is worth noting the binary form of the so-called foreground
+    (i.e. the proper text without illustration etc.) called stencil is
+    inherent in every DjVu document and can be viewed by the user if
+    needed.
+
+  \item The DjVu documents obtained from the previous stage may be
+    OCRed with Jakub Wilk's ocrodjvu program, which is now
+    rather a misnomer: although originally intended to be used with
+    the ocropus free OCR program
+    (\url{https://github.com/tmbdev/ocropy}), now is primarily used
+    with Tesseract (also a free program,
+    \url{https://code.google.com/p/tesseract-ocr/}). The output of
+    ocrodjvu may be just a DjVu document with the hidden text layer
+    added, but it may consist also of the hOCR files produced by the
+    OCR engines, which contain additional information not stored in a
+    DjVu file; you can find some examples at
+    \url{http://teksty.klf.uw.edu.pl/20/}. In consequence, when using
+    hOCR we can produce more rich XCES files.
+
+    This is the very workflow we intend to demonstrate at the
+    conference, and we will apply it to Linde's dictionary scans
+    available at
+    \url{http://teksty.klf.uw.edu.pl/view/creators/Linde=3ASamuel_Bogumi==0142=3A=3A.html}.
+
+  \end{itemize}
+
+\end{itemize}
+
+\section{Designing the tagset and describing the document structure}
+\label{sec:design-tags-docum}
+
+The OCR results in the hOCR forms can be interpreted as a sequence of
+words, i.e. text tokens consisting of character strings, with the
+following attributes:
+\begin{itemize}
+\item Language. For tesseract it is possible to specify several
+  languages to be used for recognition. It this worth noting that
+  German in contemporary typefaces is considered a different language
+  than German printed in Fraktur; although not very logical, it is
+  quite convenient in practice.
+\item Word recognition confidence, i.e. a numerical value between 0
+  and 1.
+\item Font properties.
+\end{itemize}
+
+To make these properties accessible from a query, it is necessary to
+create appropriate XCES tagset. For our demonstration we will used a
+tagset which is described by the following Poliqarp configuration
+file:
+
+% Daniel Janus
+
+% s. 43-44
+
+% 4.1.1. Część konfiguracyjna
+% Plik konfiguracyjny
+% Plik konfiguracyjny korpusu ma rozszerzenie .cfg. Można w nim umieszczać komentarze,
+% które zaczynają się od znaku # i działają do końca linii. Plik ten jest podzielony na sekcje,
+% z których każda zaczyna się od wiersza zawierającego nazwę sekcji ujętą w nawiasy kwadra-
+% towe, np. [ATTR], i składa się z szeregu deklaracji postaci nazwa = wartość.
+% Istnieje pięć typów sekcji: ATTR, POS, NAMED-ENTITY, ALIASES i STARTUP. Omówimy je po
+% kolei.
+% Sekcje ATTR i POS definiują tagset używany przez korpus. Pierwsza z nich zawiera listę kate-
+% gorii gramatycznych: jako nazwę podaje się nazwę kategorii, a jako wartość — listę możliwych
+% wartości tej kategorii oddzielonych spacjami. Na przykład zapis gender = m1 m2 m3 f n de-
+% klaruje kategorię rodzaju (ang. gender ) z pięcioma możliwymi wartościami.
+% Sekcja POS zawiera listę klas gramatycznych. W tym wypadku nazwa powinna być nazwą
+% definiowanej klasy, a jako wartość należy podać listę kategorii, przez które ta klasa się od-
+% mienia, oddzielonych spacjami. Lista ta może być w szczególności pusta, co sygnalizuje klasę
+
+% nieodmienną. Ponadto każda kategoria na liście może być ujęta w nawiasy kwadratowe, co
+% oznacza, że wartość tej kategorii może, ale nie musi być określona dla segmentu danej klasy
+% (np. w Korpusie IPI PAN wartość kategorii akcentowości jest określona tylko dla niektó-
+% rych form zaimka). Na przykład zapis praet = number gender aspect [agglutination]
+% definiuje klasę pseudoimiesłowów, odmiennych przez liczbę, rodzaj, aspekt i być może aglu-
+% tynacyjność.
+% Sekcja POS musi wystąpić po sekcji ATTR. Jeśli tej drugiej nie ma, to sekcja POS może
+% zawierać wyłącznie definicje nieodmiennych klas gramatycznych. W ten sposób można zdefi-
+% niować atomowy tagset, podobny do tych używanych w korpusach języka angielskiego.
+% Sekcja NAMED-ENTITY pozwala na określenie alternatywnych nazw (aliasów) dla „nazwa-
+% nych bytów” (encji, tzn. kategorii i klas gramatycznych) zdefiniowanych wcześniej. Po lewej
+% stronie znaku równości powinna pojawić się nazwa istniejącej encji, a po prawej lista nowych
+% nazw oddzielonych spacjami. Oprócz klas i kategorii Poliqarp udostępnia cztery wbudowane
+% encje: entity-orth, entity-base, entity-interp i entity-tag, odpowiadające pseudoka-
+% tegoriom, o których była mowa w rozdz. 1.2.1 (a zatem te nazwy są pierwotnymi określeniami
+
+% tych pseudokategorii i mogą być używane w zapytaniach zamiast odpowiednio orth, base,
+% interp i tag).
+% Pewnego wyjaśnienia może wymagać implementacja aliasowania. Poliqarp ma wbudowany
+% mechanizm nazywania dowolnych obiektów (konwertowalnych na void *) i wyszukiwania
+% ich po nazwie (por. common/entity.h). Oprócz tego z każdym nazwanym obiektem (encją)
+% mogą być stowarzyszone pewne metadane — również dowolny wskaźnik — zawierające na
+% ogół informację o typie encji. Taka reprezentacja pozwala na łatwe aliasowanie: jeśli wskaźnik
+% metadanych wskazuje na samą encję, to reprezentuje ona alias, którego pole danych zawiera
+% wskaźnik na aliasowany obiekt.
+% I wreszcie sekcja ALIASES umożliwia predefiniowanie dla korpusu innego typu aliasów.
+% Alias taki jest parą hnazwa, wartośći, gdzie wartość jest fragmentem zapytania. Jeśli nazwa
+% aliasu wystąpi po prawej stronie jakiegoś wyrażenia elementarnego, to w to miejsce zostanie
+% podstawiona wartość aliasu. Aliasy takie można tworzyć i usuwać też na bieżąco, podczas
+% pracy z korpusem (por. rozdz. 2.2.3 i polecenia protokołu CREATE-ALIAS, DESTROY-ALIAS).
+% Dla kompletności opisu należy wspomnieć, że aliasy można też predefiniować w pliku kon-
+% figuracyjnym za pomocą alternatywnej składni, która jest wspierana dla zachowania kompa-
+% tybilności z wersją wstępną Poliqarpa. Mianowicie sekcja STARTUP może zawierać definicje
+% aliasów w postaci1:
+% /alias nazwa = wartość1 wartość2 ... wartośćn
+% co oznacza alternatywę wartości (a więc, w nowej składni, nazwa = wartość1|...|wartośćn).
+
+
+
+\medskip
+
+\noindent
+{\it Linde.cfg}
+\begin{verbatim}
+[attr]
+# undefined, Polish, German, Russian:
+lang = und pl de ru
+# Latin normal, Latin Fraktur, Cyryllic:
+script = latn latf cyrl
+series = medium bold
+shape = upright italic
+# word confidence (representation proposed by Jakub Wilk):
+wconf = 0 1 2 3 4 5 6 7 8 9
+
+# typically used for the list of part of speech attributes:
+[pos]
+token = lang script series shape wconf
+\end{verbatim}
+%
+% \noindent
+% {\small (The tricky repesentation of confidence has been proposed by Jakub Wilk.)}
+
+
+\section{Hardware and software requirements}
+\label{sec:hardw-softw-requ}
+
+The system has no special hardware requirement, any contemporary
+server or even a desktop is sufficient.
+
+The software requires GNU/Linux with a WWW server (tested only with
+Apache), the Django framework (https://www.djangoproject.com/) and
+Python.
+
+For the demonstration we will use a virtual machine running Debian
+GNU/Linux. The machine will be later available for download as an OVA
+appliance.
+
+
+\begin{thebibliography}{4}
+
+\bibitem{JSB2011LNCS} Bień, J.S.: Efficient search in hidden text of
+  large DjVu documents. In: Advanced Language Technologies for Digital
+  Libraries. Lecture Notes in Computer Science (Theoretical Computer
+  Science and General Issues) (6699). Springer, pp. 1-14. ISBN
+  978-3-642-23159-9 \url{http://bc.klf.uw.edu.pl/177/}
+
+\bibitem{JSB2014CS} Bień, J, S.: The IMPACT project Polish Ground-Truth texts as
+a DjVu corpus. Cognitive Studies | Études Cognitives
+(14). pp. 75-84. ISSN 2080-7147.
+DOI: http://dx.doi.org/10.11649/cs.2014.008
+
+% \bibitem{JB13dr} Bilińska, J. A.: Analiza i leksykograficzny opis
+%   struktury słownika Lindego na potrzeby dygitalizacji. PhD thesis, 2013.
+%   \url{http://bc.klf.uw.edu.pl/347/}
+
+\bibitem{etal04} Przepiórkowski, A., Krynicki, Z., Dębowski, Ł.,
+  Woliński, M., Janus, D., Bański, P.: A Search Tool for Corpora with
+  Positional Tagsets and Ambiguities. In the Proceedings of the Fourth
+  International Conference on Language Resources and Evaluation, LREC
+  2004,
+  pp. 1235--1238. \url{http://nlp.ipipan.waw.pl/~adamp/Papers/2004-lrec/fcqp.pdf}.
+
+
+\end{thebibliography}
+
+\end{document}
+
+Bień, Janusz S. (2011) Efficient search in hidden text of large DjVu documents. In: Advanced Language Technologies for Digital Libraries. Lecture Notes in Computer Science (Theoretical Computer Science and General Issues) (6699). Springer, pp. 1-14. ISBN 978-3-642-23159-9 
+http://bc.klf.uw.edu.pl/177/
+
+
+
+Bień, Janusz S. (2014) The IMPACT project Polish Ground-Truth texts as
+a DjVu corpus. Cognitive Studies | Études Cognitives
+(14). pp. 75-84. ISSN 2080-7147
+
+DOI: http://dx.doi.org/10.11649/cs.2014.008
+
+
+%%% Local Variables: 
+%%% coding: utf-8-unix
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-PDF-mode: t
+%%% End: 
