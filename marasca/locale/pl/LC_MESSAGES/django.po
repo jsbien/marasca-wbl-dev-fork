@@ -513,7 +513,7 @@ msgid ""
 "The <code>title</code> field takes the following values:\n"
 msgstr ""
 "<p>\n"
-"Pole <code>title</code> przymuje następujące wartości:\n"
+"Pole <code>title</code> przyjmuje następujące wartości:\n"
 
 msgid ""
 "<p>\n"
