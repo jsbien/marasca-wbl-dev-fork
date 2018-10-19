@@ -705,7 +705,7 @@ msgid ""
 "The <code>title</code> field takes the following values:\n"
 msgstr ""
 "<p>\n"
-"Pole <code>title</code> przymuje następujące wartości:\n"
+"Pole <code>title</code> przyjmuje następujące wartości:\n"
 
 #: templates/corpora/impact-gt-1_suffix.html:124
 #: templates/corpora/impact-gt-2_suffix.html:124
